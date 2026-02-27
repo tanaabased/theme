@@ -28,3 +28,59 @@
   package = "@netlify/plugin-lighthouse"
   [plugins.inputs.audits]
     output_path = "reports/lighthouse.html"
+
+[[redirects]]
+  from = "https://tanaab-www.netlify.app/*"
+  to = "https://theme.tanaab.dev/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://styles.tanaab.dev/*"
+  to = "https://theme.tanaab.dev/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://theme.tanaab.maneuvering.systems/*"
+  to = "https://theme.tanaab.dev/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://styles.tanaab.maneuvering.systems/*"
+  to = "https://theme.tanaab.dev/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://theme.tanaab.systems/*"
+  to = "https://theme.tanaab.dev/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://styles.tanaab.systems/*"
+  to = "https://theme.tanaab.dev/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://theme.tanaab.co/*"
+  to = "https://theme.tanaab.dev/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://styles.tanaab.co/*"
+  to = "https://theme.tanaab.dev/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://theme.tanaab.llc/*"
+  to = "https://theme.tanaab.dev/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://styles.tanaab.llc/*"
+  to = "https://theme.tanaab.dev/:splat"
+  status = 301
+  force = true
+
