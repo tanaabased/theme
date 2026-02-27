@@ -1,0 +1,21 @@
+:root {
+  --vp-c-pink-1: #00c88a;
+  --vp-c-brand: #00c88a;
+  --vp-c-brand-light: #33d4a1;
+  --vp-c-bg: #111111;
+  --vp-font-family-base: 'GalaxieCopernicus, PT Serif, serif';
+  --vp-font-family-header: 'Anton', 'Helvetica Neue', Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--vp-font-family-header);
+}
+
+.dark {
+  --vp-c-bg: #111111;
+  --vp-c-brand: #00c88a;
+}

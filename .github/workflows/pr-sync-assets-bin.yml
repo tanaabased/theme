@@ -1,0 +1,50 @@
+name: Test Sync Assets Bin
+
+on:
+  pull_request:
+
+jobs:
+  sync-assets-bin:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+      - name: Install dependencies
+        run: bun install --no-save --frozen-lockfile
+      - name: Verify self-sync guard
+        run: |
+          set -euo pipefail
+          output_file="$(mktemp)"
+          if bun ./bin/sync-assets.js >"$output_file" 2>&1; then
+            echo "Expected self-sync invocation to fail"
+            cat "$output_file"
+            exit 1
+          fi
+          grep -q "Cannot sync assets to @tanaabased/theme itself" "$output_file"
+      - name: Verify consumer sync
+        run: |
+          set -euo pipefail
+          tmpdir="$(mktemp -d)"
+          mkdir -p "$tmpdir/docs/.vitepress"
+          cat >"$tmpdir/package.json" <<JSON
+          {
+            "name": "theme-b",
+            "private": true,
+            "dependencies": {
+              "@tanaabased/theme": "file:${GITHUB_WORKSPACE}"
+            }
+          }
+          JSON
+          cd "$tmpdir"
+          bun install --no-save
+          ./node_modules/.bin/sync-tanaab-assets
+          test -f "$tmpdir/docs/public/favicon.ico"
+          test -f "$tmpdir/docs/public/images/tms.jpeg"

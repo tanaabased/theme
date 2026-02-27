@@ -1,0 +1,51 @@
+{
+  "name": "@tanaabased/theme",
+  "description": "A Tanaab subtheme built on vitepress-theme-default-plus.",
+  "version": "0.1.0",
+  "author": "Mike Pirog @pirog",
+  "license": "MIT",
+  "repository": "tanaabased/theme",
+  "bugs": "https://github.com/tanaabased/theme/issues/new/choose",
+  "homepage": "https://github.com/tanaabased/theme",
+  "main": "tanaab-theme.js",
+  "bin": {
+    "sync-tanaab-assets": "./bin/sync-assets.js"
+  },
+  "exports": {
+    ".": "./tanaab-theme.js",
+    "./config": "./config.js",
+    "./package.json": "./package.json"
+  },
+  "keywords": [
+    "tanaab",
+    "vitepress",
+    "vitepress-theme"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "babel": {},
+  "lando": {},
+  "type": "module",
+  "scripts": {
+    "dev": "bunx vitepress dev .",
+    "build": "bunx vitepress build .",
+    "lint": "bunx eslint . --ext .cjs --ext .js --ext .mjs",
+    "mvb": "bunx mvb .",
+    "preview": "bunx vitepress preview ."
+  },
+  "dependencies": {
+    "@lando/vitepress-theme-default-plus": "^1.1.1",
+    "colorette": "^2.0.20"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-import-resolver-exports": "^1.0.0-beta.5",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-vue": "^10.0.0",
+    "prettier": "^3.5.3",
+    "vitepress": "^1.5.0"
+  }
+}
