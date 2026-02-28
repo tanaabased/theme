@@ -5,6 +5,10 @@ on:
     types:
       - published
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   release:
     runs-on: ${{ matrix.os }}
@@ -15,6 +19,8 @@ jobs:
       matrix:
         os:
           - ubuntu-24.04
+        node-version:
+          - 24
 
     steps:
       - name: Checkout code
@@ -23,16 +29,24 @@ jobs:
         uses: oven-sh/setup-bun@v2
         with:
           bun-version-file: .bun-version
+
+      - name: Install node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org
       - name: Install dependencies
         run: bun install --no-save --frozen-lockfile
+
       - name: Export formatted release date
         run: echo "RELEASE_DATE=$(date -d "${{ github.event.release.published_at }}" "+%B %e, %Y" | tr -s ' ')" >> $GITHUB_ENV
       - name: Prepare release
-        uses: lando/prepare-release-action@v3
+        uses: tanaabased/prepare-release-action@v1
         with:
-          sync-token: ${{ secrets.COAXIUM_INJECTOR }}
-          sync-email: rtfm-4l337@tanaab.dev
-          sync-username: rtfm-4l337
+          sync-token: ${{ secrets.TANAAB_COAXIUM_INJECTOR }}
+          sync-email: tanaabot@tanaab.dev
+          sync-username: tanaabot
+          sync-verified: true
           update-files: CHANGELOG.md
           update-files-header: |
             ## {{ UNRELEASED_VERSION }} - [{{ UNRELEASED_DATE }}]({{ UNRELEASED_LINK }})
@@ -40,3 +54,25 @@ jobs:
             UNRELEASED_DATE=${{ env.RELEASE_DATE }}
             UNRELEASED_LINK=${{ github.event.release.html_url }}
             UNRELEASED_VERSION=${{ github.event.release.tag_name }}
+      - name: Publish to npm
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          PACKAGE=$(node -p "require('./package.json').name")
+
+          if [ "${{ github.event.release.prerelease }}" ==  "false" ]; then
+            npm publish --access public --dry-run
+            npm publish --access public
+            npm dist-tag add "$PACKAGE@$VERSION" edge
+
+            echo "::notice title=Published $VERSION to $PACKAGE::This is a stable release published to the default 'latest' npm tag"
+            echo "::notice title=Updated latest tag to $VERSION::The stable tag now points to $VERSION"
+            echo "::notice title=Updated edge tag to $VERSION::The edge tag now points to $VERSION"
+          else
+            npm publish --access public --tag edge --dry-run
+            npm publish --access public --tag edge
+
+            echo "::notice title=Published $VERSION to $PACKAGE::This is a prerelease published to the 'edge' npm tag"
+            echo "::notice title=Updated edge tag to $VERSION::The edge tag now points to $VERSION"
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.TANAAB_NPM_DEPLOY}}
