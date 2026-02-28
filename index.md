@@ -13,7 +13,7 @@ navbar: false
     <span aria-hidden="true">STYLES</span>
     <span aria-hidden="true">LLC</span>
   </h1>
-  <span class="byline">A tech workshop for special projects.</span>
+  <span class="byline">A tech workshop for special styles.</span>
   <div class="links">
     <a href="tel:+12024306826" title="Call Tanaab">CALL US</a> |
     <a href="mailto:sales@tanaab.dev" title="Email Tanaab">EMAIL US</a>
