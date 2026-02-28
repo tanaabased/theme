@@ -1,6 +1,6 @@
 ## {{ UNRELEASED_VERSION }} - [{{ UNRELEASED_DATE }}]({{ UNRELEASED_LINK }})
 
-- Attempled "Trusted Publisher" devops
+- Attempted "Trusted Publisher" devops
 
 ## v0.2.0 - [February 28, 2026](https://github.com/tanaabased/theme/releases/tag/v0.2.0)
 
