@@ -1,5 +1,5 @@
 import VPLTheme from '@lando/vitepress-theme-default-plus';
-import './styles/fonts.scss';
-import './styles/overrides.scss';
+import './styles/vars.scss';
+import './styles/theme.scss';
 
 export default VPLTheme;

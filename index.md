@@ -1,9 +1,6 @@
 ---
-title: TMS
+title: TANAAB
 description: A tech workshop for special projects.
-layout: home
-sidebar: false
-navbar: false
 ---
 
 <div class="hero">
@@ -18,6 +15,12 @@ navbar: false
     <a href="tel:+12024306826" title="Call Tanaab">CALL US</a> |
     <a href="mailto:sales@tanaab.dev" title="Email Tanaab">EMAIL US</a>
   </div>
+  <nav class="site-map" aria-label="Documentation sections">
+    <a href="/styleguide/">Styleguide</a>
+    <a href="/components/">Components</a>
+    <a href="/containers/">Containers</a>
+    <a href="/usage/">Usage</a>
+  </nav>
   <footer>Copyright ©2025</footer>
 </div>
 
@@ -50,6 +53,22 @@ navbar: false
     .links {
       display: flex;
       gap: 10px;
+    }
+    .site-map {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75em;
+      margin-top: 1.5em;
+      a {
+        border: 1px solid var(--vp-c-text-2);
+        border-radius: 999px;
+        color: var(--vp-c-text-1);
+        font-size: 0.9em;
+        letter-spacing: 0.04em;
+        padding: 0.3em 0.9em;
+        text-transform: uppercase;
+      }
     }
     footer {
       padding-top: 2em;
