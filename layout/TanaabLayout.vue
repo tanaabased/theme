@@ -14,6 +14,7 @@
       <div class="tanaab-sidebar-brand">
         <TMSLogo
           class="tanaab-sidebar-brand-logo"
+          color="var(--tanaab-color-primary)"
           type="left"
         />
       </div>
@@ -81,13 +82,43 @@ let alertKey = ref(0);
 let jobsKey = ref(0);
 let sponsorsKey = ref(0);
 let tagsKey = ref(0);
-const { frontmatter, page, theme } = useData();
+const { frontmatter, isDark, page, theme } = useData();
 
 const alert = computed(() => frontmatter.value.alert ?? theme.value.alert ?? false);
 const header = computed(() => frontmatter.value.collection || '');
 const headerClass = computed(() => (frontmatter.value.collection ? `collection-${frontmatter.value.collection}` : ''));
 const mailchimp = computed(() => (frontmatter.value?.mailchimp?.action ? frontmatter.value.mailchimp : false));
 const sidebarEnder = computed(() => theme.value.sidebarEnder ?? false);
+
+const faviconSizes = [16, 32, 48, 64, 96, 128, 192, 256];
+
+const setFaviconHref = (id, href) => {
+  const doc = typeof globalThis === 'undefined' ? undefined : globalThis.document;
+  if (!doc) return;
+
+  const link = doc.getElementById(id);
+  if (link) link.setAttribute('href', href);
+};
+
+const syncFavicons = (isDarkMode) => {
+  const mode = isDarkMode ? 'dark' : 'light';
+
+  setFaviconHref('tanaab-favicon-svg', `/favicon-${mode}.svg`);
+  setFaviconHref('tanaab-favicon-ico', `/favicon-${mode}.ico`);
+  setFaviconHref('tanaab-favicon-apple', `/favicon-${mode}-180x180.png`);
+
+  for (const size of faviconSizes) {
+    setFaviconHref(`tanaab-favicon-${size}`, `/favicon-${mode}-${size}x${size}.png`);
+  }
+};
+
+watch(
+  isDark,
+  (value) => {
+    syncFavicons(value);
+  },
+  { immediate: true },
+);
 
 watch(
   () => page.value.relativePath,
@@ -122,6 +153,9 @@ watch(
     display: block;
     width: 100%;
     height: auto;
+  }
+  .tms-logo {
+    margin-left: -12px;
   }
 
   :deep(.VPNavBarTitle.has-sidebar .logo) {

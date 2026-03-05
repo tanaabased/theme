@@ -1,48 +1,7 @@
+@use './fonts';
 @use './vars' as vars;
 
-@font-face {
-  font-family: 'AvenirNext';
-  src:
-    url('../fonts/AvenirNext-Heavy.woff2') format('woff2'),
-    url('../fonts/AvenirNext-Heavy.woff') format('woff');
-  font-style: normal;
-  font-display: swap;
-  font-weight: 600;
-}
-
-@font-face {
-  font-family: 'GalaxieCopernicus';
-  src:
-    url('../fonts/GalaxieCopernicus-Book.woff2') format('woff2'),
-    url('../fonts/GalaxieCopernicus-Book.woff') format('woff'),
-    url('../fonts/GalaxieCopernicus-Book.eot');
-  font-style: normal;
-  font-display: swap;
-  font-weight: 300;
-}
-
-@font-face {
-  font-family: 'GalaxieCopernicus';
-  src:
-    url('../fonts/GalaxieCopernicus-Medium.woff2') format('woff2'),
-    url('../fonts/GalaxieCopernicus-Medium.woff') format('woff'),
-    url('../fonts/GalaxieCopernicus-Medium.eot');
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: 'Anton';
-  src:
-    url('../fonts/Anton-Regular.woff2') format('woff2'),
-    url('../fonts/Anton-Regular.woff') format('woff'),
-    url('../fonts/Anton-Regular.eot');
-  font-style: normal;
-  font-display: swap;
-  font-weight: 500;
-}
-
+/* Tokens ------------------------------------------------------------------ */
 :root {
   --tanaab-color-primary: #{vars.$color-primary};
   --tanaab-color-primary-light: #{vars.$color-primary-light};
@@ -59,6 +18,38 @@
   --tanaab-font-weight-body: #{vars.$font-weight-body};
   --tanaab-font-weight-heading: #{vars.$font-weight-heading};
   --tanaab-font-weight-display: #{vars.$font-weight-display};
+  --tanaab-font-size-root: #{vars.$font-size-root};
+  --tanaab-font-size-body: #{vars.$font-size-body};
+  --tanaab-font-size-body-sm: #{vars.$font-size-body-sm};
+  --tanaab-font-size-body-lg: #{vars.$font-size-body-lg};
+  --tanaab-font-size-code: #{vars.$font-size-code};
+  --tanaab-font-size-h1-mobile: #{vars.$font-size-heading-1-mobile};
+  --tanaab-font-size-h1: #{vars.$font-size-heading-1};
+  --tanaab-font-size-h2: #{vars.$font-size-heading-2};
+  --tanaab-font-size-h3: #{vars.$font-size-heading-3};
+  --tanaab-font-size-h4: #{vars.$font-size-heading-4};
+  --tanaab-font-size-h5: #{vars.$font-size-heading-5};
+  --tanaab-font-size-h6: #{vars.$font-size-heading-6};
+  --tanaab-line-height-base: #{vars.$line-height-base};
+  --tanaab-line-height-body: #{vars.$line-height-body};
+  --tanaab-line-height-code: #{vars.$line-height-code};
+  --tanaab-line-height-h1: #{vars.$line-height-heading-1};
+  --tanaab-line-height-h2: #{vars.$line-height-heading-2};
+  --tanaab-line-height-h3: #{vars.$line-height-heading-3};
+  --tanaab-line-height-h4: #{vars.$line-height-heading-4};
+  --tanaab-line-height-h5: #{vars.$line-height-heading-5};
+  --tanaab-line-height-h6: #{vars.$line-height-heading-6};
+  --tanaab-letter-spacing-body: #{vars.$letter-spacing-body};
+  --tanaab-letter-spacing-mono: #{vars.$letter-spacing-mono};
+  --tanaab-letter-spacing-display: #{vars.$letter-spacing-display};
+  --tanaab-letter-spacing-h1: #{vars.$letter-spacing-heading-1};
+  --tanaab-letter-spacing-h2: #{vars.$letter-spacing-heading-2};
+  --tanaab-letter-spacing-h3: #{vars.$letter-spacing-heading-3};
+  --tanaab-letter-spacing-h4: #{vars.$letter-spacing-heading-4};
+  --tanaab-letter-spacing-h5: #{vars.$letter-spacing-heading-5};
+  --tanaab-letter-spacing-h6: #{vars.$letter-spacing-heading-6};
+  --tanaab-text-transform-display: #{vars.$text-transform-display};
+  --tanaab-measure-body: #{vars.$measure-body};
   --tanaab-radius-base: #{vars.$radius-base};
   --tanaab-radius-pill: #{vars.$radius-pill};
   --tanaab-spacing-base: #{vars.$spacing-base};
@@ -74,6 +65,14 @@
   --vp-font-family-base: var(--tanaab-font-family-body);
   --vp-font-family-heading: var(--tanaab-font-family-heading);
   --vp-font-family-mono: var(--tanaab-font-family-mono);
+  --vp-code-line-height: var(--tanaab-line-height-code);
+  --vp-code-font-size: var(--tanaab-font-size-code);
+}
+
+:root:not(.dark) {
+  --tanaab-color-primary: #{vars.$color-secondary};
+  --tanaab-color-secondary: #{vars.$color-primary};
+  --vp-c-brand-soft: rgba(200, 0, 107, 0.14);
 }
 
 .dark {
@@ -87,6 +86,19 @@
   --vp-c-text-2: #adc1b8;
 }
 
+/* Global Elements --------------------------------------------------------- */
+html {
+  font-size: var(--tanaab-font-size-root);
+  line-height: var(--tanaab-line-height-base);
+}
+
+body {
+  font-size: var(--tanaab-font-size-body);
+  font-synthesis: unset;
+  line-height: var(--tanaab-line-height-base);
+  letter-spacing: var(--tanaab-letter-spacing-body);
+}
+
 html,
 body,
 .VPApp {
@@ -94,29 +106,55 @@ body,
   font-weight: var(--tanaab-font-weight-body);
 }
 
-h1,
-.vp-doc h1,
-.VPHomeHero .name,
-.VPHomeHero .text {
+:is(h1, .vp-doc h1) {
   font-family: var(--tanaab-font-family-display);
   font-weight: var(--tanaab-font-weight-display);
-  letter-spacing: 0.04em;
+  text-transform: var(--tanaab-text-transform-display);
+  font-size: var(--tanaab-font-size-h1-mobile);
+  line-height: var(--tanaab-line-height-h1);
+  letter-spacing: var(--tanaab-letter-spacing-h1);
+}
+
+@media (min-width: 768px) {
+  :is(h1, .vp-doc h1) {
+    font-size: var(--tanaab-font-size-h1);
+  }
+}
+
+:is(h2, h3, h4, h5, h6, .vp-doc h2, .vp-doc h3, .vp-doc h4, .vp-doc h5, .vp-doc h6) {
+  font-family: var(--tanaab-font-family-heading);
+  font-weight: var(--tanaab-font-weight-heading);
   text-transform: uppercase;
 }
 
-h2,
-h3,
-h4,
-h5,
-h6,
-.vp-doc h2,
-.vp-doc h3,
-.vp-doc h4,
-.vp-doc h5,
-.vp-doc h6,
-.VPNavBarTitle .title {
-  font-family: var(--tanaab-font-family-heading);
-  font-weight: var(--tanaab-font-weight-heading);
+:is(h2, .vp-doc h2) {
+  font-size: var(--tanaab-font-size-h2);
+  line-height: var(--tanaab-line-height-h2);
+  letter-spacing: var(--tanaab-letter-spacing-h2);
+}
+
+:is(h3, .vp-doc h3) {
+  font-size: var(--tanaab-font-size-h3);
+  line-height: var(--tanaab-line-height-h3);
+  letter-spacing: var(--tanaab-letter-spacing-h3);
+}
+
+:is(h4, .vp-doc h4) {
+  font-size: var(--tanaab-font-size-h4);
+  line-height: var(--tanaab-line-height-h4);
+  letter-spacing: var(--tanaab-letter-spacing-h4);
+}
+
+:is(h5, .vp-doc h5) {
+  font-size: var(--tanaab-font-size-h5);
+  line-height: var(--tanaab-line-height-h5);
+  letter-spacing: var(--tanaab-letter-spacing-h5);
+}
+
+:is(h6, .vp-doc h6) {
+  font-size: var(--tanaab-font-size-h6);
+  line-height: var(--tanaab-line-height-h6);
+  letter-spacing: var(--tanaab-letter-spacing-h6);
 }
 
 code,
@@ -124,8 +162,108 @@ pre,
 kbd,
 samp {
   font-family: var(--tanaab-font-family-mono);
+  letter-spacing: var(--tanaab-letter-spacing-mono);
 }
 
-.VPButton {
-  border-radius: var(--tanaab-radius-base);
+/* Layout Regions ---------------------------------------------------------- */
+.VPNav {
+  .VPNavBarTitle .title {
+    font-family: var(--tanaab-font-family-heading);
+    font-weight: var(--tanaab-font-weight-heading);
+  }
+}
+
+.VPSidebar {
+  .VPSidebarItem .text {
+    font-family: var(--tanaab-font-family-heading);
+    font-weight: var(--tanaab-font-weight-heading);
+  }
+
+  .group .VPSidebarItem.level-0 .text {
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: 0.045em;
+    font-weight: 400 !important;
+  }
+
+  .group .VPSidebarItem.level-1 .text,
+  .group .VPSidebarItem.level-2 .text,
+  .group .VPSidebarItem.level-3 .text,
+  .group .VPSidebarItem.level-4 .text,
+  .group .VPSidebarItem.level-5 .text {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    letter-spacing: 0.03em;
+    color: var(--vp-c-text-3);
+  }
+
+  .group .VPSidebarItem :is(h2, h3, h4, h5, h6).text {
+    font-weight: 400;
+  }
+}
+
+.VPDocAside {
+  .VPDocAsideOutline .outline-title {
+    font-family: var(--tanaab-font-family-heading);
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 400;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+    color: var(--vp-c-text-1);
+  }
+
+  .VPDocAsideOutline .outline-link {
+    font-size: 13px;
+    line-height: 28px;
+  }
+
+  .VPDocAsideOutline .outline-marker {
+    height: 14px;
+    transform: translateY(-8px);
+  }
+
+  .VPDocAsideOutline .outline-link:hover {
+    color: var(--tanaab-color-primary);
+  }
+}
+
+.sidebar-end {
+  h2.text {
+    color: var(--vp-c-text-3) !important;
+    font-weight: 400 !important;
+    text-transform: lowercase;
+  }
+
+  h2.text:hover {
+    color: var(--tanaab-color-primary) !important;
+  }
+
+  .item:hover .caret {
+    color: var(--tanaab-color-primary);
+  }
+  .item:hover .caret-icon {
+    color: var(--tanaab-color-primary);
+  }
+  .item:hover h2.text {
+    color: var(--tanaab-color-primary);
+  }
+
+  section .VPSidebarItem.level-1 .item h3.text {
+    font-weight: 400;
+  }
+}
+
+/* Main Content ------------------------------------------------------------ */
+.vp-doc {
+  p,
+  summary {
+    font-size: var(--tanaab-font-size-body);
+    line-height: var(--tanaab-line-height-body);
+  }
+
+  :where(code, pre, kbd, samp) {
+    font-size: var(--tanaab-font-size-code);
+    line-height: var(--tanaab-line-height-code);
+  }
 }

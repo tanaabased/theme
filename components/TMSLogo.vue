@@ -1,8 +1,9 @@
 <template>
-  <span
+  <a
     class="tms-logo"
     :style="logoVars"
     :data-type="props.type"
+    :href="resolvedLink"
     v-html="svgWithClass"
   />
 </template>
@@ -30,6 +31,10 @@ const props = defineProps({
     type: String,
     default: undefined,
   },
+  link: {
+    type: String,
+    default: '/',
+  },
 });
 
 const { isDark } = useData();
@@ -51,6 +56,11 @@ const resolvedBackground = computed(() => {
   return props.background.trim();
 });
 
+const resolvedLink = computed(() => {
+  if (!props.link || props.link.trim().length === 0) return '/';
+  return props.link.trim();
+});
+
 const selectedSvg = computed(() => logos[props.type] ?? logos.centered);
 
 const svgWithClass = computed(() => {
@@ -63,7 +73,7 @@ const svgWithClass = computed(() => {
 });
 
 const logoVars = computed(() => ({
-  '--tms-logo-color': resolvedColor.value,
+  '--tms-logo-base-color': resolvedColor.value,
   '--tms-logo-background': resolvedBackground.value,
 }));
 </script>
@@ -73,6 +83,20 @@ const logoVars = computed(() => ({
   display: inline-block;
   max-width: 100%;
   line-height: 0;
+  text-decoration: none;
+  color: inherit;
+  --tms-logo-color: var(--tms-logo-base-color);
+}
+
+.tms-logo:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.tms-logo:hover {
+  --tms-logo-color: var(--tanaab-color-primary);
+  color: var(--tanaab-color-primary);
 }
 
 .tms-logo :deep(svg.tms-logo__svg) {

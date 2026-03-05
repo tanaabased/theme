@@ -1,6 +1,3 @@
-import { resolve, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
 import { default as isDevRelease } from '@lando/vitepress-theme-default-plus/is-dev-release';
 
 import { defineConfig } from '../config.js';
@@ -27,6 +24,25 @@ const sidebarEnder = {
   ],
 };
 
+const defaultSidebar = [
+  {
+    text: 'Branding',
+    items: [
+      { text: 'Principles', link: '/styleguide/principles' },
+      { text: 'Colors', link: '/styleguide/colors' },
+      { text: 'Logo', link: '/styleguide/logo' },
+    ],
+  },
+  {
+    text: 'Typography',
+    items: [
+      { text: 'Headings', link: '/styleguide/headings' },
+      // { text: 'Inputs', link: '/styleguide/content-patterns' },
+      // { text: 'Accessibility', link: '/styleguide/accessibility' },
+    ],
+  },
+];
+
 // if version is a stable or edge release then add in the release notes
 if (!isDevRelease(semver)) {
   sidebarEnder.items.splice(1, 0, {
@@ -40,19 +56,21 @@ export default defineConfig({
     initialValue: 'dark',
   },
   lang: 'en-US',
-  title: 'Theme & Stylesheet',
+  title: 'Tanaab',
   description: 'A Tanaab based theme and styleguide.',
   head: [
-    ['link', { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-    ['link', { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' }],
-    ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' }],
-    ['link', { rel: 'icon', type: 'image/png', sizes: '48x48', href: '/favicon-48x48.png' }],
-    ['link', { rel: 'icon', type: 'image/png', sizes: '64x64', href: '/favicon-64x64.png' }],
-    ['link', { rel: 'icon', type: 'image/png', sizes: '96x96', href: '/favicon-96x96.png' }],
-    ['link', { rel: 'icon', type: 'image/png', sizes: '128x128', href: '/favicon-128x128.png' }],
-    ['link', { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/favicon-192x192.png' }],
-    ['link', { rel: 'icon', type: 'image/png', sizes: '256x256', href: '/favicon-256x256.png' }],
-    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon-192x192.png' }],
+    ['link', { id: 'tanaab-favicon-svg', rel: 'icon', type: 'image/svg+xml', href: '/favicon-dark.svg' }],
+    ['link', { id: 'tanaab-favicon-ico', rel: 'icon', type: 'image/x-icon', href: '/favicon-dark.ico' }],
+    ['link', { id: 'tanaab-favicon-16', rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-dark-16x16.png' }],
+    ['link', { id: 'tanaab-favicon-32', rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-dark-32x32.png' }],
+    ['link', { id: 'tanaab-favicon-48', rel: 'icon', type: 'image/png', sizes: '48x48', href: '/favicon-dark-48x48.png' }],
+    ['link', { id: 'tanaab-favicon-64', rel: 'icon', type: 'image/png', sizes: '64x64', href: '/favicon-dark-64x64.png' }],
+    ['link', { id: 'tanaab-favicon-96', rel: 'icon', type: 'image/png', sizes: '96x96', href: '/favicon-dark-96x96.png' }],
+    ['link', { id: 'tanaab-favicon-128', rel: 'icon', type: 'image/png', sizes: '128x128', href: '/favicon-dark-128x128.png' }],
+    ['link', { id: 'tanaab-favicon-192', rel: 'icon', type: 'image/png', sizes: '192x192', href: '/favicon-dark-192x192.png' }],
+    ['link', { id: 'tanaab-favicon-256', rel: 'icon', type: 'image/png', sizes: '256x256', href: '/favicon-dark-256x256.png' }],
+    ['link', { id: 'tanaab-favicon-apple', rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon-dark-180x180.png' }],
+    ['link', { rel: 'mask-icon', href: '/favicon.svg', color: '#00C88A' }],
     ['meta', { name: 'theme-color', content: '#00C88A' }],
   ],
   robots: {
@@ -139,106 +157,66 @@ export default defineConfig({
     siteTitle: false,
     navbar: true,
     nav: [
-      { text: 'Styleguide', link: '/styleguide/' },
-      { text: 'Components', link: '/components/' },
-      { text: 'Containers', link: '/containers/' },
-      { text: 'Usage', link: '/usage/' },
+      { text: 'Styleguide', link: '/styleguide/', activeMatch: '/styleguide|/overview' },
+      { text: 'Components', link: '/components/', activeMatch: '/components' },
+      { text: 'Containers', link: '/containers/', activeMatch: '/containers' },
+      { text: 'Usage', link: '/usage/', activeMatch: '/usage|/development' },
     ],
     sidebarEnder,
     sidebar: {
-      '/styleguide/': [
-        {
-          text: 'Branding',
-          items: [
-            { text: 'Principles', link: '/styleguide/' },
-            { text: 'Colors', link: '/styleguide/colors' },
-            { text: 'Logo', link: '/styleguide/logo' },
-          ],
-        },
-        {
-          text: 'Styles',
-          items: [
-            { text: 'Typography', link: '/styleguide/typography' },
-            // { text: 'Inputs', link: '/styleguide/content-patterns' },
-            // { text: 'Accessibility', link: '/styleguide/accessibility' },
-          ],
-        },
-      ],
+      '/styleguide/': defaultSidebar,
+      '/v/': defaultSidebar,
+      '/': defaultSidebar,
       '/components/': [
-        { text: 'Overview', link: '/components/' },
         {
-          text: 'Branding',
-          items: [{ text: 'TMS Logo', link: '/components/tms-logo' }],
-        },
-        {
-          text: 'Inputs',
-          items: [
-            { text: 'Buttons', link: '/components/buttons' },
-            { text: 'Form Fields', link: '/components/form-fields' },
-            { text: 'Selects & Toggles', link: '/components/selects-toggles' },
-          ],
-        },
-        {
-          text: 'Navigation',
-          items: [
-            { text: 'Navbar', link: '/components/navbar' },
-            { text: 'Side Navigation', link: '/components/side-navigation' },
-            { text: 'Breadcrumbs', link: '/components/breadcrumbs' },
-          ],
-        },
-        {
-          text: 'Content & Feedback',
-          items: [
-            { text: 'Cards', link: '/components/cards' },
-            { text: 'Data Tables', link: '/components/data-tables' },
-            { text: 'Alerts & Notices', link: '/components/alerts-notices' },
-          ],
+          text: 'Tanaab Based',
+          items: [{ text: 'Logo', link: '/components/tms-logo' }],
         },
       ],
       '/containers/': [
         { text: 'Overview', link: '/containers/' },
-        {
-          text: 'Page Shells',
-          items: [
-            { text: 'Site Header & Footer', link: '/containers/site-header-footer' },
-            { text: 'Marketing Page', link: '/containers/marketing-page' },
-            { text: 'Documentation Page', link: '/containers/documentation-page' },
-          ],
-        },
-        {
-          text: 'Content Regions',
-          items: [
-            { text: 'Hero Section', link: '/containers/hero-section' },
-            { text: 'Feature Grid', link: '/containers/feature-grid' },
-            { text: 'Content Well', link: '/containers/content-well' },
-          ],
-        },
+        // {
+        //   text: 'Page Shells',
+        //   items: [
+        //     { text: 'Site Header & Footer', link: '/containers/site-header-footer' },
+        //     { text: 'Marketing Page', link: '/containers/marketing-page' },
+        //     { text: 'Documentation Page', link: '/containers/documentation-page' },
+        //   ],
+        // },
+        // {
+        //   text: 'Content Regions',
+        //   items: [
+        //     { text: 'Hero Section', link: '/containers/hero-section' },
+        //     { text: 'Feature Grid', link: '/containers/feature-grid' },
+        //     { text: 'Content Well', link: '/containers/content-well' },
+        //   ],
+        // },
       ],
       '/usage/': [
-        { text: 'Overview', link: '/usage/' },
-        {
-          text: 'Adoption',
-          items: [
-            { text: 'Getting Started', link: '/usage/getting-started' },
-            { text: 'Installation', link: '/usage/installation' },
-            { text: 'Project Structure', link: '/usage/project-structure' },
-          ],
-        },
-        {
-          text: 'Implementation',
-          items: [
-            { text: 'Theming', link: '/usage/theming' },
-            { text: 'Extending Components', link: '/usage/extending-components' },
-            { text: 'Container Assembly', link: '/usage/container-assembly' },
-          ],
-        },
-        {
-          text: 'Operations',
-          items: [
-            { text: 'Versioning & Releases', link: '/usage/versioning-releases' },
-            { text: 'Migration Notes', link: '/usage/migration-notes' },
-          ],
-        },
+        { text: 'Getting Started', link: '/usage/' },
+        // {
+        //   text: 'Adoption',
+        //   items: [
+        //     { text: 'Getting Started', link: '/usage/getting-started' },
+        //     { text: 'Installation', link: '/usage/installation' },
+        //     { text: 'Project Structure', link: '/usage/project-structure' },
+        //   ],
+        // },
+        // {
+        //   text: 'Implementation',
+        //   items: [
+        //     { text: 'Theming', link: '/usage/theming' },
+        //     { text: 'Extending Components', link: '/usage/extending-components' },
+        //     { text: 'Container Assembly', link: '/usage/container-assembly' },
+        //   ],
+        // },
+        // {
+        //   text: 'Operations',
+        //   items: [
+        //     { text: 'Versioning & Releases', link: '/usage/versioning-releases' },
+        //     { text: 'Migration Notes', link: '/usage/migration-notes' },
+        //   ],
+        // },
       ],
     },
   },
