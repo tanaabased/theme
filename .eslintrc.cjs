@@ -25,6 +25,17 @@ module.exports = {
     'no-debugger': 'error',
     'import/no-commonjs': 'error',
   },
+  overrides: [
+    {
+      files: ['**/*.vue'],
+      rules: {
+        // VitePress client composables and Vite query imports are valid at runtime but
+        // are not fully understood by eslint-plugin-import's resolver.
+        'import/named': 'off',
+        'import/no-unresolved': ['error', { ignore: ['\\?raw$'] }],
+      },
+    },
+  ],
   settings: {
     'import/resolver': {
       exports: true,

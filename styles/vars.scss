@@ -1,0 +1,27 @@
+// Brand colors
+$color-primary: #00c88a !default;
+$color-primary-light: #33d4a1 !default;
+$color-primary-dark: #008f64 !default;
+$color-secondary: #c8006b !default;
+$color-accent: #f5b700 !default;
+
+// Surfaces and text
+$color-surface-light: #f6fbf9 !default;
+$color-surface-dark: #0a1210 !default;
+$color-text-light: #102018 !default;
+$color-text-dark: #e6f0eb !default;
+
+// Typography
+$font-family-display: 'Anton', 'Helvetica Neue', Arial, sans-serif !default;
+$font-family-heading: 'AvenirNext', 'Helvetica Neue', Arial, sans-serif !default;
+$font-family-body: 'GalaxieCopernicus', 'PT Serif', serif !default;
+$font-family-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace !default;
+
+$font-weight-body: 300 !default;
+$font-weight-heading: 600 !default;
+$font-weight-display: 500 !default;
+
+// Common sizing tokens
+$radius-base: 8px !default;
+$radius-pill: 999px !default;
+$spacing-base: 1rem !default;

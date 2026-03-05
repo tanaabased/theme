@@ -1,35 +1,16 @@
 # Theme
 
-## Development
+A Tanaab-based theme and styleguide for Tanaab-based things.
 
-Start by [installing bun](https://bun.sh/).
+Built on top of [this](https://vitepress-theme-default-plus.lando.dev/).
 
-Clone and install deps:
+## Docs
 
-```sh
-git clone https://github.com/tanaabased/theme.git
-cd theme
-bun install
-```
-
-Run dev server
-
-```sh
-bun run dev
-```
-
-Build and preview for production:
-
-```sh
-bun run build
-bun run preview
-```
-
-Lint:
-
-```sh
-bun run lint
-```
+- [Styleguide](https://theme.tanaab.dev/styleguide)
+- [Components](https://theme.tanaab.dev/components)
+- [Containers](https://theme.tanaab.dev/containers)
+- [Usage](https://theme.tanaab.dev/usage)
+- [Development](https://theme.tanaab.dev/development)
 
 ## Issues, Questions and Support
 

@@ -1,10 +1,10 @@
 [build]
   base = "./"
   publish = ".vitepress/dist"
-  command = "bun run build"
+  command = "git fetch origin && bun run mvb"
 
 [context.deploy-preview]
-  command = "bun run build"
+  command = "git fetch origin && bun run build"
 
 [build.processing.css]
   bundle = true

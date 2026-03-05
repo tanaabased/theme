@@ -1,5 +1,8 @@
 ## {{ UNRELEASED_VERSION }} - [{{ UNRELEASED_DATE }}]({{ UNRELEASED_LINK }})
 
+- Added more scaffolding
+- Switched to `mvb`
+
 ## v0.2.1 - [February 28, 2026](https://github.com/tanaabased/theme/releases/tag/v0.2.1)
 
 - Attempted "Trusted Publisher" devops

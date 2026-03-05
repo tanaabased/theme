@@ -47,4 +47,4 @@ jobs:
           bun install --no-save
           ./node_modules/.bin/sync-tanaab-assets
           test -f "$tmpdir/docs/public/favicon.ico"
-          test -f "$tmpdir/docs/public/images/tms.jpeg"
+          test -f "$tmpdir/docs/public/images/tms.png"

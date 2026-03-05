@@ -13,7 +13,13 @@
   },
   "exports": {
     ".": "./tanaab-theme.js",
+    "./core": "./tanaab-theme-core.js",
+    "./components/*": "./components/*.vue",
     "./config": "./config.js",
+    "./styles/theme.scss": "./styles/theme.scss",
+    "./styles/theme": "./styles/theme.scss",
+    "./styles/vars.scss": "./styles/vars.scss",
+    "./styles/vars": "./styles/vars.scss",
     "./package.json": "./package.json"
   },
   "keywords": [
@@ -30,14 +36,14 @@
   "babel": {},
   "type": "module",
   "scripts": {
-    "dev": "bunx vitepress dev .",
-    "build": "bunx vitepress build .",
-    "lint": "bunx eslint . --ext .cjs --ext .js --ext .mjs",
-    "mvb": "bunx mvb .",
+    "build": "VPL_MVB_VERSION=$(git describe --tags --always --abbrev=1 --match=\"v[0-9].*\") bunx vitepress build .",
+    "dev": "VPL_BASE_URL=http://localhost:5173 VPL_MVB_VERSION=$(git describe --tags --always --abbrev=1 --match=\"v[0-9].*\") bunx vitepress dev .",
+    "lint": "bunx eslint . --ext .cjs --ext .js --ext .mjs --ext .vue",
+    "mvb": "bunx mvb --runtime bun .",
     "preview": "bunx vitepress preview ."
   },
   "dependencies": {
-    "@lando/vitepress-theme-default-plus": "^1.1.1",
+    "@lando/vitepress-theme-default-plus": "^1.1.5",
     "colorette": "^2.0.20"
   },
   "devDependencies": {
