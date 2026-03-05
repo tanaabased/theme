@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'Poppins';
+  src:
+    url('../fonts/Poppins-SemiBold.woff2') format('woff2'),
+    url('../fonts/Poppins-SemiBold.woff') format('woff'),
+    url('../fonts/Poppins-SemiBold.eot');
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src:
+    url('../fonts/Poppins-Black.woff2') format('woff2'),
+    url('../fonts/Poppins-Black.woff') format('woff'),
+    url('../fonts/Poppins-Black.eot');
+  font-style: normal;
+  font-display: swap;
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'GalaxieCopernicus';
+  src:
+    url('../fonts/GalaxieCopernicus-Book.woff2') format('woff2'),
+    url('../fonts/GalaxieCopernicus-Book.woff') format('woff'),
+    url('../fonts/GalaxieCopernicus-Book.eot');
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'GalaxieCopernicus';
+  src:
+    url('../fonts/GalaxieCopernicus-Medium.woff2') format('woff2'),
+    url('../fonts/GalaxieCopernicus-Medium.woff') format('woff'),
+    url('../fonts/GalaxieCopernicus-Medium.eot');
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Anton';
+  src:
+    url('../fonts/Anton-Regular.woff2') format('woff2'),
+    url('../fonts/Anton-Regular.woff') format('woff'),
+    url('../fonts/Anton-Regular.eot');
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+}

@@ -14,6 +14,7 @@ description: Global logo component for Tanaab properties.
 | `type`       | `'left' \| 'right' \| 'centered' \| 'mark'` | `'centered'` | Selects which `*_var.svg` file is rendered.                                                    |
 | `background` | `string`                                    | `'none'`     | Applied to `background-color` on the SVG element.                                              |
 | `color`      | `string`                                    | auto         | Applied to `color` on the SVG element; defaults to white in dark mode and black in light mode. |
+| `link`       | `string`                                    | `'/'`        | Applied to the root anchor `href`; the entire logo renders as a clickable link.                |
 
 ## Basic Usage
 
@@ -21,6 +22,7 @@ description: Global logo component for Tanaab properties.
 <TMSLogo />
 <TMSLogo type="left" />
 <TMSLogo type="mark" color="#00c88a" background="transparent" />
+<TMSLogo type="mark" link="/styleguide/logo" />
 ```
 
 ## Source
@@ -37,6 +39,7 @@ const type = ref('centered');
 const background = ref('none');
 const useAutoColor = ref(true);
 const color = ref('#ffffff');
+const link = ref('/');
 
 const logoColor = computed(() => (useAutoColor.value ? undefined : color.value));
 const logoBackground = computed(() => (background.value?.trim() ? background.value.trim() : 'none'));
@@ -68,10 +71,14 @@ const logoBackground = computed(() => (background.value?.trim() ? background.val
       <span>Color</span>
       <input v-model="color" type="text" placeholder="#ffffff, rgb(...), var(--...)" />
     </label>
+    <label>
+      <span>Link</span>
+      <input v-model="link" type="text" placeholder="/, /styleguide/logo, https://..." />
+    </label>
   </div>
 
   <div class="tms-logo-preview">
-    <TMSLogo :type="type" :background="logoBackground" :color="logoColor" />
+    <TMSLogo :type="type" :background="logoBackground" :color="logoColor" :link="link" />
   </div>
 </div>
 
