@@ -1,7 +1,7 @@
 {
   "name": "@tanaabased/theme",
   "description": "A Tanaab subtheme built on vitepress-theme-default-plus.",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "author": "Mike Pirog @pirog",
   "license": "MIT",
   "repository": "tanaabased/theme",

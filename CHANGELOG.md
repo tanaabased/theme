@@ -1,5 +1,7 @@
 ## {{ UNRELEASED_VERSION }} - [{{ UNRELEASED_DATE }}]({{ UNRELEASED_LINK }})
 
+## v0.3.0 - [March 5, 2026](https://github.com/tanaabased/theme/releases/tag/v0.3.0)
+
 - Added more scaffolding
 - Switched to `mvb`
 
