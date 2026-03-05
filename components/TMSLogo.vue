@@ -1,5 +1,10 @@
 <template>
-  <span class="tms-logo" :style="logoVars" :data-type="props.type" v-html="svgWithClass" />
+  <span
+    class="tms-logo"
+    :style="logoVars"
+    :data-type="props.type"
+    v-html="svgWithClass"
+  />
 </template>
 
 <script setup>

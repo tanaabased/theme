@@ -1,23 +1,41 @@
 <template>
   <Layout :class="headerClass">
     <template #layout-top>
-      <Alert v-if="alert" :key="alertKey" :content="alert.content" :closeable="alert.closeable" :type="alert.type" />
+      <Alert
+        v-if="alert"
+        :key="alertKey"
+        :content="alert.content"
+        :closeable="alert.closeable"
+        :type="alert.type"
+      />
     </template>
 
     <template #sidebar-nav-before>
       <div class="tanaab-sidebar-brand">
-        <TMSLogo class="tanaab-sidebar-brand-logo" type="left" />
+        <TMSLogo
+          class="tanaab-sidebar-brand-logo"
+          type="left"
+        />
       </div>
     </template>
 
     <template #sidebar-nav-after>
-      <div v-if="sidebarEnder !== false" class="sidebar-end">
-        <VPSideBarItem :depth="0" :item="sidebarEnder" />
+      <div
+        v-if="sidebarEnder !== false"
+        class="sidebar-end"
+      >
+        <VPSideBarItem
+          :depth="0"
+          :item="sidebarEnder"
+        />
       </div>
     </template>
 
     <template #doc-before>
-      <div v-if="header !== ''" class="collection-header">
+      <div
+        v-if="header !== ''"
+        class="collection-header"
+      >
         <PostHeader v-if="header === 'post'" />
         <CollectionHeader v-else />
       </div>
@@ -30,8 +48,14 @@
     </template>
 
     <template #doc-footer-before>
-      <Tags v-if="header === 'post'" :key="tagsKey" />
-      <div v-if="mailchimp" class="newsletter-wrapper">
+      <Tags
+        v-if="header === 'post'"
+        :key="tagsKey"
+      />
+      <div
+        v-if="mailchimp"
+        class="newsletter-wrapper"
+      >
         <MailChimp v-bind="mailchimp" />
       </div>
     </template>
@@ -68,10 +92,10 @@ const sidebarEnder = computed(() => theme.value.sidebarEnder ?? false);
 watch(
   () => page.value.relativePath,
   () => {
-    alertKey = page.value.relativePath;
-    jobsKey = page.value.relativePath;
-    sponsorsKey = page.value.relativePath;
-    tagsKey = page.value.relativePath;
+    alertKey.value = page.value.relativePath;
+    jobsKey.value = page.value.relativePath;
+    sponsorsKey.value = page.value.relativePath;
+    tagsKey.value = page.value.relativePath;
   },
 );
 </script>

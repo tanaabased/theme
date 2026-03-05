@@ -1,7 +1,7 @@
 [build]
   base = "./"
   publish = ".vitepress/dist"
-  command = "bunx run mvb"
+  command = "git fetch origin && bunx run mvb"
 
 [context.deploy-preview]
   command = "bun run build"

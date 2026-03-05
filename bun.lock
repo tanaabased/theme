@@ -5,7 +5,7 @@
     "": {
       "name": "@tanaab/website",
       "dependencies": {
-        "@lando/vitepress-theme-default-plus": "^1.1.1",
+        "@lando/vitepress-theme-default-plus": "1.1.4",
         "colorette": "^2.0.20",
       },
       "devDependencies": {
@@ -137,7 +137,7 @@
 
     "@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.4", "", {}, "sha512-VT2+G1VQs/9oz078bLrYbecdZKs912zQlkelYpuf+SXF+QvZDYJlbx/LSx+meSAwdDFnF8FVXW92AVjjkVmgFw=="],
 
-    "@lando/vitepress-theme-default-plus": ["@lando/vitepress-theme-default-plus@1.1.1", "", { "dependencies": { "@docsearch/js": "^3.5.2", "axios": "^1.7.7", "colorette": "^2.0.20", "debug": "^4.3.2", "es-semver": "^1.0.1", "fast-glob": "^3.3.2", "feed": "^4.2.2", "fs-extra": "^11.2.0", "generate-robotstxt": "^8.0.3", "gravatar-url": "^4.0.1", "gray-matter": "^4.0.3", "js-yaml": "^4.1.0", "lodash-es": "^4.17.21", "markdown-it-container": "^4.0.0", "nanoid": "^5.0.4", "node-html-parser": "^6.1.12", "sass": "^1.69.7", "timeago.js": "^4.0.2", "vitepress-plugin-tabs": "^0.5.0", "vue": "^3.4.15", "yargs-parser": "^21.1.1" }, "bin": { "mvb": "bin/mvb.js", "multiversion-vitepress-build": "bin/mvb.js" } }, "sha512-DcwDvsUHJ8n9ofKRgclbkEXGl5DglzUSQdXNEY1MvoSMKGDTP/iZUXR5acZk6gsOmaUyQ3/vBRrIjXUvCsC1vQ=="],
+    "@lando/vitepress-theme-default-plus": ["@lando/vitepress-theme-default-plus@1.1.4", "", { "dependencies": { "@docsearch/js": "^3.5.2", "axios": "^1.7.7", "colorette": "^2.0.20", "debug": "^4.3.2", "es-semver": "^1.0.1", "fast-glob": "^3.3.2", "feed": "^4.2.2", "fs-extra": "^11.2.0", "generate-robotstxt": "^8.0.3", "gravatar-url": "^4.0.1", "gray-matter": "^4.0.3", "js-yaml": "^4.1.0", "lodash-es": "^4.17.21", "markdown-it-container": "^4.0.0", "nanoid": "^5.0.4", "node-html-parser": "^6.1.12", "sass": "^1.69.7", "timeago.js": "^4.0.2", "vitepress-plugin-tabs": "^0.5.0", "vue": "^3.4.15", "yargs-parser": "^21.1.1" }, "bin": { "mvb": "bin/mvb.js", "multiversion-vitepress-build": "bin/mvb.js" } }, "sha512-fRVg9Wt29D9cQUXi7MidqEF3tgHk3c+bRXidvXzhsGDbbLEpgkHGRlz7+C41PimyZCFXnJTu3WzRizM8W0cd+g=="],
 
     "@nodelib/fs.scandir": ["@nodelib/fs.scandir@2.1.5", "", { "dependencies": { "@nodelib/fs.stat": "2.0.5", "run-parallel": "^1.1.9" } }, "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="],
 
