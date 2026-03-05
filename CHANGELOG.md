@@ -1,5 +1,7 @@
 ## {{ UNRELEASED_VERSION }} - [{{ UNRELEASED_DATE }}]({{ UNRELEASED_LINK }})
 
+## v0.4.0 - [March 5, 2026](https://github.com/tanaabased/theme/releases/tag/v0.4.0)
+
 - Added a configurable `TMSLogo` component with theme-aware colors, full-link support, and refreshed documentation.
 - Added brand principles and headings styleguide pages while reshaping the homepage into section-linked navigation tiles.
 - Introduced Poppins font assets, moved font-face declarations into a dedicated stylesheet, and codified shared typography and color tokens in the theme.
