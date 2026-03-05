@@ -39,11 +39,11 @@
     "build": "VPL_MVB_VERSION=$(git describe --tags --always --abbrev=1 --match=\"v[0-9].*\") bunx vitepress build .",
     "dev": "VPL_BASE_URL=http://localhost:5173 VPL_MVB_VERSION=$(git describe --tags --always --abbrev=1 --match=\"v[0-9].*\") bunx vitepress dev .",
     "lint": "bunx eslint . --ext .cjs --ext .js --ext .mjs --ext .vue",
-    "mvb": "bunx mvb .",
+    "mvb": "bunx mvb --runtime bun .",
     "preview": "bunx vitepress preview ."
   },
   "dependencies": {
-    "@lando/vitepress-theme-default-plus": "^1.1.4",
+    "@lando/vitepress-theme-default-plus": "^1.1.5",
     "colorette": "^2.0.20"
   },
   "devDependencies": {
