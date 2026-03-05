@@ -56,6 +56,12 @@
   --tanaab-font-family-heading: #{vars.$font-family-heading};
   --tanaab-font-family-body: #{vars.$font-family-body};
   --tanaab-font-family-mono: #{vars.$font-family-mono};
+  --tanaab-font-weight-body: #{vars.$font-weight-body};
+  --tanaab-font-weight-heading: #{vars.$font-weight-heading};
+  --tanaab-font-weight-display: #{vars.$font-weight-display};
+  --tanaab-radius-base: #{vars.$radius-base};
+  --tanaab-radius-pill: #{vars.$radius-pill};
+  --tanaab-spacing-base: #{vars.$spacing-base};
 
   --vp-c-pink-1: var(--tanaab-color-primary);
   --vp-c-brand: var(--tanaab-color-primary);
@@ -85,7 +91,7 @@ html,
 body,
 .VPApp {
   font-family: var(--tanaab-font-family-body);
-  font-weight: vars.$font-weight-body;
+  font-weight: var(--tanaab-font-weight-body);
 }
 
 h1,
@@ -93,7 +99,7 @@ h1,
 .VPHomeHero .name,
 .VPHomeHero .text {
   font-family: var(--tanaab-font-family-display);
-  font-weight: vars.$font-weight-display;
+  font-weight: var(--tanaab-font-weight-display);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -110,7 +116,7 @@ h6,
 .vp-doc h6,
 .VPNavBarTitle .title {
   font-family: var(--tanaab-font-family-heading);
-  font-weight: vars.$font-weight-heading;
+  font-weight: var(--tanaab-font-weight-heading);
 }
 
 code,
@@ -121,5 +127,5 @@ samp {
 }
 
 .VPButton {
-  border-radius: vars.$radius-base;
+  border-radius: var(--tanaab-radius-base);
 }

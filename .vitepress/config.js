@@ -1,6 +1,39 @@
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import { default as isDevRelease } from '@lando/vitepress-theme-default-plus/is-dev-release';
+
 import { defineConfig } from '../config.js';
+import { version } from '../package.json';
 
 const baseUrl = 'https://theme.tanaab.dev/';
+
+// get version info
+const semver = process?.env?.VPL_MVB_VERSION ? process.env.VPL_MVB_VERSION : `v${version}`;
+
+const sidebarEnder = {
+  text: semver,
+  collapsed: true,
+  items: [
+    {
+      text: 'Other Doc Versions',
+      items: [
+        { rel: 'mvb', text: 'stable', target: '_blank', link: '/stable/' },
+        { rel: 'mvb', text: 'edge', target: '_blank', link: '/edge/' },
+        { rel: 'mvb', text: '<strong>see all versions</strong>', link: '/' },
+      ],
+    },
+    { text: 'Other Releases', link: 'https://github.com/tanaabased/theme/releases' },
+  ],
+};
+
+// if version is a stable or edge release then add in the release notes
+if (!isDevRelease(semver)) {
+  sidebarEnder.items.splice(1, 0, {
+    text: 'Release Notes',
+    link: `https://github.com/https://github.com/tanaabased/theme/releases/tag/v${semver}`,
+  });
+}
 
 export default defineConfig({
   appearance: {
@@ -48,6 +81,62 @@ export default defineConfig({
     },
   },
   themeConfig: {
+    autometa: {
+      canonicalUrl: baseUrl,
+      image: baseUrl,
+      twitter: '@tanaabased',
+      x: '@tanaabased',
+    },
+    contributors: {
+      merge: 'name',
+      debotify: true,
+      include: [
+        {
+          name: 'Mike Pirog',
+          email: 'mike@tanaab.dev',
+          title: 'Human',
+          org: 'tanaab.dev',
+          orgLink: 'https://www.tanaab.dev',
+          links: [
+            { icon: 'github', link: 'https://github.com/pirog' },
+            { icon: 'x', link: 'https://x.com/pirogcommamike' },
+          ],
+          maintainer: true,
+          mergeOnly: true,
+        },
+      ],
+    },
+    ga: {
+      id: 'G-5FX6Z0BWFR',
+    },
+    editLink: { pattern: 'https://github.com/tanaabased/theme/edit/main/docs/:path' },
+    feed: {
+      patterns: '*/**/*.md',
+    },
+    logo: {
+      light: '/images/tms_mark.svg',
+      dark: '/images/tms_mark_light.svg',
+      alt: 'Tanaab Maneuvering Systems LLC',
+    },
+    multiVersionBuild: {
+      base: '/v/',
+      build: 'edge',
+      cache: true,
+      match: 'v[0-9].*',
+      satisfies: '>=0.2.0',
+    },
+    socialLinks: [
+      {
+        icon: 'github',
+        link: 'https://github.com/tanaabased/theme',
+      },
+      {
+        icon: 'x',
+        link: 'https://x.com/tanaabased',
+      },
+    ],
+
+    siteTitle: false,
     navbar: true,
     nav: [
       { text: 'Styleguide', link: '/styleguide/' },
@@ -55,29 +144,32 @@ export default defineConfig({
       { text: 'Containers', link: '/containers/' },
       { text: 'Usage', link: '/usage/' },
     ],
+    sidebarEnder,
     sidebar: {
       '/styleguide/': [
-        { text: 'Overview', link: '/styleguide/' },
         {
-          text: 'Foundations',
+          text: 'Branding',
           items: [
-            { text: 'Brand Principles', link: '/styleguide/brand-principles' },
-            { text: 'Color System', link: '/styleguide/color-system' },
-            { text: 'Typography', link: '/styleguide/typography' },
-            { text: 'Spacing & Rhythm', link: '/styleguide/spacing-rhythm' },
+            { text: 'Principles', link: '/styleguide/' },
+            { text: 'Colors', link: '/styleguide/colors' },
+            { text: 'Logo', link: '/styleguide/logo' },
           ],
         },
         {
-          text: 'Editorial',
+          text: 'Styles',
           items: [
-            { text: 'Voice & Tone', link: '/styleguide/voice-tone' },
-            { text: 'Content Patterns', link: '/styleguide/content-patterns' },
-            { text: 'Accessibility', link: '/styleguide/accessibility' },
+            { text: 'Typography', link: '/styleguide/typography' },
+            // { text: 'Inputs', link: '/styleguide/content-patterns' },
+            // { text: 'Accessibility', link: '/styleguide/accessibility' },
           ],
         },
       ],
       '/components/': [
         { text: 'Overview', link: '/components/' },
+        {
+          text: 'Branding',
+          items: [{ text: 'TMS Logo', link: '/components/tms-logo' }],
+        },
         {
           text: 'Inputs',
           items: [
@@ -148,15 +240,6 @@ export default defineConfig({
           ],
         },
       ],
-    },
-    autometa: {
-      canonicalUrl: baseUrl,
-      image: baseUrl,
-      twitter: '@tanaabased',
-      x: '@tanaabased',
-    },
-    ga: {
-      id: 'G-5FX6Z0BWFR',
     },
   },
 });

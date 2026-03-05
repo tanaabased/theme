@@ -1,9 +1,9 @@
 ---
-title: Content Patterns
-description: Reusable writing structures for product and marketing pages.
+title: Color System
+description: Palette, semantic color roles, and usage thresholds.
 ---
 
-# Content Patterns
+# Color System
 
 This is a scaffold page for the IA stub. Replace this content with project-specific standards.
 

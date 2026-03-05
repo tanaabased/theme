@@ -9,6 +9,7 @@ Use this section to document composable UI elements with clear states, variants,
 
 ## Included Topics
 
+- TMS Logo
 - Buttons
 - Form Fields
 - Selects & Toggles
