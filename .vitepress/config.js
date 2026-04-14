@@ -45,16 +45,11 @@ const defaultSidebar = [
 
 // if version is a stable or edge release then add in the release notes
 if (!isDevRelease(semver)) {
-  sidebarEnder.items.splice(1, 0, {
-    text: 'Release Notes',
-    link: `https://github.com/https://github.com/tanaabased/theme/releases/tag/v${semver}`,
-  });
+  sidebarEnder.items.splice(1, 0, { text: 'Release Notes', link: `https://github.com/tanaabased/theme/releases/tag/v${semver}` });
 }
 
 export default defineConfig({
-  appearance: {
-    initialValue: 'dark',
-  },
+  appearance: { initialValue: 'dark' },
   lang: 'en-US',
   title: 'Tanaab',
   description: 'A Tanaab based theme and styleguide.',
@@ -79,13 +74,7 @@ export default defineConfig({
     disallowAll: false,
     allowAll: false,
     policy: [],
-    policies: [
-      {
-        userAgent: '*',
-        disallow: ['/v/'],
-        allow: '/',
-      },
-    ],
+    policies: [{ userAgent: '*', disallow: ['/v/'], allow: '/' }],
   },
   sitemap: {
     hostname: baseUrl,
@@ -99,12 +88,7 @@ export default defineConfig({
     },
   },
   themeConfig: {
-    autometa: {
-      canonicalUrl: baseUrl,
-      image: baseUrl,
-      twitter: '@tanaabased',
-      x: '@tanaabased',
-    },
+    autometa: { canonicalUrl: baseUrl, image: baseUrl, twitter: '@tanaabased', x: '@tanaabased' },
     contributors: {
       merge: 'name',
       debotify: true,
@@ -124,34 +108,14 @@ export default defineConfig({
         },
       ],
     },
-    ga: {
-      id: 'G-5FX6Z0BWFR',
-    },
-    editLink: { pattern: 'https://github.com/tanaabased/theme/edit/main/docs/:path' },
-    feed: {
-      patterns: '*/**/*.md',
-    },
-    logo: {
-      light: '/images/tms_mark.svg',
-      dark: '/images/tms_mark_light.svg',
-      alt: 'Tanaab Maneuvering Systems LLC',
-    },
-    multiVersionBuild: {
-      base: '/v/',
-      build: 'edge',
-      cache: true,
-      match: 'v[0-9].*',
-      satisfies: '>=0.2.0',
-    },
+    ga: { id: 'G-5FX6Z0BWFR' },
+    editLink: { pattern: 'https://github.com/tanaabased/theme/edit/main/:path' },
+    feed: { patterns: '*/**/*.md' },
+    logo: { light: '/images/tms_mark.svg', dark: '/images/tms_mark_light.svg', alt: 'Tanaab Maneuvering Systems LLC' },
+    multiVersionBuild: { base: '/v/', build: 'edge', cache: true, match: 'v[0-9].*', satisfies: '>=0.2.0' },
     socialLinks: [
-      {
-        icon: 'github',
-        link: 'https://github.com/tanaabased/theme',
-      },
-      {
-        icon: 'x',
-        link: 'https://x.com/tanaabased',
-      },
+      { icon: 'github', link: 'https://github.com/tanaabased/theme' },
+      { icon: 'x', link: 'https://x.com/tanaabased' },
     ],
 
     siteTitle: false,
@@ -167,12 +131,7 @@ export default defineConfig({
       '/styleguide/': defaultSidebar,
       '/v/': defaultSidebar,
       '/': defaultSidebar,
-      '/components/': [
-        {
-          text: 'Tanaab Based',
-          items: [{ text: 'Logo', link: '/components/tms-logo' }],
-        },
-      ],
+      '/components/': [{ text: 'Tanaab Based', items: [{ text: 'Logo', link: '/components/tms-logo' }] }],
       '/containers/': [
         { text: 'Overview', link: '/containers/' },
         // {

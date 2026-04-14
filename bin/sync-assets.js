@@ -70,7 +70,8 @@ function findSearchRoot(startDir) {
   let reachedFilesystemRoot = false;
 
   while (!reachedFilesystemRoot) {
-    if (existsSync(resolve(current, '.git')) || existsSync(resolve(current, 'package.json'))) return current;
+    if (existsSync(resolve(current, '.git')) || existsSync(resolve(current, 'package.json')))
+      return current;
     const parent = dirname(current);
     reachedFilesystemRoot = parent === current;
     current = parent;
@@ -107,7 +108,10 @@ async function detectDocsRoot(cwd) {
   const searchRoot = findSearchRoot(cwd);
   const docsRoots = await findVitepressDocsRoots(searchRoot);
 
-  if (docsRoots.length === 0) throw new Error('Unable to auto-detect docs root (.vitepress not found). Use --docs-root <path>.');
+  if (docsRoots.length === 0)
+    throw new Error(
+      'Unable to auto-detect docs root (.vitepress not found). Use --docs-root <path>.',
+    );
   if (docsRoots.length > 1) {
     const found = docsRoots.map((docsRoot) => `  - ${docsRoot}`).join('\n');
     throw new Error(`Found multiple .vitepress directories. Use --docs-root <path>.\n${found}`);
@@ -158,7 +162,9 @@ async function main() {
   }
 
   if (cwd === packageRoot || cwd.startsWith(`${packageRoot}${sep}`)) {
-    throw new Error(`Cannot sync assets to ${PACKAGE_NAME} itself. Run this from a consuming theme repo.`);
+    throw new Error(
+      `Cannot sync assets to ${PACKAGE_NAME} itself. Run this from a consuming theme repo.`,
+    );
   }
 
   const sourcePublicDir = resolve(packageRoot, 'public');
@@ -170,7 +176,12 @@ async function main() {
   const destinationPublicDir = resolve(docsRootDir, 'public');
   await copyDirectoryContents(sourcePublicDir, destinationPublicDir);
 
-  log('%s assets synced from %s to %s', green('successfully'), magenta(PACKAGE_NAME), magenta(destinationPublicDir));
+  log(
+    '%s assets synced from %s to %s',
+    green('successfully'),
+    magenta(PACKAGE_NAME),
+    magenta(destinationPublicDir),
+  );
 }
 
 main().catch((error) => {
