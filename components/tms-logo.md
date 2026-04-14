@@ -25,15 +25,10 @@ description: Global logo component for Tanaab properties.
 <TMSLogo type="mark" link="/styleguide/logo" />
 ```
 
-## Source
-
-<pre class="language-vue"><code>{{ tmsLogoSource }}</code></pre>
-
-## Interactive Demo
+## Demo
 
 <script setup>
 import { computed, ref } from 'vue';
-import tmsLogoSource from './TMSLogo.vue?raw';
 
 const type = ref('centered');
 const background = ref('none');
@@ -41,12 +36,44 @@ const useAutoColor = ref(true);
 const color = ref('#ffffff');
 const link = ref('/');
 
-const logoColor = computed(() => (useAutoColor.value ? undefined : color.value));
-const logoBackground = computed(() => (background.value?.trim() ? background.value.trim() : 'none'));
+const resolvedBackground = computed(() => {
+  const value = background.value?.trim();
+  if (!value) return 'none';
+  return value;
+});
+
+const resolvedColor = computed(() => {
+  if (useAutoColor.value) return undefined;
+  const value = color.value?.trim();
+  if (!value) return undefined;
+  return value;
+});
+
+const resolvedLink = computed(() => {
+  const value = link.value?.trim();
+  if (!value) return '/';
+  return value;
+});
+
+function quoteProp(value) {
+  return JSON.stringify(value);
+}
+
+const demoCode = computed(() => {
+  const props = [];
+
+  if (type.value !== 'centered') props.push(`type=${quoteProp(type.value)}`);
+  if (resolvedBackground.value !== 'none') props.push(`background=${quoteProp(resolvedBackground.value)}`);
+  if (resolvedColor.value) props.push(`color=${quoteProp(resolvedColor.value)}`);
+  if (resolvedLink.value !== '/') props.push(`link=${quoteProp(resolvedLink.value)}`);
+
+  if (props.length === 0) return '<TMSLogo />';
+  return `<TMSLogo\n  ${props.join('\n  ')}\n/>`;
+});
 </script>
 
-<div class="tms-logo-demo">
-  <div class="tms-logo-controls">
+<TMSComponentDocDemo :code="demoCode">
+  <template #controls>
     <label>
       <span>Type</span>
       <select v-model="type">
@@ -75,55 +102,15 @@ const logoBackground = computed(() => (background.value?.trim() ? background.val
       <span>Link</span>
       <input v-model="link" type="text" placeholder="/, /styleguide/logo, https://..." />
     </label>
-  </div>
+  </template>
+  <template #preview>
+    <TMSLogo
+      :type="type"
+      :background="resolvedBackground"
+      :color="resolvedColor"
+      :link="resolvedLink"
+    />
+  </template>
+</TMSComponentDocDemo>
 
-  <div class="tms-logo-preview">
-    <TMSLogo :type="type" :background="logoBackground" :color="logoColor" :link="link" />
-  </div>
-</div>
-
-<style scoped>
-.tms-logo-demo {
-  display: grid;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.tms-logo-controls {
-  display: grid;
-  gap: 0.75rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-.tms-logo-controls label {
-  display: grid;
-  gap: 0.35rem;
-  font-size: 0.875rem;
-}
-
-.tms-logo-controls span {
-  font-weight: 600;
-}
-
-.tms-logo-controls input,
-.tms-logo-controls select {
-  width: 100%;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  background: var(--vp-c-bg-soft);
-  color: var(--vp-c-text-1);
-  padding: 0.5rem 0.625rem;
-}
-
-.tms-logo-preview {
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
-  background: var(--vp-c-bg-soft);
-  padding: 1rem;
-}
-
-.tms-logo-preview :deep(.tms-logo) {
-  display: block;
-  max-width: 560px;
-}
-</style>
+<p><small>source: <a href="https://github.com/tanaabased/theme/blob/main/components/TMSLogo.vue">https://github.com/tanaabased/theme/blob/main/components/TMSLogo.vue</a></small></p>
