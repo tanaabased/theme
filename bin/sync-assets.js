@@ -17,8 +17,9 @@ const log = (message = '', ...args) => {
 };
 
 function printUsage(defaultDocsRoot) {
+  const cliName = process.argv[1] ? process.argv[1].split('/').pop() : 'sync-assets';
   log(`
-Usage: ${dim(`[${DOCS_ROOT_ENV_VAR}=<path>]`)} ${bold(`${process.argv[1] ? process.argv[1].split('/').pop() : 'sync-assets'} [--docs-root <path>] [--help]`)}
+Usage: ${bold(cliName)} ${dim(`[${DOCS_ROOT_ENV_VAR}=<path>] [--docs-root <path>] [--help]`)}
 
 Copies ${PACKAGE_NAME} public assets into <docs-root>/public.
 
