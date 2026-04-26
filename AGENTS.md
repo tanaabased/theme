@@ -28,6 +28,15 @@
 - Interactive demos in markdown should still follow the reusable-first rule. Use page-local demo code only when it is tightly scoped to that page and not establishing a broader pattern.
 - Existing markdown pages that already contain local styles or scripts are legacy context, not the preferred pattern for new work.
 
+## Development Site and Browser Review
+
+- When working on theme, component, markdown, layout, or shared style changes, inspect the rendered VitePress site when the change has visual or interaction impact.
+- If no suitable dev server is already running, launch the site from the repo root with `bun run dev`.
+- Use the URL printed by VitePress for browser inspection; expect `http://localhost:5173/` unless the dev server reports a different port.
+- Use `browser-use:browser` with the Codex in-app browser for local site inspection. Do not substitute generic Playwright, Computer Use, or macOS browser launching when the Browser plugin is available.
+- After code or content changes, reload the relevant page before judging the rendered result.
+- Browser review complements `bun run lint` and `bun run build`; it does not replace the required validation commands.
+
 ## Validation
 
 - Validate repo changes with `bun run lint` and `bun run build`.
