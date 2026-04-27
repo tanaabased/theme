@@ -30,15 +30,19 @@ const defaultSidebar = [
     items: [
       { text: 'Principles', link: '/styleguide/principles' },
       { text: 'Colors', link: '/styleguide/colors' },
-      { text: 'Logo', link: '/styleguide/logo' },
+      { text: 'Logos', link: '/styleguide/logo' },
+      { text: 'Typefaces', link: '/styleguide/typefaces' },
     ],
   },
   {
-    text: 'Typography',
+    text: 'Elements',
     items: [
-      { text: 'Headings', link: '/styleguide/headings' },
-      // { text: 'Inputs', link: '/styleguide/content-patterns' },
-      // { text: 'Accessibility', link: '/styleguide/accessibility' },
+      { text: 'Text', link: '/styleguide/text' },
+      { text: 'Content Blocks', link: '/styleguide/content-blocks' },
+      { text: 'Forms', link: '/styleguide/forms' },
+      { text: 'Buttons', link: '/styleguide/buttons' },
+      { text: 'Tables', link: '/styleguide/tables' },
+      { text: 'Media', link: '/styleguide/media' },
     ],
   },
 ];

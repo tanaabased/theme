@@ -9,10 +9,13 @@ Use this section for foundational rules that all Tanaab sites should follow befo
 
 ## Included Topics
 
-- Brand Principles
-- Color System
-- Typography
-- Spacing & Rhythm
-- Voice & Tone
-- Content Patterns
-- Accessibility
+- Principles
+- Colors
+- Logos
+- Typefaces
+- Text
+- Content Blocks
+- Forms
+- Buttons
+- Tables
+- Media
