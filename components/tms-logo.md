@@ -129,5 +129,3 @@ const demoCode = computed(() => {
     />
   </template>
 </TMSComponentDocDemo>
-
-<p><small>source: <a href="https://github.com/tanaabased/theme/blob/main/components/TMSLogo.vue">https://github.com/tanaabased/theme/blob/main/components/TMSLogo.vue</a></small></p>

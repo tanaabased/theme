@@ -44,6 +44,7 @@
 - Use the URL printed by VitePress for browser inspection; expect `http://localhost:5173/` unless the dev server reports a different port.
 - Use `browser-use:browser` with the Codex in-app browser for local site inspection. Do not substitute generic Playwright, Computer Use, or macOS browser launching when the Browser plugin is available.
 - After code or content changes, reload the relevant page before judging the rendered result.
+- If the VitePress page shows a white screen of death or the dev server process is listening but not serving the app correctly, kill the stale dev server and restart it before debugging the page code.
 - Browser review complements `bun run lint` and `bun run build`; it does not replace the required validation commands.
 
 ## Validation

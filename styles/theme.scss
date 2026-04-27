@@ -215,6 +215,8 @@ samp {
     select
   ) {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   box-sizing: border-box;
   margin: 0;
   padding: 1rem 1.25rem;
@@ -226,6 +228,22 @@ samp {
   font-size: 1rem;
   font-weight: var(--tanaab-font-weight-heading);
   line-height: 1.4;
+  transition: border-color 0.2s ease;
+}
+
+.vp-doc
+  :where(
+    input:not([type]),
+    input[type='text'],
+    input[type='email'],
+    input[type='url'],
+    input[type='search'],
+    input[type='tel'],
+    input[type='password'],
+    textarea,
+    select
+  ):hover {
+  border-color: var(--tanaab-form-control-focus-border);
 }
 
 .vp-doc
@@ -253,7 +271,61 @@ samp {
 
 .vp-doc textarea {
   min-height: 14rem;
+  overflow-wrap: anywhere;
   resize: vertical;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.vp-doc input[type='checkbox'] {
+  appearance: none;
+  position: relative;
+  width: 3.5rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  margin: 0;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-color: var(--tanaab-form-control-bg);
+  color: var(--tanaab-form-control-text);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.vp-doc input[type='checkbox']::before {
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  background-color: var(--vp-c-text-2);
+  box-shadow: var(--vp-shadow-1);
+  content: '';
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.vp-doc input[type='checkbox']:checked {
+  background-color: var(--tanaab-color-primary);
+}
+
+.vp-doc input[type='checkbox']:checked::before {
+  background-color: var(--vp-c-bg);
+  transform: translateX(1.75rem);
+}
+
+.vp-doc input[type='checkbox']:hover,
+.vp-doc input[type='checkbox']:focus-visible {
+  border-color: var(--tanaab-form-control-focus-border);
+}
+
+.vp-doc input[type='checkbox']:focus-visible {
+  outline: none;
 }
 
 .vp-doc select {

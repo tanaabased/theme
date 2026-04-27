@@ -33,6 +33,13 @@ Native form controls inherit the Tanaab control treatment inside docs content. U
   </select>
 </label>
 
+## Toggle
+
+<label>
+  <input type="checkbox" />
+  <span>Enable section border</span>
+</label>
+
 ## Focus
 
 Keyboard focus uses a square brand-colored border. Do not remove the focus state when adding page-specific form markup.

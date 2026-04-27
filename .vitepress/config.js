@@ -117,6 +117,7 @@ export default defineConfig({
     feed: { patterns: '*/**/*.md' },
     logo: { light: '/images/tms_mark.svg', dark: '/images/tms_mark_light.svg', alt: 'Tanaab Maneuvering Systems LLC' },
     multiVersionBuild: { base: '/v/', build: 'edge', cache: true, match: 'v[0-9].*', satisfies: '>=0.2.0' },
+    repository: 'https://github.com/tanaabased/theme',
     socialLinks: [
       { icon: 'github', link: 'https://github.com/tanaabased/theme' },
       { icon: 'x', link: 'https://x.com/tanaabased' },
