@@ -73,6 +73,9 @@ const demoCode = computed(() => {
 </script>
 
 <TMSComponentDocDemo :code="demoCode">
+  <template #controls-description>
+    Adjust the controls to update both the live preview and the code sample.
+  </template>
   <template #controls>
     <label>
       <span>Type</span>

@@ -3,7 +3,9 @@
     <div class="tms-component-doc-demo__group">
       <h3 class="tms-component-doc-demo__title">Controls</h3>
       <p class="tms-component-doc-demo__description">
-        {{ props.controlsDescription }}
+        <slot name="controls-description">
+          Adjust the controls to update both the live preview and the code sample.
+        </slot>
       </p>
       <div class="tms-component-doc-demo__controls">
         <slot name="controls" />
@@ -26,38 +28,62 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import { codeToHtml } from 'shiki';
 
 const props = defineProps({
-  controlsDescription: {
-    type: String,
-    default: 'Adjust the component props to update both the live preview and the code below.',
-  },
   code: {
     type: String,
     default: '',
   },
-  language: {
-    type: String,
-    default: 'vue',
-  },
 });
+
+const shikiThemes = {
+  light: 'github-light',
+  dark: 'github-dark',
+};
+
+let highlighterPromise;
+let renderSequence = 0;
+
+function getHighlighter() {
+  highlighterPromise ??= Promise.all([
+    import('shiki/core'),
+    import('shiki/engine/javascript'),
+    import('shiki/langs/vue.mjs'),
+    import('shiki/themes/github-light.mjs'),
+    import('shiki/themes/github-dark.mjs'),
+  ]).then(
+    ([
+      { createHighlighterCore },
+      { createJavaScriptRegexEngine },
+      vue,
+      githubLight,
+      githubDark,
+    ]) => {
+      return createHighlighterCore({
+        themes: [githubLight.default, githubDark.default],
+        langs: [vue.default],
+        engine: createJavaScriptRegexEngine(),
+      });
+    },
+  );
+
+  return highlighterPromise;
+}
 
 function escapeHtml(value) {
   return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 }
 
 function renderPlainCodeBlock(code) {
-  return `<div class="language-${props.language} vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">${props.language}</span><pre class="vp-code"><code>${escapeHtml(code)}</code></pre></div>`;
+  return `<div class="language-vue vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">vue</span><pre class="vp-code"><code>${escapeHtml(code)}</code></pre></div>`;
 }
 
 async function renderCodeBlock(code) {
-  const highlighted = await codeToHtml(code, {
-    lang: props.language,
-    themes: {
-      light: 'github-light',
-      dark: 'github-dark',
-    },
+  const highlighter = await getHighlighter();
+
+  const highlighted = highlighter.codeToHtml(code, {
+    lang: 'vue',
+    themes: shikiThemes,
     defaultColor: false,
   });
 
@@ -66,7 +92,7 @@ async function renderCodeBlock(code) {
     '<pre class="shiki shiki-themes github-light github-dark vp-code"',
   );
 
-  return `<div class="language-${props.language} vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">${props.language}</span>${pre}</div>`;
+  return `<div class="language-vue vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">vue</span>${pre}</div>`;
 }
 
 const renderedCodeBlock = ref(props.code ? renderPlainCodeBlock(props.code) : '');
@@ -74,13 +100,19 @@ const renderedCodeBlock = ref(props.code ? renderPlainCodeBlock(props.code) : ''
 watch(
   () => props.code,
   async (value) => {
+    const sequence = ++renderSequence;
+
     if (!value) {
       renderedCodeBlock.value = '';
       return;
     }
 
     renderedCodeBlock.value = renderPlainCodeBlock(value);
-    renderedCodeBlock.value = await renderCodeBlock(value);
+    const highlighted = await renderCodeBlock(value);
+
+    if (sequence === renderSequence) {
+      renderedCodeBlock.value = highlighted;
+    }
   },
   { immediate: true },
 );
@@ -142,10 +174,5 @@ watch(
   color: var(--vp-c-text-1);
   padding: 0.5rem 0.625rem;
   font: inherit;
-}
-
-.tms-component-doc-demo__preview :deep(.tms-logo) {
-  display: block;
-  max-width: 100%;
 }
 </style>

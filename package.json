@@ -48,7 +48,8 @@
   },
   "dependencies": {
     "@lando/vitepress-theme-default-plus": "^1.1.5",
-    "colorette": "^2.0.20"
+    "colorette": "^2.0.20",
+    "shiki": "^2.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^8.57.1",
