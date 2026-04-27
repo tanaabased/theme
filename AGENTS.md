@@ -28,6 +28,15 @@
 - Interactive demos in markdown should still follow the reusable-first rule. Use page-local demo code only when it is tightly scoped to that page and not establishing a broader pattern.
 - Existing markdown pages that already contain local styles or scripts are legacy context, not the preferred pattern for new work.
 
+## Form Controls
+
+- Every `input`, `textarea`, and `select` must have a real label in markup.
+- When the visual design calls for placeholder-style prompts, use `.tms-visually-hidden` on the label text and keep the prompt in the control.
+- Keep placeholders concise: use the field purpose, such as `Link URL`, not examples or instructions.
+- Put examples and constraints in surrounding docs or help text instead of placeholder text.
+- Do not use `placeholder` as the only accessible label.
+- For native selects that need a placeholder-style prompt and a default backing value, use a blank placeholder option and resolve the actual default in code.
+
 ## Development Site and Browser Review
 
 - When working on theme, component, markdown, layout, or shared style changes, inspect the rendered VitePress site when the change has visual or interaction impact.

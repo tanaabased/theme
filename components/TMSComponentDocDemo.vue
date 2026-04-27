@@ -1,7 +1,7 @@
 <template>
   <div class="tms-component-doc-demo">
     <div class="tms-component-doc-demo__group">
-      <h3 class="tms-component-doc-demo__title">Controls</h3>
+      <h3 class="tms-component-doc-demo__title tms-visually-hidden">Controls</h3>
       <p class="tms-component-doc-demo__description">
         <slot name="controls-description">
           Adjust the controls to update both the live preview and the code sample.
@@ -121,13 +121,13 @@ watch(
 <style scoped lang="scss">
 .tms-component-doc-demo {
   display: grid;
-  gap: 1rem;
+  gap: 2rem;
   margin-top: 1rem;
 }
 
 .tms-component-doc-demo__group {
   display: grid;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .tms-component-doc-demo__title {
@@ -136,43 +136,21 @@ watch(
 
 .tms-component-doc-demo__description {
   margin: 0;
-  color: var(--vp-c-text-2);
-  font-size: 0.9375rem;
 }
 
 .tms-component-doc-demo__controls {
   display: grid;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .tms-component-doc-demo__preview {
   display: flex;
   align-items: center;
   min-height: 180px;
-  padding: 1rem;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
-  background: var(--vp-c-bg-soft);
 }
 
 .tms-component-doc-demo__controls :deep(label) {
   display: grid;
   gap: 0.35rem;
-  font-size: 0.875rem;
-}
-
-.tms-component-doc-demo__controls :deep(span) {
-  font-weight: 600;
-}
-
-.tms-component-doc-demo__controls :deep(input),
-.tms-component-doc-demo__controls :deep(select) {
-  width: 100%;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  background: var(--vp-c-bg);
-  color: var(--vp-c-text-1);
-  padding: 0.5rem 0.625rem;
-  font: inherit;
 }
 </style>

@@ -29,24 +29,36 @@ description: Global logo component for Tanaab properties.
 
 <script setup>
 import { computed, ref } from 'vue';
+import { useData } from 'vitepress';
 
-const type = ref('centered');
-const background = ref('none');
-const useAutoColor = ref(true);
-const color = ref('#ffffff');
-const link = ref('/');
+const { isDark } = useData();
+
+const type = ref('');
+const colorMode = ref('');
+const foregroundColor = ref('');
+const backgroundColor = ref('');
+const link = ref('');
+
+const resolvedType = computed(() => type.value || 'centered');
+
+const resolvedUseAutoColor = computed(() => {
+  if (colorMode.value === '') return true;
+  return colorMode.value;
+});
+
+const defaultForegroundColor = computed(() => (isDark.value ? '#ffffff' : '#000000'));
 
 const resolvedBackground = computed(() => {
-  const value = background.value?.trim();
+  if (resolvedUseAutoColor.value) return 'none';
+  const value = backgroundColor.value?.trim();
   if (!value) return 'none';
   return value;
 });
 
 const resolvedColor = computed(() => {
-  if (useAutoColor.value) return undefined;
-  const value = color.value?.trim();
-  if (!value) return undefined;
-  return value;
+  if (resolvedUseAutoColor.value) return undefined;
+  const value = foregroundColor.value?.trim();
+  return value || defaultForegroundColor.value;
 });
 
 const resolvedLink = computed(() => {
@@ -62,7 +74,7 @@ function quoteProp(value) {
 const demoCode = computed(() => {
   const props = [];
 
-  if (type.value !== 'centered') props.push(`type=${quoteProp(type.value)}`);
+  if (resolvedType.value !== 'centered') props.push(`type=${quoteProp(resolvedType.value)}`);
   if (resolvedBackground.value !== 'none') props.push(`background=${quoteProp(resolvedBackground.value)}`);
   if (resolvedColor.value) props.push(`color=${quoteProp(resolvedColor.value)}`);
   if (resolvedLink.value !== '/') props.push(`link=${quoteProp(resolvedLink.value)}`);
@@ -78,8 +90,9 @@ const demoCode = computed(() => {
   </template>
   <template #controls>
     <label>
-      <span>Type</span>
+      <span class="tms-visually-hidden">Type</span>
       <select v-model="type">
+        <option value="">Type</option>
         <option value="left">left</option>
         <option value="right">right</option>
         <option value="centered">centered</option>
@@ -87,28 +100,29 @@ const demoCode = computed(() => {
       </select>
     </label>
     <label>
-      <span>Background</span>
-      <input v-model="background" type="text" placeholder="none, #111, transparent..." />
-    </label>
-    <label>
-      <span>Color mode</span>
-      <select v-model="useAutoColor">
+      <span class="tms-visually-hidden">Color mode</span>
+      <select v-model="colorMode">
+        <option value="">Color mode</option>
         <option :value="true">auto (theme-aware default)</option>
-        <option :value="false">custom color</option>
+        <option :value="false">custom colors</option>
       </select>
     </label>
-    <label v-if="!useAutoColor">
-      <span>Color</span>
-      <input v-model="color" type="text" placeholder="#ffffff, rgb(...), var(--...)" />
+    <label v-if="!resolvedUseAutoColor">
+      <span class="tms-visually-hidden">Foreground color</span>
+      <input v-model="foregroundColor" type="text" placeholder="Foreground color hex" />
+    </label>
+    <label v-if="!resolvedUseAutoColor">
+      <span class="tms-visually-hidden">Background color</span>
+      <input v-model="backgroundColor" type="text" placeholder="Background color hex" />
     </label>
     <label>
-      <span>Link</span>
-      <input v-model="link" type="text" placeholder="/, /styleguide/logo, https://..." />
+      <span class="tms-visually-hidden">Link</span>
+      <input v-model="link" type="text" placeholder="Link URL" />
     </label>
   </template>
   <template #preview>
     <TMSLogo
-      :type="type"
+      :type="resolvedType"
       :background="resolvedBackground"
       :color="resolvedColor"
       :link="resolvedLink"

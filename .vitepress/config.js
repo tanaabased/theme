@@ -135,7 +135,15 @@ export default defineConfig({
       '/styleguide/': defaultSidebar,
       '/v/': defaultSidebar,
       '/': defaultSidebar,
-      '/components/': [{ text: 'Tanaab Based', items: [{ text: 'Logo', link: '/components/tms-logo' }] }],
+      '/components/': [
+        {
+          text: 'Tanaab Based',
+          items: [
+            { text: 'Logo', link: '/components/tms-logo' },
+            { text: 'Section', link: '/components/tms-section' },
+          ],
+        },
+      ],
       '/containers/': [
         { text: 'Overview', link: '/containers/' },
         // {
