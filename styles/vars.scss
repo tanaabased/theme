@@ -25,6 +25,7 @@ $font-size-root: 16px !default;
 $font-size-body: 1rem !default;
 $font-size-body-sm: 0.875rem !default;
 $font-size-body-lg: 1.125rem !default;
+$font-size-body-xl: 1.3rem !default;
 $font-size-code: 0.875rem !default;
 
 $font-size-heading-1-mobile: 2.5rem !default;
@@ -47,6 +48,7 @@ $line-height-heading-6: 1.4 !default;
 
 $letter-spacing-body: 0 !default;
 $letter-spacing-mono: 0 !default;
+$letter-spacing-section: -0.07rem !default;
 $letter-spacing-display: 0.07em !default;
 $letter-spacing-heading-1: 0.075em !default;
 $letter-spacing-heading-2: 0.01em !default;
@@ -59,6 +61,14 @@ $text-transform-display: uppercase !default;
 $measure-body: 72ch !default;
 
 // Common sizing tokens
-$radius-base: 8px !default;
+$radius-base: 0 !default;
 $radius-pill: 999px !default;
 $spacing-base: 1rem !default;
+
+// VitePress-aligned breakpoints
+$breakpoint-xs: 420px !default;
+$breakpoint-sm: 640px !default;
+$breakpoint-md: 768px !default;
+$breakpoint-lg: 960px !default;
+$breakpoint-xl: 1280px !default;
+$breakpoint-lg-max: 959px !default;

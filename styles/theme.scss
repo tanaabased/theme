@@ -22,6 +22,7 @@
   --tanaab-font-size-body: #{vars.$font-size-body};
   --tanaab-font-size-body-sm: #{vars.$font-size-body-sm};
   --tanaab-font-size-body-lg: #{vars.$font-size-body-lg};
+  --tanaab-font-size-body-xl: #{vars.$font-size-body-xl};
   --tanaab-font-size-code: #{vars.$font-size-code};
   --tanaab-font-size-h1-mobile: #{vars.$font-size-heading-1-mobile};
   --tanaab-font-size-h1: #{vars.$font-size-heading-1};
@@ -42,6 +43,7 @@
   --tanaab-letter-spacing-body: #{vars.$letter-spacing-body};
   --tanaab-letter-spacing-mono: #{vars.$letter-spacing-mono};
   --tanaab-letter-spacing-display: #{vars.$letter-spacing-display};
+  --tanaab-letter-spacing-section: #{vars.$letter-spacing-section};
   --tanaab-letter-spacing-h1: #{vars.$letter-spacing-heading-1};
   --tanaab-letter-spacing-h2: #{vars.$letter-spacing-heading-2};
   --tanaab-letter-spacing-h3: #{vars.$letter-spacing-heading-3};
@@ -53,6 +55,7 @@
   --tanaab-radius-base: #{vars.$radius-base};
   --tanaab-radius-pill: #{vars.$radius-pill};
   --tanaab-spacing-base: #{vars.$spacing-base};
+  --tanaab-link-hover-color: var(--tanaab-color-secondary);
 
   --vp-c-pink-1: var(--tanaab-color-primary);
   --vp-c-brand: var(--tanaab-color-primary);
@@ -67,6 +70,8 @@
   --vp-font-family-mono: var(--tanaab-font-family-mono);
   --vp-code-line-height: var(--tanaab-line-height-code);
   --vp-code-font-size: var(--tanaab-font-size-code);
+  --vp-code-link-hover-color: var(--tanaab-link-hover-color);
+  --vpl-c-border-radius: var(--tanaab-radius-base);
 
   --tanaab-form-control-bg: var(--vp-c-bg-soft);
   --tanaab-form-control-text: var(--vp-c-text-1);
@@ -347,6 +352,34 @@ samp {
 
 .vp-doc select option {
   color: var(--tanaab-form-control-text);
+}
+
+/* VitePress Chrome -------------------------------------------------------- */
+.vp-doc a:hover {
+  color: var(--tanaab-link-hover-color);
+}
+
+.vp-doc a:hover > code {
+  color: var(--tanaab-link-hover-color);
+}
+
+.vp-doc :not(pre) > code,
+.vp-doc .custom-block,
+.vp-doc div[class*='language-'],
+.vp-doc li div[class*='language-'],
+.vp-doc .custom-block div[class*='language-'],
+.vp-doc .vp-code-group .tabs,
+.vp-doc .custom-block .vp-code-group .tabs,
+.vp-code-group .tabs label::after,
+.VPDocFooter .pager-link {
+  border-radius: var(--tanaab-radius-base);
+}
+
+.vp-doc [class*='language-'] > button.copy,
+.vp-doc [class*='language-'] > button.copy.copied,
+.vp-doc [class*='language-'] > button.copy.copied::before,
+.vp-doc [class*='language-'] > button.copy:hover.copied {
+  border-radius: var(--tanaab-radius-base);
 }
 
 /* Layout Regions ---------------------------------------------------------- */

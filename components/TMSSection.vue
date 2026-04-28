@@ -33,6 +33,8 @@ const props = defineProps({
 </script>
 
 <style scoped lang="scss">
+@use '../styles/vars' as vars;
+
 .tms-section {
   display: grid;
   grid-template-areas: 'title content';
@@ -61,18 +63,35 @@ const props = defineProps({
   min-width: 0;
   color: var(--vp-c-text-1);
   font-family: var(--tanaab-font-family-heading);
-  font-size: var(--tanaab-font-size-h3);
+  font-size: var(--tanaab-font-size-h4);
   font-weight: var(--tanaab-font-weight-heading);
-  line-height: var(--tanaab-line-height-h3);
+  line-height: var(--tanaab-line-height-h4);
+  letter-spacing: var(--tanaab-letter-spacing-section);
 }
 
-.tms-section[data-orientation='right'] .tms-section__title {
-  text-align: right;
+.tms-section__title :deep(:is(h1, h2, h3, h4, h5)) {
+  font-size: var(--tanaab-font-size-h4);
+  line-height: var(--tanaab-line-height-h4);
+  letter-spacing: var(--tanaab-letter-spacing-section);
+  margin: 0;
+  border: 0;
+  padding: 0;
+  text-transform: none;
 }
 
 .tms-section__content {
   grid-area: content;
   min-width: 0;
+  color: var(--vp-c-text-1);
+  font-size: var(--tanaab-font-size-body-xl);
+  letter-spacing: var(--tanaab-letter-spacing-section);
+  line-height: var(--tanaab-line-height-h4);
+}
+
+.tms-section__content :deep(:is(p, summary)) {
+  font-size: var(--tanaab-font-size-body-xl);
+  letter-spacing: var(--tanaab-letter-spacing-section);
+  line-height: var(--tanaab-line-height-h4);
 }
 
 .tms-section__content :deep(> :first-child),
@@ -81,7 +100,11 @@ const props = defineProps({
   margin-top: 0;
 }
 
-@media (max-width: 767px) {
+.tms-section[data-orientation='right'] .tms-section__title {
+  text-align: right;
+}
+
+@media (max-width: vars.$breakpoint-lg-max) {
   .tms-section,
   .tms-section[data-orientation='right'] {
     grid-template-areas:
@@ -90,6 +113,10 @@ const props = defineProps({
     grid-template-columns: 1fr;
     gap: 1.25rem;
     padding-block: 2rem;
+  }
+
+  .tms-section[data-orientation='right'] .tms-section__title {
+    text-align: start;
   }
 }
 </style>

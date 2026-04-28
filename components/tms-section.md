@@ -9,11 +9,13 @@ description: Two-column section component for pairing a narrow title rail with m
 
 ## Props
 
-| Prop           | Type                | Default  | Notes                                             |
-| -------------- | ------------------- | -------- | ------------------------------------------------- |
-| `borderBottom` | `boolean`           | `false`  | Adds a bottom divider when enabled.               |
-| `borderTop`    | `boolean`           | `false`  | Adds a top divider when enabled.                  |
-| `orientation`  | `'left' \| 'right'` | `'left'` | Controls whether the title renders left or right. |
+| Prop           | Type                | Default  | Notes                                                     |
+| -------------- | ------------------- | -------- | --------------------------------------------------------- |
+| `borderBottom` | `boolean`           | `false`  | Adds a bottom divider when enabled.                       |
+| `borderTop`    | `boolean`           | `false`  | Adds a top divider when enabled.                          |
+| `orientation`  | `'left' \| 'right'` | `'left'` | Controls which side the title rail uses on wider layouts. |
+
+On stacked layouts, the title always renders above the content and aligns to the start.
 
 ## Slots
 
@@ -58,10 +60,9 @@ const borderBottom = ref(false);
 const titleSlot = ref('');
 const defaultContents = ref('');
 
-const fallbackTitleSlot = 'What we do.';
+const fallbackTitleSlot = 'A Tanaab-based title.';
 const fallbackDefaultContents = `<p>
-  We offer <a href="/styleguide/principles">strategy</a>, <a href="/styleguide/colors">design</a>,
-  and <a href="/components/">development</a> services across industries.
+  With some Tanaab-based content that includes a Tanaab-based <a href="/styleguide/principles">link</a>. And other <strong>strong</strong>, <small>small</small> and <em>italic</em> words.
 </p>`;
 
 const resolvedOrientation = computed(() => orientation.value || 'left');

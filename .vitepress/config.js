@@ -113,7 +113,7 @@ export default defineConfig({
       ],
     },
     ga: { id: 'G-5FX6Z0BWFR' },
-    editLink: { pattern: 'https://github.com/tanaabased/theme/edit/main/:path' },
+    editLink: false,
     feed: { patterns: '*/**/*.md' },
     logo: { light: '/images/tms_mark.svg', dark: '/images/tms_mark_light.svg', alt: 'Tanaab Maneuvering Systems LLC' },
     multiVersionBuild: { base: '/v/', build: 'edge', cache: true, match: 'v[0-9].*', satisfies: '>=0.2.0' },

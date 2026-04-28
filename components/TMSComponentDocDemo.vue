@@ -22,9 +22,6 @@
     <div v-if="props.code" class="tms-component-doc-demo__group">
       <h3 class="tms-component-doc-demo__title">Code</h3>
       <div class="tms-component-doc-demo__code" v-html="renderedCodeBlock"></div>
-      <small v-if="resolvedSourceHref" class="tms-component-doc-demo__source">
-        <a :href="resolvedSourceHref" target="_blank" rel="noreferrer">source file</a>
-      </small>
     </div>
   </div>
 </template>
@@ -84,8 +81,20 @@ function escapeHtml(value) {
   return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 }
 
-function renderPlainCodeBlock(code) {
-  return `<div class="language-vue vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">vue</span><pre class="vp-code"><code>${escapeHtml(code)}</code></pre></div>`;
+function escapeAttribute(value) {
+  return escapeHtml(value).replaceAll('"', '&quot;').replaceAll("'", '&#39;');
+}
+
+function renderSourceLink(sourceHref) {
+  if (!sourceHref) {
+    return '';
+  }
+
+  return `<a class="tms-component-doc-demo__source" href="${escapeAttribute(sourceHref)}" target="_blank" rel="noreferrer">source</a>`;
+}
+
+function renderPlainCodeBlock(code, sourceHref) {
+  return `<div class="language-vue vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">vue</span><pre class="vp-code"><code>${escapeHtml(code)}</code></pre>${renderSourceLink(sourceHref)}</div>`;
 }
 
 function isAbsoluteUrl(value) {
@@ -135,7 +144,7 @@ function resolveSourcePath() {
   return inferSourcePath(page.value.relativePath);
 }
 
-async function renderCodeBlock(code) {
+async function renderCodeBlock(code, sourceHref) {
   const highlighter = await getHighlighter();
 
   const highlighted = highlighter.codeToHtml(code, {
@@ -149,10 +158,8 @@ async function renderCodeBlock(code) {
     '<pre class="shiki shiki-themes github-light github-dark vp-code"',
   );
 
-  return `<div class="language-vue vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">vue</span>${pre}</div>`;
+  return `<div class="language-vue vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">vue</span>${pre}${renderSourceLink(sourceHref)}</div>`;
 }
-
-const renderedCodeBlock = ref(props.code ? renderPlainCodeBlock(props.code) : '');
 
 const resolvedSourceHref = computed(() => {
   const sourcePath = resolveSourcePath();
@@ -174,9 +181,11 @@ const resolvedSourceHref = computed(() => {
   return `${repository}/blob/main/${sourcePath.replace(/^\/+/, '')}`;
 });
 
+const renderedCodeBlock = ref('');
+
 watch(
-  () => props.code,
-  async (value) => {
+  [() => props.code, resolvedSourceHref],
+  async ([value, sourceHref]) => {
     const sequence = ++renderSequence;
 
     if (!value) {
@@ -184,8 +193,8 @@ watch(
       return;
     }
 
-    renderedCodeBlock.value = renderPlainCodeBlock(value);
-    const highlighted = await renderCodeBlock(value);
+    renderedCodeBlock.value = renderPlainCodeBlock(value, sourceHref);
+    const highlighted = await renderCodeBlock(value, sourceHref);
 
     if (sequence === renderSequence) {
       renderedCodeBlock.value = highlighted;
@@ -235,34 +244,48 @@ watch(
   max-width: 100%;
 }
 
-.tms-component-doc-demo__code :deep(.language-vue),
-.tms-component-doc-demo__code :deep(.vp-code),
-.tms-component-doc-demo__code :deep(code) {
+.tms-component-doc-demo__code :deep(.language-vue) {
+  position: relative;
+  width: 100%;
   min-width: 0;
   max-width: 100%;
+  min-height: 75px;
+  margin-inline: 0;
+  overflow-x: hidden;
 }
 
-.tms-component-doc-demo__code :deep(.vp-code),
-.tms-component-doc-demo__code :deep(code),
-.tms-component-doc-demo__code :deep(.line) {
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
-  word-break: break-word;
+.tms-component-doc-demo__code :deep(.vp-code) {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre;
 }
 
-.tms-component-doc-demo__source {
+.tms-component-doc-demo__code :deep(.vp-code code),
+.tms-component-doc-demo__code :deep(.vp-code .line) {
+  white-space: inherit;
+}
+
+.tms-component-doc-demo__code :deep(.tms-component-doc-demo__source) {
+  position: absolute;
   display: block;
-  margin-top: -0.75rem;
-  color: var(--vp-c-text-2);
-  font-size: var(--tanaab-font-size-body-sm);
+  width: max-content;
+  bottom: 2px;
+  right: 8px;
+  z-index: 2;
+  color: var(--vp-code-lang-color);
+  font-size: 12px;
+  font-weight: 500;
   line-height: var(--tanaab-line-height-body);
+  text-decoration: none;
+  transition:
+    color 0.25s,
+    opacity 0.25s;
+  user-select: none;
 }
 
-.tms-component-doc-demo__source a {
-  color: inherit;
-}
-
-.tms-component-doc-demo__source a:hover {
+.tms-component-doc-demo__code :deep(.tms-component-doc-demo__source:hover),
+.tms-component-doc-demo__code :deep(.tms-component-doc-demo__source:focus-visible) {
   color: var(--vp-c-brand-1);
 }
 
