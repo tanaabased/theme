@@ -4,8 +4,9 @@
     :data-border-bottom="props.borderBottom"
     :data-border-top="props.borderTop"
     :data-orientation="props.orientation"
+    :aria-labelledby="titleId"
   >
-    <div class="tms-section__title">
+    <div :id="titleId" class="tms-section__title">
       <slot name="title" />
     </div>
     <div class="tms-section__content">
@@ -15,6 +16,8 @@
 </template>
 
 <script setup>
+import { useId } from 'vue';
+
 const props = defineProps({
   borderBottom: {
     type: Boolean,
@@ -30,6 +33,8 @@ const props = defineProps({
     validator: (value) => ['left', 'right'].includes(value),
   },
 });
+
+const titleId = useId();
 </script>
 
 <style scoped lang="scss">

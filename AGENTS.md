@@ -27,6 +27,8 @@
 - Avoid scattering scoped style blocks across many markdown files. If several pages want similar structure, spacing, callouts, grids, controls, or demos, consolidate that into shared components or shared theme styles.
 - Interactive demos in markdown should still follow the reusable-first rule. Use page-local demo code only when it is tightly scoped to that page and not establishing a broader pattern.
 - Existing markdown pages that already contain local styles or scripts are legacy context, not the preferred pattern for new work.
+- Keep prop and slot table notes focused on the public authoring API. Do not put accessibility implementation details in prop or slot descriptions unless the prop or slot exists specifically for accessibility.
+- When an automatic accessibility behavior is worth documenting, put it in an info admonition near the relevant API section instead of overloading the prop or slot table.
 
 ## Form Controls
 

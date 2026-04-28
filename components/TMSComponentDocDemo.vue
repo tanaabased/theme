@@ -90,11 +90,11 @@ function renderSourceLink(sourceHref) {
     return '';
   }
 
-  return `<a class="tms-component-doc-demo__source" href="${escapeAttribute(sourceHref)}" target="_blank" rel="noreferrer">source</a>`;
+  return `<a class="tms-component-doc-demo__source" href="${escapeAttribute(sourceHref)}" target="_blank" rel="noreferrer" aria-label="View component source">source</a>`;
 }
 
 function renderPlainCodeBlock(code, sourceHref) {
-  return `<div class="language-vue vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">vue</span><pre class="vp-code"><code>${escapeHtml(code)}</code></pre>${renderSourceLink(sourceHref)}</div>`;
+  return `<div class="language-vue vp-adaptive-theme"><button type="button" title="Copy Code" aria-label="Copy code" class="copy"></button><span class="lang">vue</span><pre class="vp-code"><code>${escapeHtml(code)}</code></pre>${renderSourceLink(sourceHref)}</div>`;
 }
 
 function isAbsoluteUrl(value) {
@@ -158,7 +158,7 @@ async function renderCodeBlock(code, sourceHref) {
     '<pre class="shiki shiki-themes github-light github-dark vp-code"',
   );
 
-  return `<div class="language-vue vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">vue</span>${pre}${renderSourceLink(sourceHref)}</div>`;
+  return `<div class="language-vue vp-adaptive-theme"><button type="button" title="Copy Code" aria-label="Copy code" class="copy"></button><span class="lang">vue</span>${pre}${renderSourceLink(sourceHref)}</div>`;
 }
 
 const resolvedSourceHref = computed(() => {

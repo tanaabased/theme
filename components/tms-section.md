@@ -24,6 +24,10 @@ On stacked layouts, the title always renders above the content and aligns to the
 | `#title`  | Section title or label content. |
 | `default` | Main section content.           |
 
+::: info
+`TMSSection` automatically connects the section to its title with a generated `aria-labelledby` ID.
+:::
+
 ## Basic Usage
 
 ```vue
