@@ -90,17 +90,17 @@ const titleId = useId();
   color: var(--vp-c-text-1);
   font-size: var(--tanaab-font-size-body-xl);
   letter-spacing: var(--tanaab-letter-spacing-section);
-  line-height: var(--tanaab-line-height-h4);
+  line-height: var(--tanaab-line-height-body);
 }
 
 .tms-section__content :deep(:is(p, summary)) {
   font-size: var(--tanaab-font-size-body-xl);
   letter-spacing: var(--tanaab-letter-spacing-section);
-  line-height: var(--tanaab-line-height-h4);
+  line-height: var(--tanaab-line-height-body);
 }
 
-.tms-section__content :deep(> :first-child),
-.tms-section__content :deep(> :first-child > :first-child) {
+.tms-section__content :deep(> :is(h1, h2, h3, h4, h5, h6, p, summary):first-child),
+.tms-section__content :deep(> :first-child > :is(h1, h2, h3, h4, h5, h6, p, summary):first-child) {
   padding-top: 0;
   margin-top: 0;
 }

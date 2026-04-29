@@ -64,9 +64,9 @@ const borderBottom = ref(false);
 const titleSlot = ref('');
 const defaultContents = ref('');
 
-const fallbackTitleSlot = 'A Tanaab-based title.';
+const fallbackTitleSlot = 'Strategic sparkle.';
 const fallbackDefaultContents = `<p>
-  With some Tanaab-based content that includes a Tanaab-based <a href="/styleguide/principles">link</a>. And other <strong>strong</strong>, <small>small</small> and <em>italic</em> words.
+  A Tanaab-based section aligns the important words with a responsible amount of brand pageantry. It keeps the message clear, lets the typography do tasteful cartwheels, and reserves the right to call that a cross-functional communication platform.
 </p>`;
 
 const resolvedOrientation = computed(() => orientation.value || 'left');
