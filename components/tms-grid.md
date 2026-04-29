@@ -8,57 +8,6 @@ description: Flex wrapper component for grouping Tanaab boxes and related conten
 `TMSGrid` is a globally registered component for wrapping content in a responsive flex layout.
 The `columns` prop sets the maximum column count on the widest viewport; dense grids scale down at smaller breakpoints before stacking to one column.
 
-## Props
-
-| Prop      | Type              | Default | Notes                                                 |
-| --------- | ----------------- | ------- | ----------------------------------------------------- |
-| `columns` | `1 \| 2 \| ... 6` | `1`     | Sets the maximum column count on the widest viewport. |
-
-## Slots
-
-| Slot      | Notes         |
-| --------- | ------------- |
-| `default` | Grid content. |
-
-::: info
-The examples use `TMSBox` to make the column behavior visible. `TMSGrid` can wrap any slotted content; each child owns its own visual treatment.
-:::
-
-## Basic Usage
-
-```html
-<TMSGrid>
-  <TMSBox type="title">One</TMSBox>
-  <TMSBox type="title">Two</TMSBox>
-</TMSGrid>
-
-<TMSGrid columns="3">
-  <TMSBox type="title">One</TMSBox>
-  <TMSBox type="title">Two</TMSBox>
-  <TMSBox type="title">Three</TMSBox>
-</TMSGrid>
-```
-
-## Grid-Aware Text
-
-`TMSGrid` exposes density-aware text variables that child components can opt into:
-
-| Variable                      | Purpose                                      |
-| ----------------------------- | -------------------------------------------- |
-| `--tms-grid-item-font-size`   | Suggested text size for grid-aware children. |
-| `--tms-grid-item-line-height` | Suggested line height for grid-aware text.   |
-
-`TMSBox` uses these variables when it is rendered inside `TMSGrid`, while preserving its standalone defaults outside a grid.
-
-```scss
-.my-grid-item {
-  font-size: var(--tms-grid-item-font-size, 1.25rem);
-  line-height: var(--tms-grid-item-line-height, 1.1);
-}
-```
-
-## Demo
-
 <script setup>
 import { computed, ref } from 'vue';
 
@@ -98,6 +47,58 @@ ${boxLines}
 </TMSGrid>`;
 });
 </script>
+
+## Usage
+
+<TMSGrid columns="3">
+  <TMSBox type="title">One</TMSBox>
+  <TMSBox type="title">Two</TMSBox>
+  <TMSBox type="title">Three</TMSBox>
+</TMSGrid>
+
+```html
+<TMSGrid columns="3">
+  <TMSBox type="title">One</TMSBox>
+  <TMSBox type="title">Two</TMSBox>
+  <TMSBox type="title">Three</TMSBox>
+</TMSGrid>
+```
+
+## Props
+
+| Prop      | Type              | Default | Notes                                                 |
+| --------- | ----------------- | ------- | ----------------------------------------------------- |
+| `columns` | `1 \| 2 \| ... 6` | `1`     | Sets the maximum column count on the widest viewport. |
+
+## Slots
+
+| Slot      | Notes         |
+| --------- | ------------- |
+| `default` | Grid content. |
+
+::: info
+The examples use `TMSBox` to make the column behavior visible. `TMSGrid` can wrap any slotted content; each child owns its own visual treatment.
+:::
+
+## Variables
+
+`TMSGrid` exposes density-aware text variables that child components can opt into:
+
+| Variable                      | Purpose                                      |
+| ----------------------------- | -------------------------------------------- |
+| `--tms-grid-item-font-size`   | Suggested text size for grid-aware children. |
+| `--tms-grid-item-line-height` | Suggested line height for grid-aware text.   |
+
+`TMSBox` uses these variables when it is rendered inside `TMSGrid`, while preserving its standalone defaults outside a grid.
+
+```scss
+.my-grid-item {
+  font-size: var(--tms-grid-item-font-size, 1.25rem);
+  line-height: var(--tms-grid-item-line-height, 1.1);
+}
+```
+
+## Demo
 
 <TMSComponentDocDemo :code="demoCode">
   <template #controls-description>

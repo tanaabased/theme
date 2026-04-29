@@ -167,6 +167,21 @@ body,
   letter-spacing: var(--tanaab-letter-spacing-h6);
 }
 
+.vp-doc[class*='_components_tms-'] h2#usage {
+  position: relative;
+  min-height: 0;
+  margin: 2rem 0 0;
+  padding: 1.25rem 0 0;
+  border-top: 1px solid var(--vp-c-divider);
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+}
+
+.vp-doc[class*='_components_tms-'] h2#usage .header-anchor {
+  display: none;
+}
+
 code,
 pre,
 kbd,

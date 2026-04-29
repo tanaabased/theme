@@ -7,58 +7,6 @@ description: Labelled list component for grouped navigation and compact index co
 
 `TMSList` is a globally registered component for rendering labelled lists with consistent item spacing, dividers, and link behavior.
 
-## Props
-
-| Prop          | Type                                | Default    | Notes                                                 |
-| ------------- | ----------------------------------- | ---------- | ----------------------------------------------------- |
-| `header`      | `string`                            | `''`       | Visible list label rendered above or beside the list. |
-| `headerLink`  | `string`                            | `''`       | Makes the list label clickable when populated.        |
-| `items`       | `Array<TMSListItem>`                | `[]`       | Recommended list authoring path.                      |
-| `orientation` | `'column' \| 'row'`                 | `'column'` | Controls list layout.                                 |
-| `item.attrs`  | `Record<string, string \| boolean>` | `{}`       | Safe anchor attributes for linked items.              |
-
-`item.attrs` supports `target`, `rel`, `download`, `title`, `aria-*`, and `data-*`. If `target` is `_blank` and `rel` is omitted, `rel="noreferrer"` is added automatically.
-
-::: info
-`TMSList` automatically labels its own region with the visible list label. Use a separate Markdown heading before the component when the list should appear in the page outline.
-:::
-
-## Slots
-
-| Slot      | Notes                                                |
-| --------- | ---------------------------------------------------- |
-| `default` | Optional `<li>` children. Overrides `items` if used. |
-
-## Basic Usage
-
-```html
-<TMSList
-  header="Strategy."
-  :items="[
-    { label: 'Business', link: '/strategy/business' },
-    { label: 'Branding', link: '/strategy/branding' },
-    { label: 'User Research', link: '/strategy/user-research' },
-  ]"
-/>
-
-<TMSList
-  header="Industry."
-  orientation="row"
-  :items="[
-    { label: 'Finance', link: '/industries/finance' },
-    { label: 'Healthcare', link: '/industries/healthcare' },
-    { label: 'Tech', link: 'https://example.com/tech', attrs: { target: '_blank' } },
-  ]"
-/>
-
-<TMSList header="Custom list.">
-  <li><a href="/custom/one">Custom item</a></li>
-  <li><a href="/custom/two">Another item</a></li>
-</TMSList>
-```
-
-## Demo
-
 <script setup>
 import { computed, ref } from 'vue';
 
@@ -136,6 +84,52 @@ const demoCode = computed(() => {
 />`;
 });
 </script>
+
+## Usage
+
+<TMSList
+  header="Strategy."
+  :items="[
+    { label: 'Business', link: '/strategy/business' },
+    { label: 'Branding', link: '/strategy/branding' },
+    { label: 'User Research', link: '/strategy/user-research' },
+  ]"
+/>
+
+```html
+<TMSList
+  header="Strategy."
+  :items="[
+    { label: 'Business', link: '/strategy/business' },
+    { label: 'Branding', link: '/strategy/branding' },
+    { label: 'User Research', link: '/strategy/user-research' },
+  ]"
+/>
+```
+
+## Props
+
+| Prop          | Type                                | Default    | Notes                                                 |
+| ------------- | ----------------------------------- | ---------- | ----------------------------------------------------- |
+| `header`      | `string`                            | `''`       | Visible list label rendered above or beside the list. |
+| `headerLink`  | `string`                            | `''`       | Makes the list label clickable when populated.        |
+| `items`       | `Array<TMSListItem>`                | `[]`       | Recommended list authoring path.                      |
+| `orientation` | `'column' \| 'row'`                 | `'column'` | Controls list layout.                                 |
+| `item.attrs`  | `Record<string, string \| boolean>` | `{}`       | Safe anchor attributes for linked items.              |
+
+`item.attrs` supports `target`, `rel`, `download`, `title`, `aria-*`, and `data-*`. If `target` is `_blank` and `rel` is omitted, `rel="noreferrer"` is added automatically.
+
+::: info
+`TMSList` automatically labels its own region with the visible list label. Use a separate Markdown heading before the component when the list should appear in the page outline.
+:::
+
+## Slots
+
+| Slot      | Notes                                                |
+| --------- | ---------------------------------------------------- |
+| `default` | Optional `<li>` children. Overrides `items` if used. |
+
+## Demo
 
 <TMSComponentDocDemo :code="demoCode">
   <template #controls-description>

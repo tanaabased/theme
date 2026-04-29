@@ -7,27 +7,6 @@ description: Square box component for navigation and compact content blocks.
 
 `TMSBox` is a globally registered component for rendering a square Tanaab-based box with optional link behavior.
 
-## Props
-
-| Prop   | Type                   | Default     | Notes                                     |
-| ------ | ---------------------- | ----------- | ----------------------------------------- |
-| `link` | `string`               | `''`        | Renders the box as a link when populated. |
-| `type` | `'content' \| 'title'` | `'content'` | Controls the slot typography treatment.   |
-
-## Slots
-
-| Slot      | Notes        |
-| --------- | ------------ |
-| `default` | Box content. |
-
-## Basic Usage
-
-```html
-<TMSBox>Content for the box.</TMSBox> <TMSBox type="title" link="/styleguide/">Styleguide</TMSBox>
-```
-
-## Demo
-
 <script setup>
 import { computed, ref } from 'vue';
 
@@ -80,6 +59,39 @@ ${indentLines(resolvedSlotContent.value, 2)}
 </TMSBox>`;
 });
 </script>
+
+## Usage
+
+<TMSGrid columns="2">
+  <TMSBox>
+    <p>Important copy. <br><strong>Strategic rectangle behavior.</strong></p>
+  </TMSBox>
+  <TMSBox type="title">Momentum</TMSBox>
+</TMSGrid>
+
+```html
+<TMSGrid columns="2">
+  <TMSBox>
+    <p>Important copy. <br /><strong>Strategic rectangle behavior.</strong></p>
+  </TMSBox>
+  <TMSBox type="title">Momentum</TMSBox>
+</TMSGrid>
+```
+
+## Props
+
+| Prop   | Type                   | Default     | Notes                                     |
+| ------ | ---------------------- | ----------- | ----------------------------------------- |
+| `link` | `string`               | `''`        | Renders the box as a link when populated. |
+| `type` | `'content' \| 'title'` | `'content'` | Controls the slot typography treatment.   |
+
+## Slots
+
+| Slot      | Notes        |
+| --------- | ------------ |
+| `default` | Box content. |
+
+## Demo
 
 <TMSComponentDocDemo :code="demoCode">
   <template #controls-description>

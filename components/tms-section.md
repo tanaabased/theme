@@ -7,48 +7,6 @@ description: Two-column section component for pairing a narrow title rail with m
 
 `TMSSection` is a globally registered component for pairing a concise section title with broader supporting content.
 
-## Props
-
-| Prop           | Type                | Default  | Notes                                                     |
-| -------------- | ------------------- | -------- | --------------------------------------------------------- |
-| `borderBottom` | `boolean`           | `false`  | Adds a bottom divider when enabled.                       |
-| `borderTop`    | `boolean`           | `false`  | Adds a top divider when enabled.                          |
-| `orientation`  | `'left' \| 'right'` | `'left'` | Controls which side the title rail uses on wider layouts. |
-
-On stacked layouts, the title always renders above the content and aligns to the start.
-
-## Slots
-
-| Slot      | Notes                           |
-| --------- | ------------------------------- |
-| `#title`  | Section title or label content. |
-| `default` | Main section content.           |
-
-::: info
-`TMSSection` automatically connects the section to its title with a generated `aria-labelledby` ID.
-:::
-
-## Basic Usage
-
-```html
-<TMSSection>
-  <template #title> What we do. </template>
-  <p>We offer strategy, design, and development services across industries.</p>
-</TMSSection>
-
-<TMSSection orientation="right">
-  <template #title> How we work. </template>
-  <p>We keep the label rail on the right when the surrounding layout calls for it.</p>
-</TMSSection>
-
-<TMSSection border-top border-bottom>
-  <template #title> Framed section. </template>
-  <p>Opt into dividers only when the surrounding composition needs them.</p>
-</TMSSection>
-```
-
-## Demo
-
 <script setup>
 import { computed, ref } from 'vue';
 
@@ -101,6 +59,48 @@ ${indentLines(resolvedDefaultContents.value, 2)}
 </TMSSection>`;
 });
 </script>
+
+## Usage
+
+<TMSSection>
+  <template #title>
+    Useful theater.
+  </template>
+  <p>A Tanaab-based section gives important copy a dedicated lane, then lets the typography perform a modest amount of executive theater.</p>
+</TMSSection>
+
+```html
+<TMSSection>
+  <template #title> Useful theater. </template>
+  <p>
+    A Tanaab-based section gives important copy a dedicated lane, then lets the typography perform a
+    modest amount of executive theater.
+  </p>
+</TMSSection>
+```
+
+## Props
+
+| Prop           | Type                | Default  | Notes                                                     |
+| -------------- | ------------------- | -------- | --------------------------------------------------------- |
+| `borderBottom` | `boolean`           | `false`  | Adds a bottom divider when enabled.                       |
+| `borderTop`    | `boolean`           | `false`  | Adds a top divider when enabled.                          |
+| `orientation`  | `'left' \| 'right'` | `'left'` | Controls which side the title rail uses on wider layouts. |
+
+On stacked layouts, the title always renders above the content and aligns to the start.
+
+## Slots
+
+| Slot      | Notes                           |
+| --------- | ------------------------------- |
+| `#title`  | Section title or label content. |
+| `default` | Main section content.           |
+
+::: info
+`TMSSection` automatically connects the section to its title with a generated `aria-labelledby` ID.
+:::
+
+## Demo
 
 <TMSComponentDocDemo :code="demoCode">
   <template #controls-description>

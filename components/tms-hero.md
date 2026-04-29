@@ -7,35 +7,6 @@ description: Wide editorial statement component for large title and supporting c
 
 `TMSHero` is a globally registered component for pairing an oversized editorial title with supporting body content.
 
-## Props
-
-| Prop           | Type      | Default | Notes                               |
-| -------------- | --------- | ------- | ----------------------------------- |
-| `borderBottom` | `boolean` | `false` | Adds a bottom divider when enabled. |
-| `borderTop`    | `boolean` | `false` | Adds a top divider when enabled.    |
-
-## Slots
-
-| Slot      | Notes                     |
-| --------- | ------------------------- |
-| `#title`  | Oversized hero statement. |
-| `default` | Supporting body content.  |
-
-::: info
-`TMSHero` automatically connects the section to its title with a generated `aria-labelledby` ID.
-:::
-
-## Basic Usage
-
-```html
-<TMSHero border-top border-bottom>
-  <template #title> The above four. In four sentences. </template>
-  <p>Focused collaboration keeps the work simple, durable, and worth caring about.</p>
-</TMSHero>
-```
-
-## Demo
-
 <script setup>
 import { computed, ref } from 'vue';
 
@@ -85,6 +56,45 @@ ${indentLines(resolvedDefaultContents.value, 2)}
 </TMSHero>`;
 });
 </script>
+
+## Usage
+
+<TMSHero border-top border-bottom>
+  <template #title>
+    Start big. <br><strong>Say something useful.</strong>
+  </template>
+  <p>A Tanaab-based hero converts first impressions into a disciplined brand-performance corridor, which is a majestic way of saying the top of the page should make its point quickly.</p>
+</TMSHero>
+
+```html
+<TMSHero border-top border-bottom>
+  <template #title> Start big. <br /><strong>Say something useful.</strong> </template>
+  <p>
+    A Tanaab-based hero converts first impressions into a disciplined brand-performance corridor,
+    which is a majestic way of saying the top of the page should make its point quickly.
+  </p>
+</TMSHero>
+```
+
+## Props
+
+| Prop           | Type      | Default | Notes                               |
+| -------------- | --------- | ------- | ----------------------------------- |
+| `borderBottom` | `boolean` | `false` | Adds a bottom divider when enabled. |
+| `borderTop`    | `boolean` | `false` | Adds a top divider when enabled.    |
+
+## Slots
+
+| Slot      | Notes                     |
+| --------- | ------------------------- |
+| `#title`  | Oversized hero statement. |
+| `default` | Supporting body content.  |
+
+::: info
+`TMSHero` automatically connects the section to its title with a generated `aria-labelledby` ID.
+:::
+
+## Demo
 
 <TMSComponentDocDemo :code="demoCode">
   <template #controls-description>

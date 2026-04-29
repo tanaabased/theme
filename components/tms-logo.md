@@ -7,26 +7,6 @@ description: Global logo component for Tanaab properties.
 
 `TMSLogo` is a globally registered component for rendering any of the core TMS logo layouts as inline SVG.
 
-## Props
-
-| Prop         | Type                                        | Default      | Notes                                                                                          |
-| ------------ | ------------------------------------------- | ------------ | ---------------------------------------------------------------------------------------------- |
-| `type`       | `'left' \| 'right' \| 'centered' \| 'mark'` | `'centered'` | Selects which `*_var.svg` file is rendered.                                                    |
-| `background` | `string`                                    | `'none'`     | Applied to `background-color` on the SVG element.                                              |
-| `color`      | `string`                                    | auto         | Applied to `color` on the SVG element; defaults to white in dark mode and black in light mode. |
-| `link`       | `string`                                    | `'/'`        | Applied to the root anchor `href`; the entire logo renders as a clickable link.                |
-
-## Basic Usage
-
-```html
-<TMSLogo />
-<TMSLogo type="left" />
-<TMSLogo type="mark" color="#00c88a" background="transparent" />
-<TMSLogo type="mark" link="/styleguide/logo" />
-```
-
-## Demo
-
 <script setup>
 import { computed, ref } from 'vue';
 import { useData } from 'vitepress';
@@ -83,6 +63,31 @@ const demoCode = computed(() => {
   return `<TMSLogo\n  ${props.join('\n  ')}\n/>`;
 });
 </script>
+
+## Usage
+
+<TMSGrid columns="2">
+  <TMSLogo />
+  <TMSLogo type="mark" background="pink" color="#COFFEE" />
+</TMSGrid>
+
+```html
+<TMSGrid columns="2">
+  <TMSLogo />
+  <TMSLogo type="mark" background="pink" color="#COFFEE" />
+</TMSGrid>
+```
+
+## Props
+
+| Prop         | Type                                        | Default      | Notes                                                                                          |
+| ------------ | ------------------------------------------- | ------------ | ---------------------------------------------------------------------------------------------- |
+| `type`       | `'left' \| 'right' \| 'centered' \| 'mark'` | `'centered'` | Selects which `*_var.svg` file is rendered.                                                    |
+| `background` | `string`                                    | `'none'`     | Applied to `background-color` on the SVG element.                                              |
+| `color`      | `string`                                    | `auto`       | Applied to `color` on the SVG element; defaults to white in dark mode and black in light mode. |
+| `link`       | `string`                                    | `'/'`        | Applied to the root anchor `href`; the entire logo renders as a clickable link.                |
+
+## Demo
 
 <TMSComponentDocDemo :code="demoCode">
   <template #controls-description>
