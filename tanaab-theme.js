@@ -4,6 +4,7 @@ import TMSBox from './components/TMSBox.vue';
 import TMSComponentDocDemo from './components/TMSComponentDocDemo.vue';
 import TMSGrid from './components/TMSGrid.vue';
 import TMSHero from './components/TMSHero.vue';
+import TMSList from './components/TMSList.vue';
 import TMSLogo from './components/TMSLogo.vue';
 import TMSSection from './components/TMSSection.vue';
 import './styles/theme.scss';
@@ -20,6 +21,7 @@ export default {
     ctx.app.component('TMSComponentDocDemo', TMSComponentDocDemo);
     ctx.app.component('TMSGrid', TMSGrid);
     ctx.app.component('TMSHero', TMSHero);
+    ctx.app.component('TMSList', TMSList);
     ctx.app.component('TMSLogo', TMSLogo);
     ctx.app.component('TMSSection', TMSSection);
   },

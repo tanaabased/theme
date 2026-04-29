@@ -12,6 +12,7 @@ Use this section to document composable UI elements with clear states, variants,
 - TMS Box
 - TMS Grid
 - TMS Hero
+- TMS List
 - TMS Logo
 - TMS Section
 - Buttons
