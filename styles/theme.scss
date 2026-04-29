@@ -188,6 +188,25 @@ samp {
   border: 0 !important;
 }
 
+.vp-doc .tms-hidden-link {
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.vp-doc .tms-hidden-link:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.vp-doc .tms-hidden-link:focus-visible {
+  color: inherit;
+  text-decoration: none;
+  outline: 1px solid currentColor;
+  outline-offset: 0.15em;
+}
+
 /* Form Controls ----------------------------------------------------------- */
 .vp-doc
   label:has(
