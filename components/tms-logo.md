@@ -18,7 +18,7 @@ description: Global logo component for Tanaab properties.
 
 ## Basic Usage
 
-```vue
+```html
 <TMSLogo />
 <TMSLogo type="left" />
 <TMSLogo type="mark" color="#00c88a" background="transparent" />

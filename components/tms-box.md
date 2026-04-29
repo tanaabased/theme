@@ -22,9 +22,8 @@ description: Square box component for navigation and compact content blocks.
 
 ## Basic Usage
 
-```vue
-<TMSBox>Content for the box.</TMSBox>
-<TMSBox type="title" link="/styleguide/">Styleguide</TMSBox>
+```html
+<TMSBox>Content for the box.</TMSBox> <TMSBox type="title" link="/styleguide/">Styleguide</TMSBox>
 ```
 
 ## Demo

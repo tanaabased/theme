@@ -26,7 +26,7 @@ The examples use `TMSBox` to make the column behavior visible. `TMSGrid` can wra
 
 ## Basic Usage
 
-```vue
+```html
 <TMSGrid>
   <TMSBox type="title">One</TMSBox>
   <TMSBox type="title">Two</TMSBox>

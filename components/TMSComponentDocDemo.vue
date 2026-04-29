@@ -55,20 +55,20 @@ function getHighlighter() {
   highlighterPromise ??= Promise.all([
     import('shiki/core'),
     import('shiki/engine/javascript'),
-    import('shiki/langs/vue.mjs'),
+    import('shiki/langs/html.mjs'),
     import('shiki/themes/github-light.mjs'),
     import('shiki/themes/github-dark.mjs'),
   ]).then(
     ([
       { createHighlighterCore },
       { createJavaScriptRegexEngine },
-      vue,
+      html,
       githubLight,
       githubDark,
     ]) => {
       return createHighlighterCore({
         themes: [githubLight.default, githubDark.default],
-        langs: [vue.default],
+        langs: [html.default],
         engine: createJavaScriptRegexEngine(),
       });
     },
@@ -94,7 +94,7 @@ function renderSourceLink(sourceHref) {
 }
 
 function renderPlainCodeBlock(code, sourceHref) {
-  return `<div class="language-vue vp-adaptive-theme"><button type="button" title="Copy Code" aria-label="Copy code" class="copy"></button><span class="lang">vue</span><pre class="vp-code"><code>${escapeHtml(code)}</code></pre>${renderSourceLink(sourceHref)}</div>`;
+  return `<div class="language-html vp-adaptive-theme"><button type="button" title="Copy Code" aria-label="Copy code" class="copy"></button><span class="lang">html</span><pre class="vp-code"><code>${escapeHtml(code)}</code></pre>${renderSourceLink(sourceHref)}</div>`;
 }
 
 function isAbsoluteUrl(value) {
@@ -148,7 +148,7 @@ async function renderCodeBlock(code, sourceHref) {
   const highlighter = await getHighlighter();
 
   const highlighted = highlighter.codeToHtml(code, {
-    lang: 'vue',
+    lang: 'html',
     themes: shikiThemes,
     defaultColor: false,
   });
@@ -158,7 +158,7 @@ async function renderCodeBlock(code, sourceHref) {
     '<pre class="shiki shiki-themes github-light github-dark vp-code"',
   );
 
-  return `<div class="language-vue vp-adaptive-theme"><button type="button" title="Copy Code" aria-label="Copy code" class="copy"></button><span class="lang">vue</span>${pre}${renderSourceLink(sourceHref)}</div>`;
+  return `<div class="language-html vp-adaptive-theme"><button type="button" title="Copy Code" aria-label="Copy code" class="copy"></button><span class="lang">html</span>${pre}${renderSourceLink(sourceHref)}</div>`;
 }
 
 const resolvedSourceHref = computed(() => {
@@ -244,7 +244,7 @@ watch(
   max-width: 100%;
 }
 
-.tms-component-doc-demo__code :deep(.language-vue) {
+.tms-component-doc-demo__code :deep(.language-html) {
   position: relative;
   width: 100%;
   min-width: 0;

@@ -27,11 +27,9 @@ description: Wide editorial statement component for large title and supporting c
 
 ## Basic Usage
 
-```vue
+```html
 <TMSHero border-top border-bottom>
-  <template #title>
-    The above four. In four sentences.
-  </template>
+  <template #title> The above four. In four sentences. </template>
   <p>Focused collaboration keeps the work simple, durable, and worth caring about.</p>
 </TMSHero>
 ```

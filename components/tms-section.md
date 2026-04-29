@@ -30,25 +30,19 @@ On stacked layouts, the title always renders above the content and aligns to the
 
 ## Basic Usage
 
-```vue
+```html
 <TMSSection>
-  <template #title>
-    What we do.
-  </template>
+  <template #title> What we do. </template>
   <p>We offer strategy, design, and development services across industries.</p>
 </TMSSection>
 
 <TMSSection orientation="right">
-  <template #title>
-    How we work.
-  </template>
+  <template #title> How we work. </template>
   <p>We keep the label rail on the right when the surrounding layout calls for it.</p>
 </TMSSection>
 
 <TMSSection border-top border-bottom>
-  <template #title>
-    Framed section.
-  </template>
+  <template #title> Framed section. </template>
   <p>Opt into dividers only when the surrounding composition needs them.</p>
 </TMSSection>
 ```

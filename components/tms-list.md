@@ -31,7 +31,7 @@ description: Labelled list component for grouped navigation and compact index co
 
 ## Basic Usage
 
-```vue
+```html
 <TMSList
   header="Strategy."
   :items="[
