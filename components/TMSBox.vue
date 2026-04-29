@@ -43,7 +43,7 @@ const resolvedType = computed(() => {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  padding: 1.5rem;
+  padding: var(--tms-box-padding, 1.5rem);
   background-color: var(--vp-sidebar-bg-color);
   color: var(--vp-c-text-1);
   text-decoration: none;

@@ -45,8 +45,8 @@ const resolvedLink = computed(() => {
 });
 
 const fallbackSlotContent = computed(() => {
-  if (resolvedType.value === 'title') return 'Title';
-  return '<h2><strong>Default content</strong><p>for the box.</p></h2>';
+  if (resolvedType.value === 'title') return 'Momentum';
+  return '<p>A Tanaab-based box converts compact brand intention into a high-trust rectangle of actionable narrative velocity. Which is to say: put the good words here and make them look deliberate.</p>';
 });
 
 const resolvedSlotContent = computed(() => {
