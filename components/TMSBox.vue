@@ -53,7 +53,7 @@ const resolvedType = computed(() => {
 }
 
 .tms-box[data-type='content'] {
-  padding: clamp(3rem, 17%, 6rem);
+  padding: clamp(3rem, 7%, 6rem);
   font-family: var(--tanaab-font-family-body);
   font-size: var(--tanaab-font-size-body-xl);
   font-weight: var(--tanaab-font-weight-body);
