@@ -142,6 +142,7 @@ export default defineConfig({
           items: [
             { text: 'Box', link: '/components/tms-box' },
             { text: 'Grid', link: '/components/tms-grid' },
+            { text: 'Hero', link: '/components/tms-hero' },
             { text: 'Logo', link: '/components/tms-logo' },
             { text: 'Section', link: '/components/tms-section' },
           ],
