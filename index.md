@@ -11,10 +11,10 @@ next: false
 
 <nav class="homepage-grid" aria-label="Main documentation sections">
   <TMSGrid columns="2">
-    <TMSBox link="/styleguide/">Styleguide</TMSBox>
-    <TMSBox link="/components/">Components</TMSBox>
-    <TMSBox link="/containers/">Containers</TMSBox>
-    <TMSBox link="/usage/">Usage</TMSBox>
+    <TMSBox type="title" link="/styleguide/">Styleguide</TMSBox>
+    <TMSBox type="title" link="/components/">Components</TMSBox>
+    <TMSBox type="title" link="/containers/">Containers</TMSBox>
+    <TMSBox type="title" link="/usage/">Usage</TMSBox>
   </TMSGrid>
 </nav>
 

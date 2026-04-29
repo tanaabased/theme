@@ -28,14 +28,14 @@ The examples use `TMSBox` to make the column behavior visible. `TMSGrid` can wra
 
 ```vue
 <TMSGrid>
-  <TMSBox>One</TMSBox>
-  <TMSBox>Two</TMSBox>
+  <TMSBox type="title">One</TMSBox>
+  <TMSBox type="title">Two</TMSBox>
 </TMSGrid>
 
 <TMSGrid columns="3">
-  <TMSBox>One</TMSBox>
-  <TMSBox>Two</TMSBox>
-  <TMSBox>Three</TMSBox>
+  <TMSBox type="title">One</TMSBox>
+  <TMSBox type="title">Two</TMSBox>
+  <TMSBox type="title">Three</TMSBox>
 </TMSGrid>
 ```
 
@@ -91,7 +91,7 @@ const visibleBoxes = computed(() => boxes.slice(0, resolvedBoxCount.value));
 
 const demoCode = computed(() => {
   const propString = resolvedColumns.value !== '1' ? ` columns="${resolvedColumns.value}"` : '';
-  const boxLines = visibleBoxes.value.map((box) => `  <TMSBox>${box}</TMSBox>`).join('\n');
+  const boxLines = visibleBoxes.value.map((box) => `  <TMSBox type="title">${box}</TMSBox>`).join('\n');
 
   return `<TMSGrid${propString}>
 ${boxLines}
@@ -137,7 +137,7 @@ ${boxLines}
   </template>
   <template #preview>
     <TMSGrid :columns="resolvedColumns">
-      <TMSBox v-for="box in visibleBoxes" :key="box">{{ box }}</TMSBox>
+      <TMSBox v-for="box in visibleBoxes" :key="box" type="title">{{ box }}</TMSBox>
     </TMSGrid>
   </template>
 </TMSComponentDocDemo>
