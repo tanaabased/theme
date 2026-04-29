@@ -140,6 +140,8 @@ export default defineConfig({
         {
           text: 'Tanaab Based',
           items: [
+            { text: 'Box', link: '/components/tms-box' },
+            { text: 'Grid', link: '/components/tms-grid' },
             { text: 'Logo', link: '/components/tms-logo' },
             { text: 'Section', link: '/components/tms-section' },
           ],
