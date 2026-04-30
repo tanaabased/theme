@@ -1,16 +1,28 @@
 <template>
-  <div class="tms-component-playground">
+  <div class="tms-component-playground" :data-preview-fit="resolvedPreviewFit">
     <div class="tms-component-playground__preview" aria-label="Component preview">
       <div class="tms-component-playground__preview-inner">
         <component :is="props.component" v-bind="previewProps">
+          <template v-for="slot in namedPreviewSlots" #[slot.name]>
+            <!-- eslint-disable vue/no-v-html -->
+            <div
+              v-if="slot.rendersHtml"
+              :key="`${slot.name}-html`"
+              class="tms-component-playground__slot-html"
+              v-html="slot.value"
+            ></div>
+            <!-- eslint-enable vue/no-v-html -->
+            <template v-else>{{ slot.value }}</template>
+          </template>
+
           <!-- eslint-disable vue/no-v-html -->
           <div
-            v-if="rendersDefaultSlotHtml"
+            v-if="hasDefaultSlot && rendersDefaultSlotHtml"
             class="tms-component-playground__slot-html"
             v-html="defaultSlotText"
           ></div>
           <!-- eslint-enable vue/no-v-html -->
-          <template v-else>{{ defaultSlotText }}</template>
+          <template v-else-if="hasDefaultSlot">{{ defaultSlotText }}</template>
         </component>
       </div>
     </div>
@@ -18,12 +30,12 @@
     <div class="tms-component-playground__code-area">
       <div class="tms-component-playground__code language-html vp-adaptive-theme">
         <button
-          class="copy"
-          :class="{ copied }"
+          class="tms-component-playground__copy"
+          :class="{ 'tms-component-playground__copy--copied': copied }"
           type="button"
           :aria-label="copyLabel"
           :title="copyLabel"
-          @click="copyCode"
+          @click.capture="copyCode"
         ></button>
         <span class="lang">html</span>
 
@@ -95,6 +107,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  previewFit: {
+    type: String,
+    default: 'full',
+  },
 });
 
 const emit = defineEmits(['copy', 'update:state']);
@@ -105,9 +121,23 @@ const state = reactive(createPlaygroundState(props.schema, props.initialState));
 
 const generated = computed(() => generateComponentUsage(props.schema, state));
 const previewProps = computed(() => getPreviewProps(props.schema, state));
+const resolvedPreviewFit = computed(() => {
+  return props.previewFit === 'contained' ? 'contained' : 'full';
+});
+const slotDefinitions = computed(() => Object.entries(props.schema?.slots ?? {}));
 const defaultSlotDefinition = computed(() => props.schema?.slots?.default ?? null);
 const defaultSlotText = computed(() => state.slots.default ?? '');
+const hasDefaultSlot = computed(() => Boolean(defaultSlotDefinition.value));
 const rendersDefaultSlotHtml = computed(() => defaultSlotDefinition.value?.kind === 'html');
+const namedPreviewSlots = computed(() => {
+  return slotDefinitions.value
+    .filter(([slotName]) => slotName !== 'default')
+    .map(([name, definition]) => ({
+      name,
+      rendersHtml: definition.kind === 'html',
+      value: state.slots[name] ?? '',
+    }));
+});
 const copyLabel = computed(() => (copied.value ? 'Copied code' : 'Copy code'));
 
 function replaceReactiveObject(target, source) {
@@ -240,10 +270,14 @@ function selectEnum({ prop, value }) {
   state.props[prop] = value;
 }
 
-async function copyCode() {
-  await navigator.clipboard.writeText(generated.value.code);
+async function copyCode(event) {
+  event?.preventDefault();
+  event?.stopImmediatePropagation?.();
+  event?.stopPropagation?.();
+
+  await navigator.clipboard.writeText(generated.value.copyCode);
   copied.value = true;
-  emit('copy', generated.value.code);
+  emit('copy', generated.value.copyCode);
 
   window.setTimeout(() => {
     copied.value = false;
@@ -253,6 +287,12 @@ async function copyCode() {
 
 <style scoped lang="scss">
 .tms-component-playground {
+  --tms-component-playground-preview-max-block-size: clamp(16rem, 45vh, 24rem);
+  --tms-hero-gap: clamp(1.25rem, 3vw, 2rem);
+  --tms-hero-padding-block: clamp(2rem, 5vw, 3.5rem);
+  --tms-section-gap: clamp(1.25rem, 3vw, 2.5rem);
+  --tms-section-padding-block: clamp(1.5rem, 3vw, 2.5rem);
+
   display: grid;
   gap: clamp(1.25rem, 3vw, 2rem);
   min-width: 0;
@@ -262,17 +302,32 @@ async function copyCode() {
 .tms-component-playground__preview {
   display: grid;
   min-width: 0;
-  min-height: 12rem;
-  max-block-size: clamp(16rem, 45vh, 24rem);
   place-items: center;
-  padding: clamp(1rem, 3vw, 2rem);
+  padding: 0 0 clamp(1rem, 3vw, 2rem);
+  overflow: visible;
+}
+
+.tms-component-playground[data-preview-fit='contained'] .tms-component-playground__preview {
+  min-height: 12rem;
+  max-block-size: var(--tms-component-playground-preview-max-block-size);
   overflow: hidden;
 }
 
 .tms-component-playground__preview-inner {
-  width: min(100%, clamp(12rem, 42vw, 20rem));
+  display: grid;
+  width: 100%;
   max-width: 100%;
   min-width: 0;
+  place-items: center;
+}
+
+.tms-component-playground[data-preview-fit='contained'] .tms-component-playground__preview-inner {
+  width: min(
+    100%,
+    clamp(12rem, 42vw, 20rem),
+    var(--tms-component-playground-preview-max-block-size)
+  );
+  max-block-size: 100%;
 }
 
 .tms-component-playground__slot-html {
@@ -297,7 +352,82 @@ async function copyCode() {
   position: relative;
   min-width: 0;
   margin: 0;
+  border: 2px solid transparent;
   overflow: visible;
+  transition: border-color 0.2s ease;
+}
+
+.tms-component-playground .tms-component-playground__code:focus-within {
+  border-color: var(--tanaab-form-control-focus-border);
+}
+
+.tms-component-playground__copy {
+  direction: ltr;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--vp-code-copy-code-border-color);
+  border-radius: var(--tanaab-radius-base);
+  background-color: var(--vp-code-copy-code-bg);
+  background-image: var(--vp-icon-copy);
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    border-color 0.25s,
+    background-color 0.25s,
+    opacity 0.25s;
+}
+
+.tms-component-playground__code:hover > .tms-component-playground__copy,
+.tms-component-playground__copy:focus {
+  opacity: 1;
+}
+
+.tms-component-playground__copy:hover,
+.tms-component-playground__copy--copied {
+  border-color: var(--vp-code-copy-code-hover-border-color);
+  background-color: var(--vp-code-copy-code-hover-bg);
+}
+
+.tms-component-playground__copy--copied,
+.tms-component-playground__copy:hover.tms-component-playground__copy--copied {
+  border-radius: 0 var(--tanaab-radius-base) var(--tanaab-radius-base) 0;
+  background-color: var(--vp-code-copy-code-hover-bg);
+  background-image: var(--vp-icon-copied);
+}
+
+.tms-component-playground__copy--copied::before,
+.tms-component-playground__copy:hover.tms-component-playground__copy--copied::before {
+  position: relative;
+  top: -1px;
+  display: flex;
+  width: fit-content;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  border: 1px solid var(--vp-code-copy-code-hover-border-color);
+  border-right: 0;
+  border-radius: var(--tanaab-radius-base) 0 0 var(--tanaab-radius-base);
+  background-color: var(--vp-code-copy-code-hover-bg);
+  color: var(--vp-code-copy-code-active-text);
+  content: var(--vp-code-copy-copied-text-content);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  transform: translateX(calc(-100% - 1px));
+  white-space: nowrap;
+}
+
+.tms-component-playground__code:hover > .tms-component-playground__copy + .lang,
+.tms-component-playground__copy:focus + .lang {
+  opacity: 0;
 }
 
 .tms-component-playground__links {

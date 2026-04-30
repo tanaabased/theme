@@ -221,6 +221,7 @@ function createRegionDecorations(Decoration) {
       'tms-interactive-code__region',
       `tms-interactive-code__region--${region.kind}`,
       region.valueKind ? `tms-interactive-code__region--${region.valueKind}` : '',
+      region.active === false ? 'tms-interactive-code__region--inactive' : '',
     ]
       .filter(Boolean)
       .join(' ');
@@ -519,6 +520,14 @@ onBeforeUnmount(() => {
 
 .tms-interactive-code :deep(.tms-interactive-code__region:hover) {
   background-color: var(--tms-interactive-code-region-hover-bg);
+}
+
+.tms-interactive-code :deep(.tms-interactive-code__region--inactive) {
+  opacity: 0.45;
+}
+
+.tms-interactive-code :deep(.tms-interactive-code__region--inactive:hover) {
+  opacity: 0.75;
 }
 
 .tms-interactive-code :deep(.tms-interactive-code__token) {
