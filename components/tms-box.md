@@ -34,7 +34,11 @@ const boxPlaygroundSchema = {
 
 ## Usage
 
-<TMSComponentPlayground :component="TMSBox" :schema="boxPlaygroundSchema" />
+<TMSComponentPlayground
+  :component="TMSBox"
+  :schema="boxPlaygroundSchema"
+  preview-fit="contained"
+/>
 
 ## Props
 

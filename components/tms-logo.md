@@ -36,7 +36,11 @@ const logoPlaygroundSchema = {
 
 ## Usage
 
-<TMSComponentPlayground :component="TMSLogo" :schema="logoPlaygroundSchema" />
+<TMSComponentPlayground
+  :component="TMSLogo"
+  :schema="logoPlaygroundSchema"
+  preview-fit="contained"
+/>
 
 ## Props
 
