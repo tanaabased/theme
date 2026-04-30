@@ -8,75 +8,33 @@ description: Square box component for navigation and compact content blocks.
 `TMSBox` is a globally registered component for rendering a square Tanaab-based box with optional link behavior.
 
 <script setup>
-import { computed, ref } from 'vue';
+import TMSBox from './TMSBox.vue';
 
-const link = ref('');
-const type = ref('');
-const slotContent = ref('');
-
-const resolvedType = computed(() => type.value || 'content');
-
-const resolvedLink = computed(() => {
-  const value = link.value?.trim();
-  if (!value) return '';
-  return value;
-});
-
-const fallbackSlotContent = computed(() => {
-  if (resolvedType.value === 'title') return 'Momentum';
-  return '<p>A Tanaab-based box converts compact brand intention into a high-trust rectangle of actionable narrative velocity. Which is to say: put the good words here and make them look deliberate.</p>';
-});
-
-const resolvedSlotContent = computed(() => {
-  const value = slotContent.value?.trim();
-  if (!value) return fallbackSlotContent.value;
-  return value;
-});
-
-function quoteProp(value) {
-  return JSON.stringify(value);
-}
-
-function indentLines(value, spaces) {
-  const prefix = ' '.repeat(spaces);
-  return value
-    .trim()
-    .split('\n')
-    .map((line) => `${prefix}${line}`)
-    .join('\n');
-}
-
-const demoCode = computed(() => {
-  const props = [];
-
-  if (resolvedType.value === 'title') props.push('type="title"');
-  if (resolvedLink.value) props.push(`link=${quoteProp(resolvedLink.value)}`);
-
-  const propString = props.length > 0 ? ` ${props.join(' ')}` : '';
-
-  return `<TMSBox${propString}>
-${indentLines(resolvedSlotContent.value, 2)}
-</TMSBox>`;
-});
+const boxPlaygroundSchema = {
+  name: 'TMSBox',
+  props: {
+    type: {
+      kind: 'enum',
+      options: ['content', 'title'],
+      default: 'content',
+    },
+    link: {
+      kind: 'string',
+      default: '',
+    },
+  },
+  slots: {
+    default: {
+      kind: 'html',
+      default: 'Strategic rectangle behavior.',
+    },
+  },
+};
 </script>
 
 ## Usage
 
-<TMSGrid columns="2">
-  <TMSBox>
-    <p>Important copy. <br><strong>Strategic rectangle behavior.</strong></p>
-  </TMSBox>
-  <TMSBox type="title">Momentum</TMSBox>
-</TMSGrid>
-
-```html
-<TMSGrid columns="2">
-  <TMSBox>
-    <p>Important copy. <br /><strong>Strategic rectangle behavior.</strong></p>
-  </TMSBox>
-  <TMSBox type="title">Momentum</TMSBox>
-</TMSGrid>
-```
+<TMSComponentPlayground :component="TMSBox" :schema="boxPlaygroundSchema" />
 
 ## Props
 
@@ -90,34 +48,3 @@ ${indentLines(resolvedSlotContent.value, 2)}
 | Slot      | Notes        |
 | --------- | ------------ |
 | `default` | Box content. |
-
-## Demo
-
-<TMSComponentDocDemo :code="demoCode">
-  <template #controls-description>
-    Adjust the type, link, and slot content to update the box. The slot textarea accepts trusted demo HTML.
-  </template>
-  <template #controls>
-    <label>
-      <span class="tms-visually-hidden">Type</span>
-      <select v-model="type">
-        <option value="">Type</option>
-        <option value="content">content</option>
-        <option value="title">title</option>
-      </select>
-    </label>
-    <label>
-      <span class="tms-visually-hidden">Link</span>
-      <input v-model="link" type="text" placeholder="Link URL" />
-    </label>
-    <label>
-      <span class="tms-visually-hidden">Slot content</span>
-      <textarea v-model="slotContent" placeholder="Slot content"></textarea>
-    </label>
-  </template>
-  <template #preview>
-    <TMSBox :link="resolvedLink" :type="resolvedType">
-      <div v-html="resolvedSlotContent"></div>
-    </TMSBox>
-  </template>
-</TMSComponentDocDemo>

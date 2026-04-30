@@ -33,6 +33,7 @@
 - Keep top-level Usage examples static and representative without helper jump-link text.
 - Usage sections should render direct live markup followed by a matching `html` code fence.
 - When a live Usage example is too large, use real layout primitives like `TMSGrid` rather than docs-only preview sizing.
+- Use `TMSComponentPlayground` directly under hidden `## Usage` when the component fits the schema-driven playground surface.
 - Put broader prop and slot exploration in the later interactive `TMSComponentDocDemo`.
 - Order interactive demos as Preview, Controls, then Code so controls stay close to the preview they affect.
 - Demo subheadings can be semantic-only with `.tms-visually-hidden` when the visual structure is already obvious.

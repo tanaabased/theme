@@ -47,6 +47,8 @@
     "preview": "bunx vitepress preview ."
   },
   "dependencies": {
+    "@codemirror/state": "^6.6.0",
+    "@codemirror/view": "^6.41.1",
     "@lando/vitepress-theme-default-plus": "^1.1.5",
     "colorette": "^2.0.20",
     "shiki": "^2.5.0"
