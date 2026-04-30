@@ -8,76 +8,42 @@ description: Two-column section component for pairing a narrow title rail with m
 `TMSSection` is a globally registered component for pairing a concise section title with broader supporting content.
 
 <script setup>
-import { computed, ref } from 'vue';
+import TMSSection from './TMSSection.vue';
 
-const orientation = ref('');
-const borderTop = ref(false);
-const borderBottom = ref(false);
-const titleSlot = ref('');
-const defaultContents = ref('');
-
-const fallbackTitleSlot = 'Strategic sparkle.';
-const fallbackDefaultContents = `<p>
-  A Tanaab-based section aligns the important words with a responsible amount of brand pageantry. It keeps the message clear, lets the typography do tasteful cartwheels, and reserves the right to call that a cross-functional communication platform.
-</p>`;
-
-const resolvedOrientation = computed(() => orientation.value || 'left');
-
-const resolvedTitleSlot = computed(() => {
-  const value = titleSlot.value.trim();
-  return value || fallbackTitleSlot;
-});
-
-const resolvedDefaultContents = computed(() => {
-  const value = defaultContents.value.trim();
-  return value || fallbackDefaultContents;
-});
-
-function indentLines(value, spaces) {
-  const prefix = ' '.repeat(spaces);
-  return value
-    .trim()
-    .split('\n')
-    .map((line) => `${prefix}${line}`)
-    .join('\n');
-}
-
-const demoCode = computed(() => {
-  const props = [];
-
-  if (resolvedOrientation.value === 'right') props.push('orientation="right"');
-  if (borderTop.value) props.push('border-top');
-  if (borderBottom.value) props.push('border-bottom');
-
-  const propString = props.length > 0 ? ` ${props.join(' ')}` : '';
-
-  return `<TMSSection${propString}>
-  <template #title>
-${indentLines(resolvedTitleSlot.value, 4)}
-  </template>
-${indentLines(resolvedDefaultContents.value, 2)}
-</TMSSection>`;
-});
+const sectionPlaygroundSchema = {
+  name: 'TMSSection',
+  props: {
+    orientation: {
+      kind: 'enum',
+      options: ['left', 'right'],
+      default: 'left',
+    },
+    borderTop: {
+      kind: 'boolean',
+      default: false,
+    },
+    borderBottom: {
+      kind: 'boolean',
+      default: false,
+    },
+  },
+  slots: {
+    title: {
+      kind: 'html',
+      default: 'Useful theater.',
+    },
+    default: {
+      kind: 'html',
+      default:
+        '<p>A Tanaab-based section gives important copy a dedicated lane, then lets the typography perform a modest amount of executive theater.</p>',
+    },
+  },
+};
 </script>
 
 ## Usage
 
-<TMSSection>
-  <template #title>
-    Useful theater.
-  </template>
-  <p>A Tanaab-based section gives important copy a dedicated lane, then lets the typography perform a modest amount of executive theater.</p>
-</TMSSection>
-
-```html
-<TMSSection>
-  <template #title> Useful theater. </template>
-  <p>
-    A Tanaab-based section gives important copy a dedicated lane, then lets the typography perform a
-    modest amount of executive theater.
-  </p>
-</TMSSection>
-```
+<TMSComponentPlayground :component="TMSSection" :schema="sectionPlaygroundSchema" />
 
 ## Props
 
@@ -99,49 +65,3 @@ On stacked layouts, the title always renders above the content and aligns to the
 ::: info
 `TMSSection` automatically connects the section to its title with a generated `aria-labelledby` ID.
 :::
-
-## Demo
-
-<TMSComponentDocDemo :code="demoCode">
-  <template #controls-description>
-    Adjust the controls to update both the live preview and the code sample. Slot textareas accept trusted demo HTML.
-  </template>
-  <template #controls>
-    <label>
-      <span class="tms-visually-hidden">Orientation</span>
-      <select v-model="orientation">
-        <option value="">Orientation</option>
-        <option value="left">left</option>
-        <option value="right">right</option>
-      </select>
-    </label>
-    <label>
-      <input v-model="borderTop" type="checkbox" />
-      <span>Border top</span>
-    </label>
-    <label>
-      <input v-model="borderBottom" type="checkbox" />
-      <span>Border bottom</span>
-    </label>
-    <label>
-      <span class="tms-visually-hidden">Title slot</span>
-      <textarea v-model="titleSlot" placeholder="Title slot"></textarea>
-    </label>
-    <label>
-      <span class="tms-visually-hidden">Default contents</span>
-      <textarea v-model="defaultContents" placeholder="Default contents"></textarea>
-    </label>
-  </template>
-  <template #preview>
-    <TMSSection
-      :border-bottom="borderBottom"
-      :border-top="borderTop"
-      :orientation="resolvedOrientation"
-    >
-      <template #title>
-        <div v-html="resolvedTitleSlot"></div>
-      </template>
-      <div v-html="resolvedDefaultContents"></div>
-    </TMSSection>
-  </template>
-</TMSComponentDocDemo>

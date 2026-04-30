@@ -34,9 +34,9 @@ const titleId = useId();
 <style scoped lang="scss">
 .tms-hero {
   display: grid;
-  gap: clamp(2rem, 5vw, 4rem);
+  gap: var(--tms-hero-gap, clamp(2rem, 5vw, 4rem));
   width: 100%;
-  padding-block: clamp(4rem, 10vw, 8rem);
+  padding-block: var(--tms-hero-padding-block, clamp(4rem, 10vw, 8rem));
 }
 
 .tms-hero[data-border-bottom='true'] {

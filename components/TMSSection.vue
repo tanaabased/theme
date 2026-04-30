@@ -44,10 +44,10 @@ const titleId = useId();
   display: grid;
   grid-template-areas: 'title content';
   grid-template-columns: minmax(10rem, 0.28fr) minmax(0, 1fr);
-  gap: clamp(2rem, 6vw, 6rem);
+  gap: var(--tms-section-gap, clamp(2rem, 6vw, 6rem));
   align-items: start;
   width: 100%;
-  padding-block: clamp(2.5rem, 6vw, 4rem);
+  padding-block: var(--tms-section-padding-block, clamp(2.5rem, 6vw, 4rem));
 }
 
 .tms-section[data-border-bottom='true'] {
