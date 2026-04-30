@@ -15,9 +15,20 @@
             <template v-else>{{ slot.value }}</template>
           </template>
 
+          <template v-if="defaultRepeatSlot">
+            <component
+              :is="defaultRepeatSlot.component"
+              v-for="item in defaultRepeatSlot.items"
+              :key="item.key"
+              v-bind="defaultRepeatSlot.props"
+            >
+              {{ item.label }}
+            </component>
+          </template>
+
           <!-- eslint-disable vue/no-v-html -->
           <div
-            v-if="hasDefaultSlot && rendersDefaultSlotHtml"
+            v-else-if="hasDefaultSlot && rendersDefaultSlotHtml"
             class="tms-component-playground__slot-html"
             v-html="defaultSlotText"
           ></div>
@@ -88,6 +99,7 @@ import {
   decodeRegionValue,
   generateComponentUsage,
   getPreviewProps,
+  getRepeatSlotItems,
 } from './playground/codegen.js';
 
 const props = defineProps({
@@ -126,12 +138,25 @@ const resolvedPreviewFit = computed(() => {
 });
 const slotDefinitions = computed(() => Object.entries(props.schema?.slots ?? {}));
 const defaultSlotDefinition = computed(() => props.schema?.slots?.default ?? null);
+const defaultRepeatSlotDefinition = computed(() => {
+  return defaultSlotDefinition.value?.kind === 'repeat' ? defaultSlotDefinition.value : null;
+});
 const defaultSlotText = computed(() => state.slots.default ?? '');
 const hasDefaultSlot = computed(() => Boolean(defaultSlotDefinition.value));
 const rendersDefaultSlotHtml = computed(() => defaultSlotDefinition.value?.kind === 'html');
+const defaultRepeatSlot = computed(() => {
+  const definition = defaultRepeatSlotDefinition.value;
+  if (!definition) return null;
+
+  return {
+    component: definition.component,
+    props: definition.props ?? {},
+    items: getRepeatSlotItems(definition, state),
+  };
+});
 const namedPreviewSlots = computed(() => {
   return slotDefinitions.value
-    .filter(([slotName]) => slotName !== 'default')
+    .filter(([slotName, definition]) => slotName !== 'default' && definition.kind !== 'repeat')
     .map(([name, definition]) => ({
       name,
       rendersHtml: definition.kind === 'html',
@@ -149,6 +174,7 @@ function replaceReactiveObject(target, source) {
 }
 
 function replacePlaygroundState(nextState) {
+  replaceReactiveObject(state.controls, nextState.controls);
   replaceReactiveObject(state.props, nextState.props);
   replaceReactiveObject(state.slots, nextState.slots);
 }
@@ -169,6 +195,7 @@ watch(
   state,
   () => {
     emit('update:state', {
+      controls: { ...state.controls },
       props: { ...state.props },
       slots: { ...state.slots },
     });
@@ -266,7 +293,12 @@ function toggleBoolean(prop) {
   state.props[prop] = !state.props[prop];
 }
 
-function selectEnum({ prop, value }) {
+function selectEnum({ control, prop, value }) {
+  if (control) {
+    state.controls[control] = value;
+    return;
+  }
+
   state.props[prop] = value;
 }
 

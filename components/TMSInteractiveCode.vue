@@ -17,7 +17,7 @@
         class="tms-interactive-code__enum-menu"
         :style="activeEnum.style"
         role="group"
-        :aria-label="`Select ${activeEnum.prop}`"
+        :aria-label="`Select ${activeEnum.label}`"
         @focusout="handlePopoverFocusout"
         @keydown.esc="closeEnumPopover"
       >
@@ -180,6 +180,7 @@ function selectEnumValue(value) {
   if (!activeEnum.value) return;
 
   emit('select-enum', {
+    control: activeEnum.value.control,
     prop: activeEnum.value.prop,
     value,
   });
@@ -194,6 +195,8 @@ function openEnumPopover(region) {
   if (!coords) return;
 
   activeEnum.value = {
+    control: region.control,
+    label: region.prop ?? region.control,
     prop: region.prop,
     value: view.state.doc.sliceString(region.from, region.to),
     options: region.options ?? [],
@@ -309,7 +312,10 @@ function openRegionAtSelection() {
     return true;
   }
 
-  if (region?.kind === 'prop-value' && region.valueKind === 'enum') {
+  if (
+    (region?.kind === 'prop-value' || region?.kind === 'control-value') &&
+    region.valueKind === 'enum'
+  ) {
     openEnumPopover(region);
     return true;
   }
@@ -358,7 +364,10 @@ onMounted(async () => {
         return true;
       }
 
-      if (region?.kind === 'prop-value' && region.valueKind === 'enum') {
+      if (
+        (region?.kind === 'prop-value' || region?.kind === 'control-value') &&
+        region.valueKind === 'enum'
+      ) {
         event.preventDefault();
         openEnumPopover(region);
         return true;

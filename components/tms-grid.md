@@ -9,17 +9,8 @@ description: Flex wrapper component for grouping Tanaab boxes and related conten
 The `columns` prop sets the maximum column count on the widest viewport; dense grids scale down at smaller breakpoints before stacking to one column.
 
 <script setup>
-import { computed, ref } from 'vue';
-
-const columns = ref('');
-const boxCount = ref('auto');
-
-const resolvedColumns = computed(() => columns.value || '1');
-
-const resolvedBoxCount = computed(() => {
-  if (boxCount.value === 'auto') return Number(resolvedColumns.value);
-  return Number(boxCount.value);
-});
+import TMSBox from './TMSBox.vue';
+import TMSGrid from './TMSGrid.vue';
 
 const boxes = [
   'One',
@@ -36,33 +27,41 @@ const boxes = [
   'Twelve',
 ];
 
-const visibleBoxes = computed(() => boxes.slice(0, resolvedBoxCount.value));
-
-const demoCode = computed(() => {
-  const propString = resolvedColumns.value !== '1' ? ` columns="${resolvedColumns.value}"` : '';
-  const boxLines = visibleBoxes.value.map((box) => `  <TMSBox type="title">${box}</TMSBox>`).join('\n');
-
-  return `<TMSGrid${propString}>
-${boxLines}
-</TMSGrid>`;
-});
+const gridPlaygroundSchema = {
+  name: 'TMSGrid',
+  props: {
+    columns: {
+      kind: 'enum',
+      options: ['1', '2', '3', '4', '5', '6'],
+      default: '3',
+    },
+  },
+  controls: {
+    boxCount: {
+      kind: 'enum',
+      options: ['auto', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+      default: 'auto',
+    },
+  },
+  slots: {
+    default: {
+      kind: 'repeat',
+      component: TMSBox,
+      componentName: 'TMSBox',
+      props: {
+        type: 'title',
+      },
+      items: boxes,
+      countControl: 'boxCount',
+      autoCountProp: 'columns',
+    },
+  },
+};
 </script>
 
 ## Usage
 
-<TMSGrid columns="3">
-  <TMSBox type="title">One</TMSBox>
-  <TMSBox type="title">Two</TMSBox>
-  <TMSBox type="title">Three</TMSBox>
-</TMSGrid>
-
-```html
-<TMSGrid columns="3">
-  <TMSBox type="title">One</TMSBox>
-  <TMSBox type="title">Two</TMSBox>
-  <TMSBox type="title">Three</TMSBox>
-</TMSGrid>
-```
+<TMSComponentPlayground :component="TMSGrid" :schema="gridPlaygroundSchema" />
 
 ## Props
 
@@ -97,48 +96,3 @@ The examples use `TMSBox` to make the column behavior visible. `TMSGrid` can wra
   line-height: var(--tms-grid-item-line-height, 1.1);
 }
 ```
-
-## Demo
-
-<TMSComponentDocDemo :code="demoCode">
-  <template #controls-description>
-    Adjust the columns and box count to update both the live preview and the code sample.
-  </template>
-  <template #controls>
-    <label>
-      <span class="tms-visually-hidden">Columns</span>
-      <select v-model="columns">
-        <option value="">Columns</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-      </select>
-    </label>
-    <label>
-      <span class="tms-visually-hidden">Box count</span>
-      <select v-model="boxCount">
-        <option value="auto">Auto</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
-      </select>
-    </label>
-  </template>
-  <template #preview>
-    <TMSGrid :columns="resolvedColumns">
-      <TMSBox v-for="box in visibleBoxes" :key="box" type="title">{{ box }}</TMSBox>
-    </TMSGrid>
-  </template>
-</TMSComponentDocDemo>

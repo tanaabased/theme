@@ -52,6 +52,10 @@ function getSchemaSlots(schema) {
   return Object.entries(schema?.slots ?? {});
 }
 
+function getSchemaControls(schema) {
+  return Object.entries(schema?.controls ?? {});
+}
+
 function getDefaultValue(definition) {
   if ('default' in definition) return definition.default;
   if (definition.kind === 'boolean') return false;
@@ -61,9 +65,14 @@ function getDefaultValue(definition) {
 
 export function createPlaygroundState(schema, initialState = {}) {
   const state = {
+    controls: {},
     props: {},
     slots: {},
   };
+
+  for (const [name, definition] of getSchemaControls(schema)) {
+    state.controls[name] = initialState.controls?.[name] ?? getDefaultValue(definition);
+  }
 
   for (const [name, definition] of getSchemaProps(schema)) {
     state.props[name] = initialState.props?.[name] ?? getDefaultValue(definition);
@@ -124,12 +133,98 @@ function appendProp(code, regions, name, definition, value, options = {}) {
   return { code, rendered: true };
 }
 
+function appendControlComment(code, regions, name, definition, value, options = {}) {
+  const { collectRegions = true } = options;
+  const attribute = toKebabCase(name);
+  const formattedValue = escapeAttributeValue(value);
+
+  code += `\n  <!-- ${attribute}="`;
+  const start = code.length;
+  code += formattedValue;
+  const end = code.length;
+  code += '" -->';
+
+  if (collectRegions) {
+    regions.push({
+      kind: 'control-value',
+      control: name,
+      valueKind: definition.kind,
+      options: definition.kind === 'enum' ? definition.options : undefined,
+      from: start,
+      to: end,
+    });
+  }
+
+  return code;
+}
+
 function formatSlotValue(definition, value) {
   return definition.kind === 'html' ? String(value ?? '') : escapeSlotText(value ?? '');
 }
 
+function formatChildProps(props = {}) {
+  const attributes = [];
+
+  for (const [name, value] of Object.entries(props)) {
+    const attribute = toKebabCase(name);
+
+    if (typeof value === 'boolean') {
+      if (value) attributes.push(attribute);
+      continue;
+    }
+
+    if (value === undefined || value === null) continue;
+
+    attributes.push(`${attribute}="${escapeAttributeValue(value)}"`);
+  }
+
+  return attributes.length > 0 ? ` ${attributes.join(' ')}` : '';
+}
+
+function resolveRepeatCount(definition, state) {
+  const controlName = definition.countControl;
+  const controlValue = controlName ? state.controls?.[controlName] : undefined;
+
+  if (controlValue === 'auto') {
+    const autoValue = Number(state.props?.[definition.autoCountProp]);
+    if (Number.isInteger(autoValue) && autoValue > 0) return autoValue;
+  }
+
+  const explicitValue = Number(controlValue);
+  if (Number.isInteger(explicitValue) && explicitValue >= 0) return explicitValue;
+
+  const defaultCount = Number(definition.defaultCount);
+  if (Number.isInteger(defaultCount) && defaultCount >= 0) return defaultCount;
+
+  return definition.items?.length ?? 0;
+}
+
+export function getRepeatSlotItems(definition, state) {
+  if (definition?.kind !== 'repeat') return [];
+
+  const items = Array.isArray(definition.items) ? definition.items : [];
+  const count = Math.min(resolveRepeatCount(definition, state), items.length);
+
+  return items.slice(0, count).map((item, index) => ({
+    key: `${index}-${item}`,
+    label: String(item ?? ''),
+  }));
+}
+
 function appendSlot(code, regions, slotName, slotDefinition, value, options = {}) {
   const { collectRegions = true } = options;
+
+  if (slotDefinition.kind === 'repeat') {
+    const childName = slotDefinition.componentName ?? 'Component';
+    const childProps = formatChildProps(slotDefinition.props);
+
+    for (const item of getRepeatSlotItems(slotDefinition, options.state)) {
+      code += `\n  <${childName}${childProps}>${escapeSlotText(item.label)}</${childName}>`;
+    }
+
+    return code;
+  }
+
   const slotStart = code.length;
   code += formatSlotValue(slotDefinition, value);
   const slotEnd = code.length;
@@ -152,9 +247,10 @@ function generateUsageCode(schema, state, options = {}) {
   const regions = [];
   const props = getSchemaProps(schema);
   const slots = getSchemaSlots(schema);
+  const controls = getSchemaControls(schema);
   const namedSlots = slots.filter(([slotName]) => slotName !== 'default');
   const defaultSlot = slots.find(([slotName]) => slotName === 'default');
-  const { collectRegions = true, includeInactiveBooleans = true } = options;
+  const { collectRegions = true, includeControls = true, includeInactiveBooleans = true } = options;
 
   let code = `<${name}`;
   let renderedPropCount = 0;
@@ -183,19 +279,30 @@ function generateUsageCode(schema, state, options = {}) {
 
   code += '>';
 
+  if (includeControls) {
+    for (const [controlName, definition] of controls) {
+      const value = state.controls?.[controlName] ?? getDefaultValue(definition);
+      code = appendControlComment(code, regions, controlName, definition, value, {
+        collectRegions,
+      });
+    }
+  }
+
   for (const [slotName, slotDefinition] of namedSlots) {
     code += `\n  <template #${slotName}>\n    `;
     code = appendSlot(code, regions, slotName, slotDefinition, state.slots[slotName], {
       collectRegions,
+      state,
     });
     code += '\n  </template>';
   }
 
   if (defaultSlot) {
     const [slotName, slotDefinition] = defaultSlot;
-    code += '\n  ';
+    if (slotDefinition.kind !== 'repeat') code += '\n  ';
     code = appendSlot(code, regions, slotName, slotDefinition, state.slots[slotName], {
       collectRegions,
+      state,
     });
   }
 
@@ -208,6 +315,7 @@ export function generateComponentUsage(schema, state) {
   const { code, regions } = generateUsageCode(schema, state);
   const { code: copyCode } = generateUsageCode(schema, state, {
     collectRegions: false,
+    includeControls: false,
     includeInactiveBooleans: false,
   });
 
