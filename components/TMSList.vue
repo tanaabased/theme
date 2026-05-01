@@ -2,6 +2,7 @@
   <section
     class="tms-list"
     :aria-labelledby="resolvedHeader ? headerId : undefined"
+    :data-columns="resolvedColumns"
     :data-orientation="resolvedOrientation"
   >
     <div v-if="resolvedHeader" :id="headerId" class="tms-list__header">
@@ -30,6 +31,11 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  columns: {
+    type: [String, Number],
+    default: 'none',
+    validator: (value) => ['none', '2', '3'].includes(String(value).trim()),
+  },
   items: {
     type: Array,
     default: () => [],
@@ -50,6 +56,13 @@ const hasDefaultSlot = computed(() => Boolean(slots.default));
 const resolvedHeader = computed(() => props.header.trim());
 
 const resolvedHeaderLink = computed(() => props.headerLink.trim());
+
+const resolvedColumns = computed(() => {
+  const columns = String(props.columns).trim();
+
+  if (columns === '2' || columns === '3') return columns;
+  return 'none';
+});
 
 const resolvedOrientation = computed(() => {
   if (props.orientation === 'row') return 'row';
@@ -100,6 +113,8 @@ const resolvedItems = computed(() =>
 
 .tms-list {
   --tms-list-link-hover-color: var(--tanaab-color-primary);
+  --tms-list-item-padding-block-end: 0.45rem;
+  --tms-list-item-padding-block-start: 1.05rem;
   --tms-list-padding-long: clamp(1.75rem, 3.2vw, 2.75rem);
   --tms-list-padding-short: clamp(1.25rem, 2.2vw, 2rem);
 
@@ -171,7 +186,7 @@ const resolvedItems = computed(() =>
   display: block;
   width: 100%;
   box-sizing: border-box;
-  padding-block: 1.05rem 0.45rem;
+  padding-block: var(--tms-list-item-padding-block-start) var(--tms-list-item-padding-block-end);
   color: inherit;
   text-decoration: none;
 }
@@ -214,13 +229,75 @@ const resolvedItems = computed(() =>
   padding-block: 0;
 }
 
-@media (max-width: vars.$breakpoint-lg-max) {
+.tms-list[data-columns='2'] .tms-list__items,
+.tms-list[data-columns='3'] .tms-list__items {
+  display: block;
+  column-gap: clamp(2rem, 6vw, 5rem);
+}
+
+.tms-list[data-columns='2'] .tms-list__items {
+  column-count: 2;
+}
+
+.tms-list[data-columns='3'] .tms-list__items {
+  column-count: 3;
+}
+
+.tms-list[data-orientation='row'][data-columns='2'] .tms-list__items,
+.tms-list[data-orientation='row'][data-columns='3'] .tms-list__items {
+  margin-block-start: calc(-1 * var(--tms-list-item-padding-block-start));
+}
+
+.tms-list[data-columns='2'] .tms-list__item,
+.tms-list[data-columns='2'] .tms-list__items :deep(> li),
+.tms-list[data-columns='3'] .tms-list__item,
+.tms-list[data-columns='3'] .tms-list__items :deep(> li) {
+  width: 100%;
+  border-bottom: 1px solid var(--vp-c-divider);
+  break-inside: avoid;
+}
+
+.tms-list[data-columns='2'] .tms-list__item > a,
+.tms-list[data-columns='2'] .tms-list__item > span,
+.tms-list[data-columns='2'] .tms-list__items :deep(> li > a),
+.tms-list[data-columns='2'] .tms-list__items :deep(> li > span),
+.tms-list[data-columns='3'] .tms-list__item > a,
+.tms-list[data-columns='3'] .tms-list__item > span,
+.tms-list[data-columns='3'] .tms-list__items :deep(> li > a),
+.tms-list[data-columns='3'] .tms-list__items :deep(> li > span) {
+  padding-block: var(--tms-list-item-padding-block-start) var(--tms-list-item-padding-block-end);
+}
+
+@media (max-width: vars.$breakpoint-sm) {
+  .tms-list[data-columns='2'] .tms-list__items,
+  .tms-list[data-columns='3'] .tms-list__items {
+    display: grid;
+    column-count: auto;
+    column-gap: 0;
+    margin-block-start: 0;
+  }
+
   .tms-list[data-orientation='row'] {
     grid-template-columns: 1fr;
   }
 
   .tms-list[data-orientation='row'] .tms-list__items {
-    justify-content: flex-start;
+    display: grid;
+    gap: 0;
+    justify-content: stretch;
+  }
+
+  .tms-list[data-orientation='row'] .tms-list__item,
+  .tms-list[data-orientation='row'] .tms-list__items :deep(> li) {
+    width: 100%;
+    border-bottom: 1px solid var(--vp-c-divider);
+  }
+
+  .tms-list[data-orientation='row'] .tms-list__item > a,
+  .tms-list[data-orientation='row'] .tms-list__item > span,
+  .tms-list[data-orientation='row'] .tms-list__items :deep(> li > a),
+  .tms-list[data-orientation='row'] .tms-list__items :deep(> li > span) {
+    padding-block: var(--tms-list-item-padding-block-start) var(--tms-list-item-padding-block-end);
   }
 }
 </style>

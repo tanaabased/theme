@@ -8,104 +8,73 @@ description: Labelled list component for grouped navigation and compact index co
 `TMSList` is a globally registered component for rendering labelled lists with consistent item spacing, dividers, and link behavior.
 
 <script setup>
-import { computed, ref } from 'vue';
+import TMSList from './TMSList.vue';
 
-const header = ref('');
-const headerLink = ref('');
-const orientation = ref('');
-const itemsText = ref('');
+const listPlaygroundSchema = {
+  name: 'TMSList',
+  props: {
+    header: {
+      kind: 'string',
+      default: 'Executive errands.',
+    },
+    headerLink: {
+      kind: 'string',
+      default: '/styleguide/principles',
+    },
+    columns: {
+      kind: 'enum',
+      options: ['none', '2', '3'],
+      default: 'none',
+    },
+    orientation: {
+      kind: 'enum',
+      options: ['column', 'row'],
+      default: 'column',
+    },
+    items: {
+      kind: 'object-array',
+      default: [
+        { label: 'Alignment rituals', link: '/styleguide/principles' },
+        { label: 'Hero creation', link: '/components/tms-hero' },
+        { label: 'Rectangle deployment', link: '/components/tms-grid' },
+        { label: 'Square containment', link: '/components/tms-box' },
+        {
+          label: 'Commitment architecture',
+          link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          attrs: { target: '_blank' },
+        },
+        {
+          label: 'Final-frontier stakeholder expansion',
+          link: 'https://www.youtube.com/watch?v=cWGQGJfNSUw',
+          attrs: { target: '_blank' },
+        },
+      ],
+      fields: [
+        {
+          path: 'label',
+          kind: 'string',
+        },
+        {
+          path: 'link',
+          kind: 'string',
+          optional: true,
+        },
+        {
+          path: 'attrs.target',
+          kind: 'enum',
+          options: ['', '_blank'],
+          optional: true,
+        },
+      ],
+    },
+  },
+};
 
-const fallbackItemsText = `Business | /strategy/business
-Branding | /strategy/branding
-User Research | /strategy/user-research
-Content Strategy | /strategy/content-strategy
-SEO | https://example.com/seo | _blank`;
-
-const resolvedHeader = computed(() => {
-  const value = header.value.trim();
-  return value || 'Strategy.';
-});
-
-const resolvedHeaderLink = computed(() => headerLink.value.trim());
-
-const resolvedOrientation = computed(() => orientation.value || 'column');
-
-const resolvedItemsText = computed(() => {
-  const value = itemsText.value.trim();
-  return value || fallbackItemsText;
-});
-
-const resolvedItems = computed(() =>
-  resolvedItemsText.value
-    .split('\n')
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => {
-      const [label = '', link = '', target = ''] = line.split('|').map((part) => part.trim());
-      const item = { label };
-
-      if (link) item.link = link;
-      if (target) item.attrs = { target };
-
-      return item;
-    })
-    .filter((item) => item.label),
-);
-
-function quoteProp(value) {
-  return JSON.stringify(value);
-}
-
-function formatObject(value) {
-  return JSON.stringify(value, null, 2)
-    .replace(/"([^"]+)":/g, '$1:')
-    .replace(/"/g, "'");
-}
-
-function formatBoundValue(value) {
-  return formatObject(value)
-    .split('\n')
-    .map((line, index) => (index === 0 ? line : `    ${line}`))
-    .join('\n');
-}
-
-const demoCode = computed(() => {
-  const props = [`header=${quoteProp(resolvedHeader.value)}`];
-
-  if (resolvedHeaderLink.value) props.push(`header-link=${quoteProp(resolvedHeaderLink.value)}`);
-  if (resolvedOrientation.value === 'row') props.push('orientation="row"');
-
-  const propString = props.join('\n  ');
-  const itemsString = formatBoundValue(resolvedItems.value);
-
-  return `<TMSList
-  ${propString}
-  :items="${itemsString}"
-/>`;
-});
 </script>
 
 ## Usage
 
-<TMSList
-  header="Strategy."
-  :items="[
-    { label: 'Business', link: '/strategy/business' },
-    { label: 'Branding', link: '/strategy/branding' },
-    { label: 'User Research', link: '/strategy/user-research' },
-  ]"
-/>
-
-```html
-<TMSList
-  header="Strategy."
-  :items="[
-    { label: 'Business', link: '/strategy/business' },
-    { label: 'Branding', link: '/strategy/branding' },
-    { label: 'User Research', link: '/strategy/user-research' },
-  ]"
-/>
-```
+<TMSComponentPlayground :component="TMSList" :schema="listPlaygroundSchema" />
 
 ## Props
 
@@ -114,8 +83,9 @@ const demoCode = computed(() => {
 | `header`      | `string`                            | `''`       | Visible list label rendered above or beside the list. |
 | `headerLink`  | `string`                            | `''`       | Makes the list label clickable when populated.        |
 | `items`       | `Array<TMSListItem>`                | `[]`       | Recommended list authoring path.                      |
-| `orientation` | `'column' \| 'row'`                 | `'column'` | Controls list layout.                                 |
 | `item.attrs`  | `Record<string, string \| boolean>` | `{}`       | Safe anchor attributes for linked items.              |
+| `orientation` | `'column' \| 'row'`                 | `'column'` | Controls list layout.                                 |
+| `columns`     | `'none' \| '2' \| '3'`              | `'none'`   | Opts the item list into vertical multi-column layout. |
 
 `item.attrs` supports `target`, `rel`, `download`, `title`, `aria-*`, and `data-*`. If `target` is `_blank` and `rel` is omitted, `rel="noreferrer"` is added automatically.
 
@@ -128,41 +98,3 @@ const demoCode = computed(() => {
 | Slot      | Notes                                                |
 | --------- | ---------------------------------------------------- |
 | `default` | Optional `<li>` children. Overrides `items` if used. |
-
-## Demo
-
-<TMSComponentDocDemo :code="demoCode">
-  <template #controls-description>
-    Adjust the controls to update the list. Items use one line per entry: label, URL, and optional target separated by pipes.
-  </template>
-  <template #controls>
-    <label>
-      <span class="tms-visually-hidden">Header</span>
-      <input v-model="header" type="text" placeholder="Header" />
-    </label>
-    <label>
-      <span class="tms-visually-hidden">Header link</span>
-      <input v-model="headerLink" type="text" placeholder="Header link URL" />
-    </label>
-    <label>
-      <span class="tms-visually-hidden">Orientation</span>
-      <select v-model="orientation">
-        <option value="">Orientation</option>
-        <option value="column">column</option>
-        <option value="row">row</option>
-      </select>
-    </label>
-    <label>
-      <span class="tms-visually-hidden">Items</span>
-      <textarea v-model="itemsText" placeholder="Items"></textarea>
-    </label>
-  </template>
-  <template #preview>
-    <TMSList
-      :header="resolvedHeader"
-      :header-link="resolvedHeaderLink"
-      :items="resolvedItems"
-      :orientation="resolvedOrientation"
-    />
-  </template>
-</TMSComponentDocDemo>

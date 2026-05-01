@@ -29,15 +29,13 @@
 - Existing markdown pages that already contain local styles or scripts are legacy context, not the preferred pattern for new work.
 - Keep prop and slot table notes focused on the public authoring API. Do not put accessibility implementation details in prop or slot descriptions unless the prop or slot exists specifically for accessibility.
 - When an automatic accessibility behavior is worth documenting, put it in an info admonition near the relevant API section instead of overloading the prop or slot table.
-- Component documentation pages should open with H1 and intro copy, then hidden `## Usage`, then Props, Slots when present, optional Variables, and Demo.
+- Component documentation pages should open with H1 and intro copy, then hidden `## Usage`, then Props, Slots when present, and optional Variables.
 - Keep top-level Usage examples representative without helper jump-link text.
-- Use `TMSComponentPlayground` directly under hidden `## Usage` when the component fits the schema-driven playground surface; omit the later demo section for those pages.
+- Use `TMSComponentPlayground` directly under hidden `## Usage` when the component fits the schema-driven playground surface.
 - Use `preview-fit="contained"` for atomic or full-width-square playground previews such as logos and boxes.
 - Leave the default full-width playground preview for structural or editorial components that should demonstrate the available content width.
 - For non-playground Usage examples, render direct live markup followed by a matching `html` code fence.
-- Put broader prop and slot exploration in the later interactive `TMSComponentDocDemo`.
-- Order interactive demos as Preview, Controls, then Code so controls stay close to the preview they affect.
-- Demo subheadings can be semantic-only with `.tms-visually-hidden` when the visual structure is already obvious.
+- Playground schemas should cover the representative prop and slot states that make the component's public API understandable.
 
 ## Form Controls
 

@@ -31,7 +31,7 @@
           :data-active="option === activeEnum.value ? 'true' : undefined"
           @click="selectEnumValue(option)"
         >
-          {{ option }}
+          {{ formatEnumOptionLabel(option) }}
         </button>
       </div>
     </Teleport>
@@ -108,7 +108,32 @@ let highlightSequence = 0;
 function isTextEditableRegion(region) {
   if (!region) return false;
   if (region.kind === 'slot-text') return true;
+  if (region.kind === 'array-prop-field') return region.valueKind !== 'enum';
   return region.kind === 'prop-value' && region.valueKind !== 'enum';
+}
+
+function isEnumRegion(region) {
+  return (
+    (region?.kind === 'prop-value' ||
+      region?.kind === 'control-value' ||
+      region?.kind === 'array-prop-field') &&
+    region.valueKind === 'enum'
+  );
+}
+
+function getEnumRegionLabel(region) {
+  if (region?.path) return `${region.prop}.${region.path}`;
+  return region?.prop ?? region?.control ?? 'value';
+}
+
+function getEnumRegionValue(region) {
+  if (!region) return '';
+  if ('value' in region) return region.value;
+  return view?.state.doc.sliceString(region.from, region.to) ?? '';
+}
+
+function formatEnumOptionLabel(option) {
+  return option === '' ? "''" : option;
 }
 
 function findRegionAt(position) {
@@ -182,6 +207,7 @@ function selectEnumValue(value) {
   emit('select-enum', {
     control: activeEnum.value.control,
     prop: activeEnum.value.prop,
+    region: activeEnum.value.region,
     value,
   });
 
@@ -196,9 +222,10 @@ function openEnumPopover(region) {
 
   activeEnum.value = {
     control: region.control,
-    label: region.prop ?? region.control,
+    label: getEnumRegionLabel(region),
     prop: region.prop,
-    value: view.state.doc.sliceString(region.from, region.to),
+    region,
+    value: getEnumRegionValue(region),
     options: region.options ?? [],
     style: {
       top: `${Math.max(8, coords.bottom + 4)}px`,
@@ -312,10 +339,7 @@ function openRegionAtSelection() {
     return true;
   }
 
-  if (
-    (region?.kind === 'prop-value' || region?.kind === 'control-value') &&
-    region.valueKind === 'enum'
-  ) {
+  if (isEnumRegion(region)) {
     openEnumPopover(region);
     return true;
   }
@@ -364,10 +388,7 @@ onMounted(async () => {
         return true;
       }
 
-      if (
-        (region?.kind === 'prop-value' || region?.kind === 'control-value') &&
-        region.valueKind === 'enum'
-      ) {
+      if (isEnumRegion(region)) {
         event.preventDefault();
         openEnumPopover(region);
         return true;

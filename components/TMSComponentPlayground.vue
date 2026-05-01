@@ -2,7 +2,7 @@
   <div class="tms-component-playground" :data-preview-fit="resolvedPreviewFit">
     <div class="tms-component-playground__preview" aria-label="Component preview">
       <div class="tms-component-playground__preview-inner">
-        <component :is="props.component" v-bind="previewProps">
+        <component :is="props.component" v-if="hasPreviewSlots" v-bind="previewProps">
           <template v-for="slot in namedPreviewSlots" #[slot.name]>
             <!-- eslint-disable vue/no-v-html -->
             <div
@@ -35,6 +35,7 @@
           <!-- eslint-enable vue/no-v-html -->
           <template v-else-if="hasDefaultSlot">{{ defaultSlotText }}</template>
         </component>
+        <component :is="props.component" v-else v-bind="previewProps" />
       </div>
     </div>
 
@@ -100,6 +101,7 @@ import {
   generateComponentUsage,
   getPreviewProps,
   getRepeatSlotItems,
+  setNestedValue,
 } from './playground/codegen.js';
 
 const props = defineProps({
@@ -162,6 +164,11 @@ const namedPreviewSlots = computed(() => {
       rendersHtml: definition.kind === 'html',
       value: state.slots[name] ?? '',
     }));
+});
+const hasPreviewSlots = computed(() => {
+  return (
+    namedPreviewSlots.value.length > 0 || Boolean(defaultRepeatSlot.value) || hasDefaultSlot.value
+  );
 });
 const copyLabel = computed(() => (copied.value ? 'Copied code' : 'Copy code'));
 
@@ -278,6 +285,11 @@ function updateRegion({ region, value }) {
     return;
   }
 
+  if (region.kind === 'array-prop-field') {
+    updateArrayPropField(region, decodedValue);
+    return;
+  }
+
   if (region.kind !== 'prop-value') return;
 
   if (region.valueKind === 'number') {
@@ -289,11 +301,31 @@ function updateRegion({ region, value }) {
   state.props[region.prop] = decodedValue;
 }
 
+function updateArrayPropField(region, value) {
+  if (!Array.isArray(state.props[region.prop])) {
+    state.props[region.prop] = [];
+  }
+
+  if (
+    !state.props[region.prop][region.index] ||
+    typeof state.props[region.prop][region.index] !== 'object'
+  ) {
+    state.props[region.prop][region.index] = {};
+  }
+
+  setNestedValue(state.props[region.prop][region.index], region.path, value);
+}
+
 function toggleBoolean(prop) {
   state.props[prop] = !state.props[prop];
 }
 
-function selectEnum({ control, prop, value }) {
+function selectEnum({ control, prop, region, value }) {
+  if (region?.kind === 'array-prop-field') {
+    updateArrayPropField(region, value);
+    return;
+  }
+
   if (control) {
     state.controls[control] = value;
     return;

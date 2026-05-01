@@ -1,7 +1,6 @@
 import VPLTheme from './tanaab-theme-core.js';
 import TanaabLayout from './layout/TanaabLayout.vue';
 import TMSBox from './components/TMSBox.vue';
-import TMSComponentDocDemo from './components/TMSComponentDocDemo.vue';
 import TMSComponentPlayground from './components/TMSComponentPlayground.vue';
 import TMSGrid from './components/TMSGrid.vue';
 import TMSHero from './components/TMSHero.vue';
@@ -19,7 +18,6 @@ export default {
     }
 
     ctx.app.component('TMSBox', TMSBox);
-    ctx.app.component('TMSComponentDocDemo', TMSComponentDocDemo);
     ctx.app.component('TMSComponentPlayground', TMSComponentPlayground);
     ctx.app.component('TMSGrid', TMSGrid);
     ctx.app.component('TMSHero', TMSHero);

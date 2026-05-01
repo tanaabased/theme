@@ -17,6 +17,12 @@ function escapeSlotText(value) {
     .replaceAll('>', '&gt;');
 }
 
+function escapeJsStringValue(value) {
+  return String(value ?? '')
+    .replaceAll('\\', '\\\\')
+    .replaceAll("'", "\\'");
+}
+
 function decodeHtmlEntities(value) {
   return String(value ?? '').replace(
     /&(#x[\da-f]+|#\d+|amp|quot|apos|#39|lt|gt);/gi,
@@ -56,10 +62,17 @@ function getSchemaControls(schema) {
   return Object.entries(schema?.controls ?? {});
 }
 
+function cloneValue(value) {
+  if (value === undefined || value === null) return value;
+
+  return JSON.parse(JSON.stringify(value));
+}
+
 function getDefaultValue(definition) {
-  if ('default' in definition) return definition.default;
+  if ('default' in definition) return cloneValue(definition.default);
   if (definition.kind === 'boolean') return false;
   if (definition.kind === 'number') return 0;
+  if (definition.kind === 'object-array') return [];
   return '';
 }
 
@@ -71,23 +84,216 @@ export function createPlaygroundState(schema, initialState = {}) {
   };
 
   for (const [name, definition] of getSchemaControls(schema)) {
-    state.controls[name] = initialState.controls?.[name] ?? getDefaultValue(definition);
+    state.controls[name] = cloneValue(initialState.controls?.[name] ?? getDefaultValue(definition));
   }
 
   for (const [name, definition] of getSchemaProps(schema)) {
-    state.props[name] = initialState.props?.[name] ?? getDefaultValue(definition);
+    state.props[name] = cloneValue(initialState.props?.[name] ?? getDefaultValue(definition));
   }
 
   for (const [name, definition] of getSchemaSlots(schema)) {
-    state.slots[name] = initialState.slots?.[name] ?? definition.default ?? '';
+    state.slots[name] = cloneValue(initialState.slots?.[name] ?? definition.default ?? '');
   }
 
   return state;
 }
 
+function getObjectArrayFields(definition) {
+  return Array.isArray(definition.fields) ? definition.fields : [];
+}
+
+function getPathParts(path) {
+  return String(path ?? '')
+    .split('.')
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
+
+function getNestedValue(source, path) {
+  return getPathParts(path).reduce((value, part) => value?.[part], source);
+}
+
+export function setNestedValue(source, path, value) {
+  const parts = getPathParts(path);
+  if (parts.length === 0) return source;
+
+  let target = source;
+
+  for (const part of parts.slice(0, -1)) {
+    if (!target[part] || typeof target[part] !== 'object' || Array.isArray(target[part])) {
+      target[part] = {};
+    }
+
+    target = target[part];
+  }
+
+  target[parts.at(-1)] = value;
+
+  return source;
+}
+
+function isEmptyOptionalValue(value) {
+  return value === undefined || value === null || value === '';
+}
+
+function shouldRenderObjectArrayField(field, value, options = {}) {
+  const { includeEmptyArrayFields = true } = options;
+
+  if (!field.optional) return true;
+  if (includeEmptyArrayFields) return true;
+
+  return !isEmptyOptionalValue(value);
+}
+
+function appendJsString(code, value) {
+  code += "'";
+  const start = code.length;
+  code += escapeJsStringValue(value);
+  const end = code.length;
+  code += "'";
+
+  return { code, start, end };
+}
+
+function appendObjectArrayFieldValue(code, regions, context, options = {}) {
+  const { collectRegions = true } = options;
+  const { propName, itemIndex, path, field, value } = context;
+
+  if (field.kind === 'enum') {
+    const start = code.length;
+    code += `'${escapeJsStringValue(value)}'`;
+    const end = code.length;
+
+    if (collectRegions) {
+      regions.push({
+        kind: 'array-prop-field',
+        prop: propName,
+        index: itemIndex,
+        path,
+        valueKind: 'enum',
+        options: field.options,
+        value: value ?? '',
+        active: !field.optional || !isEmptyOptionalValue(value),
+        from: start,
+        to: end,
+      });
+    }
+
+    return code;
+  }
+
+  const result = appendJsString(code, value);
+
+  if (collectRegions) {
+    regions.push({
+      kind: 'array-prop-field',
+      prop: propName,
+      index: itemIndex,
+      path,
+      valueKind: field.kind ?? 'string',
+      from: result.start,
+      to: result.end,
+    });
+  }
+
+  return result.code;
+}
+
+function appendObjectArrayProp(code, regions, name, definition, value, options = {}) {
+  const { includeEmptyArrayFields = true } = options;
+  const items = Array.isArray(value) ? value : [];
+  const fields = getObjectArrayFields(definition);
+  const attribute = toKebabCase(name);
+
+  code += `:${attribute}="[`;
+
+  items.forEach((item, itemIndex) => {
+    const rootFields = fields.filter((field) => !String(field.path ?? '').includes('.'));
+    const nestedFields = fields.filter((field) => String(field.path ?? '').includes('.'));
+    const nestedGroups = new Map();
+
+    for (const field of nestedFields) {
+      const [groupName, ...childParts] = getPathParts(field.path);
+      const childPath = childParts.join('.');
+
+      if (!groupName || !childPath) continue;
+
+      const group = nestedGroups.get(groupName) ?? [];
+      group.push({ ...field, childPath });
+      nestedGroups.set(groupName, group);
+    }
+
+    code += '\n    {';
+
+    for (const field of rootFields) {
+      const fieldValue = getNestedValue(item, field.path) ?? '';
+      if (!shouldRenderObjectArrayField(field, fieldValue, { includeEmptyArrayFields })) continue;
+
+      code += `\n      ${field.path}: `;
+      code = appendObjectArrayFieldValue(
+        code,
+        regions,
+        {
+          propName: name,
+          itemIndex,
+          path: field.path,
+          field,
+          value: fieldValue,
+        },
+        options,
+      );
+      code += ',';
+    }
+
+    for (const [groupName, groupFields] of nestedGroups) {
+      const renderedGroupFields = groupFields
+        .map((field) => ({
+          field,
+          value: getNestedValue(item, field.path) ?? '',
+        }))
+        .filter(({ field, value: fieldValue }) =>
+          shouldRenderObjectArrayField(field, fieldValue, { includeEmptyArrayFields }),
+        );
+
+      if (renderedGroupFields.length === 0) continue;
+
+      code += `\n      ${groupName}: { `;
+
+      renderedGroupFields.forEach(({ field, value: fieldValue }, fieldIndex) => {
+        if (fieldIndex > 0) code += ', ';
+        code += `${field.childPath}: `;
+        code = appendObjectArrayFieldValue(
+          code,
+          regions,
+          {
+            propName: name,
+            itemIndex,
+            path: field.path,
+            field,
+            value: fieldValue,
+          },
+          options,
+        );
+      });
+
+      code += ' },';
+    }
+
+    code += '\n    },';
+  });
+
+  code += '\n  ]"';
+
+  return { code, rendered: true };
+}
+
 function appendProp(code, regions, name, definition, value, options = {}) {
   const attribute = toKebabCase(name);
   const { collectRegions = true, includeInactiveBooleans = true } = options;
+
+  if (definition.kind === 'object-array') {
+    return appendObjectArrayProp(code, regions, name, definition, value, options);
+  }
 
   if (definition.kind === 'boolean') {
     if (!value && !includeInactiveBooleans) {
@@ -250,7 +456,12 @@ function generateUsageCode(schema, state, options = {}) {
   const controls = getSchemaControls(schema);
   const namedSlots = slots.filter(([slotName]) => slotName !== 'default');
   const defaultSlot = slots.find(([slotName]) => slotName === 'default');
-  const { collectRegions = true, includeControls = true, includeInactiveBooleans = true } = options;
+  const {
+    collectRegions = true,
+    includeControls = true,
+    includeInactiveBooleans = true,
+    includeEmptyArrayFields = true,
+  } = options;
 
   let code = `<${name}`;
   let renderedPropCount = 0;
@@ -261,6 +472,7 @@ function generateUsageCode(schema, state, options = {}) {
     code += '\n  ';
     const result = appendProp(code, regions, propName, definition, value, {
       collectRegions,
+      includeEmptyArrayFields,
       includeInactiveBooleans,
     });
     code = result.code;
@@ -316,6 +528,7 @@ export function generateComponentUsage(schema, state) {
   const { code: copyCode } = generateUsageCode(schema, state, {
     collectRegions: false,
     includeControls: false,
+    includeEmptyArrayFields: false,
     includeInactiveBooleans: false,
   });
 
@@ -330,10 +543,33 @@ export function getPreviewProps(schema, state) {
 
     if (definition.kind === 'boolean' && !value) continue;
 
+    if (definition.kind === 'object-array') {
+      previewProps[name] = normalizeObjectArrayValue(definition, value);
+      continue;
+    }
+
     previewProps[name] = value;
   }
 
   return previewProps;
+}
+
+function normalizeObjectArrayValue(definition, value) {
+  const items = Array.isArray(value) ? value : [];
+  const fields = getObjectArrayFields(definition);
+
+  return items.map((item) => {
+    const normalizedItem = {};
+
+    for (const field of fields) {
+      const fieldValue = getNestedValue(item, field.path) ?? '';
+      if (field.optional && isEmptyOptionalValue(fieldValue)) continue;
+
+      setNestedValue(normalizedItem, field.path, fieldValue);
+    }
+
+    return normalizedItem;
+  });
 }
 
 export function decodeRegionValue(region, value) {
@@ -343,6 +579,10 @@ export function decodeRegionValue(region, value) {
 
   if (region?.kind === 'prop-value' && region.valueKind !== 'number') {
     return decodeHtmlEntities(value);
+  }
+
+  if (region?.kind === 'array-prop-field') {
+    return String(value ?? '');
   }
 
   return value;

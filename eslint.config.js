@@ -99,7 +99,7 @@ export default [
     },
   },
   {
-    files: ['components/TMSComponentDocDemo.vue', 'components/TMSLogo.vue'],
+    files: ['components/TMSLogo.vue'],
     rules: {
       'vue/no-v-html': 'off',
     },
