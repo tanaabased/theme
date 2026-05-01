@@ -1,10 +1,10 @@
-name: Lint Code
+name: Run Unit Tests
 
 on:
   pull_request:
 
 jobs:
-  lint:
+  unit-tests:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -19,5 +19,7 @@ jobs:
           bun-version-file: .bun-version
       - name: Install dependencies
         run: bun install --no-save --frozen-lockfile
-      - name: Run code linter
+      - name: Run linter
         run: bun run lint
+      - name: Run unit tests
+        run: bun run test
