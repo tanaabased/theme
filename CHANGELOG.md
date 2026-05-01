@@ -1,5 +1,12 @@
 ## {{ UNRELEASED_VERSION }} - [{{ UNRELEASED_DATE }}]({{ UNRELEASED_LINK }})
 
+- Added `TMSComponentPlayground` for editable component previews, generated usage code, reset, copy, and source links. [#4](https://github.com/tanaabased/theme/pull/4)
+- Added `TMSBox`, `TMSGrid`, `TMSHero`, `TMSList`, and `TMSSection` with playground-backed documentation. [#4](https://github.com/tanaabased/theme/pull/4)
+- Added focused JavaScript tests for playground code generation and the `sync-tanaab-assets` CLI. [#4](https://github.com/tanaabased/theme/pull/4)
+- Updated `TMSList` with opt-in columns, responsive row collapse, editable item arrays, and deterministic item presets. [#4](https://github.com/tanaabased/theme/pull/4)
+- Updated component docs around the playground-first structure and async-loaded the playground shell. [#4](https://github.com/tanaabased/theme/pull/4)
+- Updated `sync-tanaab-assets` with a testable CLI module, `--version`, split PR workflows, and CI-safe color defaults. [#4](https://github.com/tanaabased/theme/pull/4)
+
 ## v0.4.0 - [March 5, 2026](https://github.com/tanaabased/theme/releases/tag/v0.4.0)
 
 - Added a configurable `TMSLogo` component with theme-aware colors, full-link support, and refreshed documentation.
