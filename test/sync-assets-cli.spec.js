@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 
 import {
@@ -20,7 +21,7 @@ function createStream() {
 }
 
 async function createTempDir() {
-  return mkdtemp('/private/tmp/tanaab-theme-sync-assets-');
+  return mkdtemp(resolve(tmpdir(), 'tanaab-theme-sync-assets-'));
 }
 
 async function createPackageRoot() {
@@ -97,6 +98,7 @@ describe('lib/sync-assets-cli', () => {
     const exitCode = await runSyncAssetsCli({
       argv: ['--unknown'],
       cwd: process.cwd(),
+      env: { NO_COLOR: '1' },
       stdout,
       stderr,
     });
