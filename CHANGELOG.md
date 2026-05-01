@@ -1,5 +1,7 @@
 ## {{ UNRELEASED_VERSION }} - [{{ UNRELEASED_DATE }}]({{ UNRELEASED_LINK }})
 
+## v0.5.0 - [May 1, 2026](https://github.com/tanaabased/theme/releases/tag/v0.5.0)
+
 ### Brand Guidance
 
 - Added `TMSBox`, `TMSGrid`, `TMSHero`, `TMSList`, and `TMSSection` as public components with playground-backed documentation. [#4](https://github.com/tanaabased/theme/pull/4)
