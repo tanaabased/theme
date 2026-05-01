@@ -4,6 +4,7 @@
     :style="logoVars"
     :data-type="props.type"
     :href="resolvedLink"
+    aria-label="Tanaab Maneuvering Systems"
     v-html="svgWithClass"
   />
 </template>
@@ -66,10 +67,11 @@ const selectedSvg = computed(() => logos[props.type] ?? logos.centered);
 const svgWithClass = computed(() => {
   const svg = selectedSvg.value;
   if (!svg) return '';
-  if (/^<svg\b[^>]*class=/i.test(svg)) {
-    return svg.replace(/^<svg\b([^>]*?)class="([^"]*)"/i, '<svg$1class="$2 tms-logo__svg"');
-  }
-  return svg.replace(/^<svg\b/i, '<svg class="tms-logo__svg"');
+  const svgWithClass = /^<svg\b[^>]*class=/i.test(svg)
+    ? svg.replace(/^<svg\b([^>]*?)class="([^"]*)"/i, '<svg$1class="$2 tms-logo__svg"')
+    : svg.replace(/^<svg\b/i, '<svg class="tms-logo__svg"');
+
+  return svgWithClass.replace(/^<svg\b/i, '<svg aria-hidden="true" focusable="false"');
 });
 
 const logoVars = computed(() => ({

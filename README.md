@@ -12,6 +12,16 @@ Built on top of [this](https://vitepress-theme-default-plus.lando.dev/).
 - [Usage](https://theme.tanaab.dev/usage)
 - [Development](https://theme.tanaab.dev/development)
 
+## Asset Sync
+
+This package ships `sync-tanaab-assets` for copying the theme's public assets into a consuming VitePress docs root.
+
+```bash
+sync-tanaab-assets --docs-root docs
+```
+
+If `--docs-root` is omitted, the command auto-detects the single nearby `.vitepress` directory. `TANAAB_DOCS_ROOT` can provide the same override from the environment. Use `--help` for the full contract and `--version` to print the stamped script version.
+
 ## Issues, Questions and Support
 
 If you have a question or would like some community support we recommend you [use the issue queue](https://github.com/tanaabased/theme/issues/new/choose) in this repo.

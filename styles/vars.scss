@@ -1,9 +1,13 @@
 // Brand colors
 $color-primary: #00c88a !default;
-$color-primary-light: #33d4a1 !default;
+$color-primary-light: #33d3a1 !default;
 $color-primary-dark: #008f64 !default;
 $color-secondary: #db2777 !default;
-$color-accent: #f5b700 !default;
+$color-secondary-light: #e25292 !default;
+$color-secondary-dark: #9c1c55 !default;
+$color-accent: #ffb000 !default;
+$color-accent-light: #ffc333 !default;
+$color-accent-dark: #b67e00 !default;
 
 // Surfaces and text
 $color-surface-light: #f6fbf9 !default;
@@ -25,6 +29,7 @@ $font-size-root: 16px !default;
 $font-size-body: 1rem !default;
 $font-size-body-sm: 0.875rem !default;
 $font-size-body-lg: 1.125rem !default;
+$font-size-body-xl: 1.3rem !default;
 $font-size-code: 0.875rem !default;
 
 $font-size-heading-1-mobile: 2.5rem !default;
@@ -36,7 +41,7 @@ $font-size-heading-5: 1.1875rem !default;
 $font-size-heading-6: 1.0625rem !default;
 
 $line-height-base: 1.5 !default;
-$line-height-body: 1.75 !default;
+$line-height-body: 1.7 !default;
 $line-height-code: 1.7 !default;
 $line-height-heading-1: 1.05 !default;
 $line-height-heading-2: 1.2 !default;
@@ -47,6 +52,7 @@ $line-height-heading-6: 1.4 !default;
 
 $letter-spacing-body: 0 !default;
 $letter-spacing-mono: 0 !default;
+$letter-spacing-section: -0.07rem !default;
 $letter-spacing-display: 0.07em !default;
 $letter-spacing-heading-1: 0.075em !default;
 $letter-spacing-heading-2: 0.01em !default;
@@ -59,6 +65,14 @@ $text-transform-display: uppercase !default;
 $measure-body: 72ch !default;
 
 // Common sizing tokens
-$radius-base: 8px !default;
+$radius-base: 0 !default;
 $radius-pill: 999px !default;
 $spacing-base: 1rem !default;
+
+// VitePress-aligned breakpoints
+$breakpoint-xs: 420px !default;
+$breakpoint-sm: 640px !default;
+$breakpoint-md: 768px !default;
+$breakpoint-lg: 960px !default;
+$breakpoint-xl: 1280px !default;
+$breakpoint-lg-max: 959px !default;

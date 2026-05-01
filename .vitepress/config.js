@@ -30,31 +30,30 @@ const defaultSidebar = [
     items: [
       { text: 'Principles', link: '/styleguide/principles' },
       { text: 'Colors', link: '/styleguide/colors' },
-      { text: 'Logo', link: '/styleguide/logo' },
+      { text: 'Logos', link: '/styleguide/logo' },
+      { text: 'Typefaces', link: '/styleguide/typefaces' },
     ],
   },
   {
-    text: 'Typography',
+    text: 'Elements',
     items: [
-      { text: 'Headings', link: '/styleguide/headings' },
-      // { text: 'Inputs', link: '/styleguide/content-patterns' },
-      // { text: 'Accessibility', link: '/styleguide/accessibility' },
+      { text: 'Text', link: '/styleguide/text' },
+      { text: 'Content Blocks', link: '/styleguide/content-blocks' },
+      { text: 'Forms', link: '/styleguide/forms' },
+      { text: 'Buttons', link: '/styleguide/buttons' },
+      { text: 'Tables', link: '/styleguide/tables' },
+      { text: 'Media', link: '/styleguide/media' },
     ],
   },
 ];
 
 // if version is a stable or edge release then add in the release notes
 if (!isDevRelease(semver)) {
-  sidebarEnder.items.splice(1, 0, {
-    text: 'Release Notes',
-    link: `https://github.com/https://github.com/tanaabased/theme/releases/tag/v${semver}`,
-  });
+  sidebarEnder.items.splice(1, 0, { text: 'Release Notes', link: `https://github.com/tanaabased/theme/releases/tag/v${semver}` });
 }
 
 export default defineConfig({
-  appearance: {
-    initialValue: 'dark',
-  },
+  appearance: { initialValue: 'dark' },
   lang: 'en-US',
   title: 'Tanaab',
   description: 'A Tanaab based theme and styleguide.',
@@ -79,13 +78,7 @@ export default defineConfig({
     disallowAll: false,
     allowAll: false,
     policy: [],
-    policies: [
-      {
-        userAgent: '*',
-        disallow: ['/v/'],
-        allow: '/',
-      },
-    ],
+    policies: [{ userAgent: '*', disallow: ['/v/'], allow: '/' }],
   },
   sitemap: {
     hostname: baseUrl,
@@ -99,12 +92,7 @@ export default defineConfig({
     },
   },
   themeConfig: {
-    autometa: {
-      canonicalUrl: baseUrl,
-      image: baseUrl,
-      twitter: '@tanaabased',
-      x: '@tanaabased',
-    },
+    autometa: { canonicalUrl: baseUrl, image: baseUrl, twitter: '@tanaabased', x: '@tanaabased' },
     contributors: {
       merge: 'name',
       debotify: true,
@@ -124,34 +112,15 @@ export default defineConfig({
         },
       ],
     },
-    ga: {
-      id: 'G-5FX6Z0BWFR',
-    },
-    editLink: { pattern: 'https://github.com/tanaabased/theme/edit/main/docs/:path' },
-    feed: {
-      patterns: '*/**/*.md',
-    },
-    logo: {
-      light: '/images/tms_mark.svg',
-      dark: '/images/tms_mark_light.svg',
-      alt: 'Tanaab Maneuvering Systems LLC',
-    },
-    multiVersionBuild: {
-      base: '/v/',
-      build: 'edge',
-      cache: true,
-      match: 'v[0-9].*',
-      satisfies: '>=0.2.0',
-    },
+    ga: { id: 'G-5FX6Z0BWFR' },
+    editLink: false,
+    feed: { patterns: '*/**/*.md' },
+    logo: { light: '/images/tms_mark.svg', dark: '/images/tms_mark_light.svg', alt: 'Tanaab Maneuvering Systems LLC' },
+    multiVersionBuild: { base: '/v/', build: 'edge', cache: true, match: 'v[0-9].*', satisfies: '>=0.2.0' },
+    repository: 'https://github.com/tanaabased/theme',
     socialLinks: [
-      {
-        icon: 'github',
-        link: 'https://github.com/tanaabased/theme',
-      },
-      {
-        icon: 'x',
-        link: 'https://x.com/tanaabased',
-      },
+      { icon: 'github', link: 'https://github.com/tanaabased/theme' },
+      { icon: 'x', link: 'https://x.com/tanaabased' },
     ],
 
     siteTitle: false,
@@ -170,7 +139,19 @@ export default defineConfig({
       '/components/': [
         {
           text: 'Tanaab Based',
-          items: [{ text: 'Logo', link: '/components/tms-logo' }],
+          items: [
+            { text: 'Logo', link: '/components/tms-logo' },
+            { text: 'Box', link: '/components/tms-box' },
+            { text: 'List', link: '/components/tms-list' },
+          ],
+        },
+        {
+          text: 'Structure',
+          items: [
+            { text: 'Grid', link: '/components/tms-grid' },
+            { text: 'Hero', link: '/components/tms-hero' },
+            { text: 'Section', link: '/components/tms-section' },
+          ],
         },
       ],
       '/containers/': [

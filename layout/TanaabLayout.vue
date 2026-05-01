@@ -21,22 +21,13 @@
     </template>
 
     <template #sidebar-nav-after>
-      <div
-        v-if="sidebarEnder !== false"
-        class="sidebar-end"
-      >
-        <VPSideBarItem
-          :depth="0"
-          :item="sidebarEnder"
-        />
+      <div v-if="sidebarEnder !== false" class="sidebar-end">
+        <VPSideBarItem :depth="0" :item="sidebarEnder" />
       </div>
     </template>
 
     <template #doc-before>
-      <div
-        v-if="header !== ''"
-        class="collection-header"
-      >
+      <div v-if="header !== ''" class="collection-header">
         <PostHeader v-if="header === 'post'" />
         <CollectionHeader v-else />
       </div>
@@ -49,14 +40,8 @@
     </template>
 
     <template #doc-footer-before>
-      <Tags
-        v-if="header === 'post'"
-        :key="tagsKey"
-      />
-      <div
-        v-if="mailchimp"
-        class="newsletter-wrapper"
-      >
+      <Tags v-if="header === 'post'" :key="tagsKey" />
+      <div v-if="mailchimp" class="newsletter-wrapper">
         <MailChimp v-bind="mailchimp" />
       </div>
     </template>
@@ -86,8 +71,12 @@ const { frontmatter, isDark, page, theme } = useData();
 
 const alert = computed(() => frontmatter.value.alert ?? theme.value.alert ?? false);
 const header = computed(() => frontmatter.value.collection || '');
-const headerClass = computed(() => (frontmatter.value.collection ? `collection-${frontmatter.value.collection}` : ''));
-const mailchimp = computed(() => (frontmatter.value?.mailchimp?.action ? frontmatter.value.mailchimp : false));
+const headerClass = computed(() =>
+  frontmatter.value.collection ? `collection-${frontmatter.value.collection}` : '',
+);
+const mailchimp = computed(() =>
+  frontmatter.value?.mailchimp?.action ? frontmatter.value.mailchimp : false,
+);
 const sidebarEnder = computed(() => theme.value.sidebarEnder ?? false);
 
 const faviconSizes = [16, 32, 48, 64, 96, 128, 192, 256];

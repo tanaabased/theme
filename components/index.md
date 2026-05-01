@@ -7,15 +7,14 @@ description: Reusable interface components for Tanaab properties.
 
 Use this section to document composable UI elements with clear states, variants, and accessibility behavior.
 
-## Included Topics
+## Tanaab Based
 
 - TMS Logo
-- Buttons
-- Form Fields
-- Selects & Toggles
-- Navbar
-- Side Navigation
-- Breadcrumbs
-- Cards
-- Data Tables
-- Alerts & Notices
+- TMS Box
+- TMS List
+
+## Structure
+
+- TMS Grid
+- TMS Hero
+- TMS Section

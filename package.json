@@ -8,6 +8,7 @@
   "bugs": "https://github.com/tanaabased/theme/issues/new/choose",
   "homepage": "https://github.com/tanaabased/theme",
   "main": "tanaab-theme.js",
+  "packageManager": "bun@1.2.15",
   "bin": {
     "sync-tanaab-assets": "./bin/sync-assets.js"
   },
@@ -38,22 +39,30 @@
   "scripts": {
     "build": "VPL_MVB_VERSION=$(git describe --tags --always --abbrev=1 --match=\"v[0-9].*\") bunx vitepress build .",
     "dev": "VPL_BASE_URL=http://localhost:5173 VPL_MVB_VERSION=$(git describe --tags --always --abbrev=1 --match=\"v[0-9].*\") bunx vitepress dev .",
-    "lint": "bunx eslint . --ext .cjs --ext .js --ext .mjs --ext .vue",
+    "lint:eslint": "eslint .",
+    "format:check": "prettier . --check --ignore-unknown",
+    "format:write": "prettier . --write --ignore-unknown",
+    "lint": "bun run lint:eslint && bun run format:check",
     "mvb": "bunx mvb --runtime bun .",
-    "preview": "bunx vitepress preview ."
+    "preview": "bunx vitepress preview .",
+    "test": "mocha \"test/**/*.spec.js\""
   },
   "dependencies": {
+    "@codemirror/state": "^6.6.0",
+    "@codemirror/view": "^6.41.1",
     "@lando/vitepress-theme-default-plus": "^1.1.5",
-    "colorette": "^2.0.20"
+    "colorette": "^2.0.20",
+    "shiki": "^2.5.0"
   },
   "devDependencies": {
+    "@eslint/js": "^8.57.1",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.1",
-    "eslint-import-resolver-exports": "^1.0.0-beta.5",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-vue": "^10.0.0",
+    "globals": "^15.15.0",
+    "mocha": "^11.7.5",
     "prettier": "^3.5.3",
-    "vitepress": "^1.5.0"
+    "vitepress": "^1.5.0",
+    "vue-eslint-parser": "^10.1.1"
   }
 }

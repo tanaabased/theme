@@ -7,7 +7,11 @@
   --tanaab-color-primary-light: #{vars.$color-primary-light};
   --tanaab-color-primary-dark: #{vars.$color-primary-dark};
   --tanaab-color-secondary: #{vars.$color-secondary};
+  --tanaab-color-secondary-light: #{vars.$color-secondary-light};
+  --tanaab-color-secondary-dark: #{vars.$color-secondary-dark};
   --tanaab-color-accent: #{vars.$color-accent};
+  --tanaab-color-accent-light: #{vars.$color-accent-light};
+  --tanaab-color-accent-dark: #{vars.$color-accent-dark};
   --tanaab-color-surface: #{vars.$color-surface-light};
   --tanaab-color-text: #{vars.$color-text-light};
 
@@ -22,6 +26,7 @@
   --tanaab-font-size-body: #{vars.$font-size-body};
   --tanaab-font-size-body-sm: #{vars.$font-size-body-sm};
   --tanaab-font-size-body-lg: #{vars.$font-size-body-lg};
+  --tanaab-font-size-body-xl: #{vars.$font-size-body-xl};
   --tanaab-font-size-code: #{vars.$font-size-code};
   --tanaab-font-size-h1-mobile: #{vars.$font-size-heading-1-mobile};
   --tanaab-font-size-h1: #{vars.$font-size-heading-1};
@@ -42,6 +47,7 @@
   --tanaab-letter-spacing-body: #{vars.$letter-spacing-body};
   --tanaab-letter-spacing-mono: #{vars.$letter-spacing-mono};
   --tanaab-letter-spacing-display: #{vars.$letter-spacing-display};
+  --tanaab-letter-spacing-section: #{vars.$letter-spacing-section};
   --tanaab-letter-spacing-h1: #{vars.$letter-spacing-heading-1};
   --tanaab-letter-spacing-h2: #{vars.$letter-spacing-heading-2};
   --tanaab-letter-spacing-h3: #{vars.$letter-spacing-heading-3};
@@ -53,6 +59,7 @@
   --tanaab-radius-base: #{vars.$radius-base};
   --tanaab-radius-pill: #{vars.$radius-pill};
   --tanaab-spacing-base: #{vars.$spacing-base};
+  --tanaab-link-hover-color: var(--tanaab-color-secondary);
 
   --vp-c-pink-1: var(--tanaab-color-primary);
   --vp-c-brand: var(--tanaab-color-primary);
@@ -60,25 +67,36 @@
   --vp-c-brand-2: var(--tanaab-color-primary-light);
   --vp-c-brand-3: var(--tanaab-color-primary-dark);
   --vp-c-brand-light: var(--tanaab-color-primary-light);
-  --vp-c-brand-soft: rgba(0, 200, 138, 0.14);
+  --vp-c-brand-soft: color-mix(in srgb, var(--tanaab-color-primary) 14%, transparent);
 
   --vp-font-family-base: var(--tanaab-font-family-body);
   --vp-font-family-heading: var(--tanaab-font-family-heading);
   --vp-font-family-mono: var(--tanaab-font-family-mono);
   --vp-code-line-height: var(--tanaab-line-height-code);
   --vp-code-font-size: var(--tanaab-font-size-code);
+  --vp-code-link-hover-color: var(--tanaab-link-hover-color);
+  --vpl-c-border-radius: var(--tanaab-radius-base);
+
+  --tanaab-form-control-bg: var(--vp-c-bg-soft);
+  --tanaab-form-control-text: var(--vp-c-text-1);
+  --tanaab-form-control-placeholder: var(--vp-c-text-2);
+  --tanaab-form-control-focus-border: var(--vp-c-brand-1);
 }
 
 :root:not(.dark) {
   --tanaab-color-primary: #{vars.$color-secondary};
+  --tanaab-color-primary-light: #{vars.$color-secondary-light};
+  --tanaab-color-primary-dark: #{vars.$color-secondary-dark};
   --tanaab-color-secondary: #{vars.$color-primary};
-  --vp-c-brand-soft: rgba(200, 0, 107, 0.14);
+  --tanaab-color-secondary-light: #{vars.$color-primary-light};
+  --tanaab-color-secondary-dark: #{vars.$color-primary-dark};
+  --vp-c-brand-soft: var(--tanaab-color-primary);
 }
 
 .dark {
   --tanaab-color-surface: #{vars.$color-surface-dark};
   --tanaab-color-text: #{vars.$color-text-dark};
-
+  --vp-c-brand-soft: var(--tanaab-color-primary);
   --vp-c-bg: var(--tanaab-color-surface);
   --vp-c-bg-soft: #101a18;
   --vp-c-bg-elv: #0c1412;
@@ -157,12 +175,253 @@ body,
   letter-spacing: var(--tanaab-letter-spacing-h6);
 }
 
+.vp-doc[class*='_components_tms-'] h2#usage {
+  position: relative;
+  min-height: 0;
+  margin: 2rem 0 0;
+  padding: 1.25rem 0 0;
+  border-top: 1px solid var(--vp-c-divider);
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+}
+
+.vp-doc[class*='_components_tms-'] h2#usage .header-anchor {
+  display: none;
+}
+
 code,
 pre,
 kbd,
 samp {
   font-family: var(--tanaab-font-family-mono);
   letter-spacing: var(--tanaab-letter-spacing-mono);
+}
+
+/* Accessibility Utilities ------------------------------------------------- */
+.tms-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.vp-doc .tms-hidden-link {
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.vp-doc .tms-hidden-link:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.vp-doc .tms-hidden-link:focus-visible {
+  color: inherit;
+  text-decoration: none;
+  outline: 1px solid currentColor;
+  outline-offset: 0.15em;
+}
+
+/* Form Controls ----------------------------------------------------------- */
+.vp-doc
+  label:has(
+    :where(
+      input:not([type]),
+      input[type='text'],
+      input[type='email'],
+      input[type='url'],
+      input[type='search'],
+      input[type='tel'],
+      input[type='password'],
+      textarea,
+      select
+    )
+  ) {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.vp-doc
+  :where(
+    input:not([type]),
+    input[type='text'],
+    input[type='email'],
+    input[type='url'],
+    input[type='search'],
+    input[type='tel'],
+    input[type='password'],
+    textarea,
+    select
+  ) {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border: 2px solid transparent;
+  border-radius: 0;
+  background-color: var(--tanaab-form-control-bg);
+  color: var(--tanaab-form-control-text);
+  font-family: var(--tanaab-font-family-heading);
+  font-size: 1rem;
+  font-weight: var(--tanaab-font-weight-heading);
+  line-height: 1.4;
+  transition: border-color 0.2s ease;
+}
+
+.vp-doc
+  :where(
+    input:not([type]),
+    input[type='text'],
+    input[type='email'],
+    input[type='url'],
+    input[type='search'],
+    input[type='tel'],
+    input[type='password'],
+    textarea,
+    select
+  ):hover {
+  border-color: var(--tanaab-form-control-focus-border);
+}
+
+.vp-doc
+  :where(
+    input:not([type]),
+    input[type='text'],
+    input[type='email'],
+    input[type='url'],
+    input[type='search'],
+    input[type='tel'],
+    input[type='password'],
+    textarea,
+    select
+  ):focus-visible {
+  border-color: var(--tanaab-form-control-focus-border);
+  outline: none;
+}
+
+.vp-doc :where(input, textarea)::placeholder {
+  color: var(--tanaab-form-control-placeholder);
+  font-family: var(--tanaab-font-family-heading);
+  font-weight: var(--tanaab-font-weight-heading);
+  opacity: 1;
+}
+
+.vp-doc textarea {
+  min-height: 14rem;
+  overflow-wrap: anywhere;
+  resize: vertical;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.vp-doc input[type='checkbox'] {
+  appearance: none;
+  position: relative;
+  width: 3.5rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  margin: 0;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-color: var(--tanaab-form-control-bg);
+  color: var(--tanaab-form-control-text);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.vp-doc input[type='checkbox']::before {
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  background-color: var(--vp-c-text-2);
+  box-shadow: var(--vp-shadow-1);
+  content: '';
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.vp-doc input[type='checkbox']:checked {
+  background-color: var(--tanaab-color-primary);
+}
+
+.vp-doc input[type='checkbox']:checked::before {
+  background-color: var(--vp-c-bg);
+  transform: translateX(1.75rem);
+}
+
+.vp-doc input[type='checkbox']:hover,
+.vp-doc input[type='checkbox']:focus-visible {
+  border-color: var(--tanaab-form-control-focus-border);
+}
+
+.vp-doc input[type='checkbox']:focus-visible {
+  outline: none;
+}
+
+.vp-doc select {
+  appearance: none;
+  padding-inline-end: 3rem;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:
+    calc(100% - 1.45rem) 50%,
+    calc(100% - 1.1rem) 50%;
+  background-repeat: no-repeat;
+  background-size: 0.35rem 0.35rem;
+}
+
+.vp-doc select:has(option[value='']:checked) {
+  color: var(--tanaab-form-control-placeholder);
+}
+
+.vp-doc select option {
+  color: var(--tanaab-form-control-text);
+}
+
+/* VitePress Chrome -------------------------------------------------------- */
+.vp-doc a:hover {
+  color: var(--tanaab-link-hover-color);
+}
+
+.vp-doc a:hover > code {
+  color: var(--tanaab-link-hover-color);
+}
+
+.vp-doc :not(pre) > code,
+.vp-doc .custom-block,
+.vp-doc div[class*='language-'],
+.vp-doc li div[class*='language-'],
+.vp-doc .custom-block div[class*='language-'],
+.vp-doc .vp-code-group .tabs,
+.vp-doc .custom-block .vp-code-group .tabs,
+.vp-code-group .tabs label::after,
+.VPDocFooter .pager-link {
+  border-radius: var(--tanaab-radius-base);
+}
+
+.vp-doc [class*='language-'] > button.copy,
+.vp-doc [class*='language-'] > button.copy.copied,
+.vp-doc [class*='language-'] > button.copy.copied::before,
+.vp-doc [class*='language-'] > button.copy:hover.copied {
+  border-radius: var(--tanaab-radius-base);
 }
 
 /* Layout Regions ---------------------------------------------------------- */

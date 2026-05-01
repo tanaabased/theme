@@ -1,20 +1,6 @@
 ---
-title: Color System
-description: Palette, semantic color roles, and usage thresholds.
+title: Logos
+description: Logo usage, variants, and placement guidance.
 ---
 
-# Color System
-
-This is a scaffold page for the IA stub. Replace this content with project-specific standards.
-
-## Purpose
-
-TODO: Define what this topic governs and where it applies.
-
-## Standards
-
-TODO: Add normative rules, dos and don'ts, and required checks.
-
-## Examples
-
-TODO: Add implementation examples and references.
+# Logos
