@@ -10,10 +10,10 @@ import {
   runSyncAssetsCli,
 } from '../lib/sync-assets-cli.js';
 
-function createStream() {
+function createStream({ isTTY = false } = {}) {
   return {
     output: '',
-    isTTY: false,
+    isTTY,
     write(chunk) {
       this.output += chunk;
     },
@@ -75,6 +75,45 @@ describe('lib/sync-assets-cli', () => {
     assert.match(stdout.output, /Usage: /);
     assert.equal(stdout.output.includes('\u001B[2m['), true);
     assert.match(stdout.output, /--version/);
+  });
+
+  it('should keep GitHub Actions output plain unless color is forced', async () => {
+    const stdout = createStream();
+    const stderr = createStream();
+    const exitCode = await runSyncAssetsCli({
+      argv: ['--help'],
+      cwd: process.cwd(),
+      env: { CI: 'true', GITHUB_ACTIONS: 'true', TERM: 'xterm-256color' },
+      entrypoint: '/usr/local/bin/sync-assets',
+      stdout,
+      stderr,
+    });
+
+    assert.equal(exitCode, 0);
+    assert.equal(stderr.output, '');
+    assert.equal(stdout.output.includes('\u001B['), false);
+  });
+
+  it('should let NO_COLOR and FORCE_COLOR=0 disable color output', async () => {
+    for (const env of [
+      { FORCE_COLOR: '1', NO_COLOR: '1', TERM: 'xterm-256color' },
+      { FORCE_COLOR: '0', TERM: 'xterm-256color' },
+    ]) {
+      const stdout = createStream();
+      const stderr = createStream();
+      const exitCode = await runSyncAssetsCli({
+        argv: ['--help'],
+        cwd: process.cwd(),
+        env,
+        entrypoint: '/usr/local/bin/sync-assets',
+        stdout,
+        stderr,
+      });
+
+      assert.equal(exitCode, 0);
+      assert.equal(stderr.output, '');
+      assert.equal(stdout.output.includes('\u001B['), false);
+    }
   });
 
   it('should print the version without running detection or copy behavior', async () => {
