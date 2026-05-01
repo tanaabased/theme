@@ -24,18 +24,18 @@
 - If a pattern could plausibly appear on two or more pages, or if it expresses a brand-significant UI pattern, treat it as shared work and elevate it into the theme, component, or style layer.
 - When a markdown page needs a new component, style primitive, or token to satisfy the request cleanly, call that out in commentary and treat it as a reusable-system candidate.
 - Prefer markdown content that demonstrates the real system over markdown content that simulates it with bespoke markup.
-- Avoid scattering scoped style blocks across many markdown files. If several pages want similar structure, spacing, callouts, grids, controls, or demos, consolidate that into shared components or shared theme styles.
-- Interactive demos in markdown should still follow the reusable-first rule. Use page-local demo code only when it is tightly scoped to that page and not establishing a broader pattern.
+- Avoid scattering scoped style blocks across many markdown files. If several pages want similar structure, spacing, callouts, grids, controls, or interactive examples, consolidate that into shared components or shared theme styles.
+- Interactive playgrounds in component docs should use the shared `TMSComponentPlayground` and schema-driven examples. Use page-local interactive code only when it is tightly scoped outside the component-doc pattern and not establishing a broader pattern.
 - Existing markdown pages that already contain local styles or scripts are legacy context, not the preferred pattern for new work.
 - Keep prop and slot table notes focused on the public authoring API. Do not put accessibility implementation details in prop or slot descriptions unless the prop or slot exists specifically for accessibility.
 - When an automatic accessibility behavior is worth documenting, put it in an info admonition near the relevant API section instead of overloading the prop or slot table.
 - Component documentation pages should open with H1 and intro copy, then hidden `## Usage`, then Props, Slots when present, and optional Variables.
-- Keep top-level Usage examples representative without helper jump-link text.
+- Keep top-level Usage playgrounds representative without helper jump-link text.
 - Use `TMSComponentPlayground` directly under hidden `## Usage` when the component fits the schema-driven playground surface.
 - Use `preview-fit="contained"` for atomic or full-width-square playground previews such as logos and boxes.
 - Leave the default full-width playground preview for structural or editorial components that should demonstrate the available content width.
 - Playground-only controls should render as editable HTML comments in the nearest valid position before the component or slot content they affect. Name controls for the public API area they mutate, such as `items-preset` and `items-count`, rather than using generic labels.
-- For non-playground Usage examples, render direct live markup followed by a matching `html` code fence.
+- Use direct live markup followed by a matching `html` code fence only for non-component docs or rare component examples that do not fit the playground schema.
 - Playground schemas should cover the representative prop and slot states that make the component's public API understandable.
 
 ## Form Controls
