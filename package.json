@@ -44,7 +44,8 @@
     "format:write": "prettier . --write --ignore-unknown",
     "lint": "bun run lint:eslint && bun run format:check",
     "mvb": "bunx mvb --runtime bun .",
-    "preview": "bunx vitepress preview ."
+    "preview": "bunx vitepress preview .",
+    "test": "mocha \"test/**/*.spec.js\""
   },
   "dependencies": {
     "@codemirror/state": "^6.6.0",
@@ -59,6 +60,7 @@
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-vue": "^10.0.0",
     "globals": "^15.15.0",
+    "mocha": "^11.7.5",
     "prettier": "^3.5.3",
     "vitepress": "^1.5.0",
     "vue-eslint-parser": "^10.1.1"

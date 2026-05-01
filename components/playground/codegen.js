@@ -97,6 +97,14 @@ function getObjectArrayPresetItems(definition, state) {
   return cloneValue(items.slice(0, Math.min(resolvedCount, items.length)));
 }
 
+/**
+ * Applies playground-only controls that derive real component prop values.
+ *
+ * @param {object} schema Playground schema with optional prop presets.
+ * @param {object} state Mutable playground state.
+ * @param {string | undefined} changedControl Control name that changed, or undefined for init.
+ * @param {object} [options] Optional derivation controls.
+ */
 export function applyControlDerivedProps(schema, state, changedControl, options = {}) {
   const skippedProps = options.skippedProps ?? new Set();
 
@@ -117,6 +125,13 @@ export function applyControlDerivedProps(schema, state, changedControl, options 
   }
 }
 
+/**
+ * Creates mutable playground state from schema defaults plus authored overrides.
+ *
+ * @param {object} schema Playground schema.
+ * @param {object} [initialState] Optional authored state overrides.
+ * @returns {{ controls: object, props: object, slots: object }} State consumed by the playground.
+ */
 export function createPlaygroundState(schema, initialState = {}) {
   const state = {
     controls: {},
@@ -157,6 +172,9 @@ function getNestedValue(source, path) {
   return getPathParts(path).reduce((value, part) => value?.[part], source);
 }
 
+/**
+ * Sets a dot-path value on an object, creating nested objects as needed.
+ */
 export function setNestedValue(source, path, value) {
   const parts = getPathParts(path);
   if (parts.length === 0) return source;
@@ -449,6 +467,9 @@ function resolveRepeatCount(definition, state) {
   return definition.items?.length ?? 0;
 }
 
+/**
+ * Resolves repeat-slot preview items from a repeat slot definition and controls.
+ */
 export function getRepeatSlotItems(definition, state) {
   if (definition?.kind !== 'repeat') return [];
 
@@ -584,6 +605,9 @@ function generateUsageCode(schema, state, options = {}) {
   return { code, regions };
 }
 
+/**
+ * Generates editable playground code and clean copyable code for a component schema.
+ */
 export function generateComponentUsage(schema, state) {
   const { code, regions } = generateUsageCode(schema, state);
   const { code: copyCode } = generateUsageCode(schema, state, {
@@ -596,6 +620,9 @@ export function generateComponentUsage(schema, state) {
   return { code, copyCode, regions };
 }
 
+/**
+ * Converts playground state into props passed to the live component preview.
+ */
 export function getPreviewProps(schema, state) {
   const previewProps = {};
 
@@ -633,6 +660,9 @@ function normalizeObjectArrayValue(definition, value) {
   });
 }
 
+/**
+ * Decodes edited code-region text back into playground state values.
+ */
 export function decodeRegionValue(region, value) {
   if (region?.kind === 'slot-text') {
     return region.valueKind === 'html' ? String(value ?? '') : decodeHtmlEntities(value);

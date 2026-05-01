@@ -64,7 +64,13 @@
 ## Validation
 
 - Validate repo changes with `bun run lint` and `bun run build`.
+- For JavaScript helper, playground codegen, or package CLI changes, also run `bun run test`.
 - Treat a successful VitePress build as required validation, not optional smoke coverage.
 - For markdown-heavy changes, validate both content correctness and site buildability.
 - For theme, component, or shared style changes, validate both lint cleanliness and docs-site build viability.
 - If a change adds a reusable component or shared style to support markdown authoring, ensure the docs site still builds and the new shared surface is actually the one the page uses.
+
+## JavaScript and Package CLIs
+
+- Keep package CLI files in `bin/` as thin executable wrappers around testable modules.
+- Contract-test package CLIs for help, version, failure, and primary side-effect behavior before changing their public surface.

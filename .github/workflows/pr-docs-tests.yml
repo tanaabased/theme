@@ -28,6 +28,8 @@ jobs:
         run: bun install --no-save --frozen-lockfile
       - name: Run linter
         run: bun run lint
+      - name: Run JavaScript tests
+        run: bun run test
       - name: Test mvb
         run: bun run mvb
       - name: Test build
