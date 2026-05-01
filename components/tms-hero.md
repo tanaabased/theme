@@ -1,11 +1,11 @@
 ---
 title: TMS Hero
-description: Wide editorial statement component for large title and supporting content.
+description: Full-width editorial statement with supporting content and optional dividers.
 ---
 
 # TMS Hero
 
-`TMSHero` is a globally registered component for pairing an oversized editorial title with supporting body content.
+`TMSHero` creates a full-width editorial opening with a large title and supporting content. Use it for page-level statements that need more presence than a normal section heading.
 
 <script setup>
 import TMSHero from './TMSHero.vue';
@@ -55,8 +55,8 @@ const heroPlaygroundInitialState = {
 
 | Prop           | Type      | Default | Notes                               |
 | -------------- | --------- | ------- | ----------------------------------- |
-| `borderBottom` | `boolean` | `false` | Adds a bottom divider when enabled. |
 | `borderTop`    | `boolean` | `false` | Adds a top divider when enabled.    |
+| `borderBottom` | `boolean` | `false` | Adds a bottom divider when enabled. |
 
 ## Slots
 
@@ -64,6 +64,13 @@ const heroPlaygroundInitialState = {
 | --------- | ------------------------- |
 | `#title`  | Oversized hero statement. |
 | `default` | Supporting body content.  |
+
+## Variables
+
+| Variable                   | Purpose                        |
+| -------------------------- | ------------------------------ |
+| `--tms-hero-gap`           | Gap between title and content. |
+| `--tms-hero-padding-block` | Vertical padding for the hero. |
 
 ::: info
 `TMSHero` automatically connects the section to its title with a generated `aria-labelledby` ID.

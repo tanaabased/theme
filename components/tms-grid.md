@@ -1,12 +1,11 @@
 ---
 title: TMS Grid
-description: Flex wrapper component for grouping Tanaab boxes and related content.
+description: Responsive wrapper for arranging repeated content with density-aware child typography.
 ---
 
 # TMS Grid
 
-`TMSGrid` is a globally registered component for wrapping content in a responsive flex layout.
-The `columns` prop sets the maximum column count on the widest viewport; dense grids scale down at smaller breakpoints before stacking to one column.
+`TMSGrid` arranges repeated content in a responsive flex grid. The `columns` prop sets the widest layout, then the grid steps down at smaller breakpoints before stacking.
 
 <script setup>
 import TMSBox from './TMSBox.vue';
@@ -65,9 +64,9 @@ const gridPlaygroundSchema = {
 
 ## Props
 
-| Prop      | Type              | Default | Notes                                                 |
-| --------- | ----------------- | ------- | ----------------------------------------------------- |
-| `columns` | `1 \| 2 \| ... 6` | `1`     | Sets the maximum column count on the widest viewport. |
+| Prop      | Type              | Default | Notes                                                   |
+| --------- | ----------------- | ------- | ------------------------------------------------------- |
+| `columns` | `1 \| 2 \| ... 6` | `1`     | Sets the maximum column count on the widest breakpoint. |
 
 ## Slots
 
@@ -81,10 +80,11 @@ The examples use `TMSBox` to make the column behavior visible. `TMSGrid` can wra
 
 ## Variables
 
-`TMSGrid` exposes density-aware text variables that child components can opt into:
+`TMSGrid` exposes layout and density variables that child components can opt into:
 
 | Variable                      | Purpose                                      |
 | ----------------------------- | -------------------------------------------- |
+| `--tms-grid-gap`              | Gap between grid children.                   |
 | `--tms-grid-item-font-size`   | Suggested text size for grid-aware children. |
 | `--tms-grid-item-line-height` | Suggested line height for grid-aware text.   |
 

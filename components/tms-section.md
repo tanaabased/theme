@@ -1,11 +1,11 @@
 ---
 title: TMS Section
-description: Two-column section component for pairing a narrow title rail with main content.
+description: Title-rail content section with orientation and optional dividers.
 ---
 
 # TMS Section
 
-`TMSSection` is a globally registered component for pairing a concise section title with broader supporting content.
+`TMSSection` pairs a concise title rail with broader supporting content. Use it for structured page sections that need clear hierarchy without a full hero treatment.
 
 <script setup>
 import TMSSection from './TMSSection.vue';
@@ -49,9 +49,9 @@ const sectionPlaygroundSchema = {
 
 | Prop           | Type                | Default  | Notes                                                     |
 | -------------- | ------------------- | -------- | --------------------------------------------------------- |
-| `borderBottom` | `boolean`           | `false`  | Adds a bottom divider when enabled.                       |
-| `borderTop`    | `boolean`           | `false`  | Adds a top divider when enabled.                          |
 | `orientation`  | `'left' \| 'right'` | `'left'` | Controls which side the title rail uses on wider layouts. |
+| `borderTop`    | `boolean`           | `false`  | Adds a top divider when enabled.                          |
+| `borderBottom` | `boolean`           | `false`  | Adds a bottom divider when enabled.                       |
 
 On stacked layouts, the title always renders above the content and aligns to the start.
 
@@ -61,6 +61,13 @@ On stacked layouts, the title always renders above the content and aligns to the
 | --------- | ------------------------------- |
 | `#title`  | Section title or label content. |
 | `default` | Main section content.           |
+
+## Variables
+
+| Variable                      | Purpose                             |
+| ----------------------------- | ----------------------------------- |
+| `--tms-section-gap`           | Gap between title rail and content. |
+| `--tms-section-padding-block` | Vertical padding for the section.   |
 
 ::: info
 `TMSSection` automatically connects the section to its title with a generated `aria-labelledby` ID.

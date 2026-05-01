@@ -1,11 +1,11 @@
 ---
 title: TMS Box
-description: Square box component for navigation and compact content blocks.
+description: Square content and link block for compact navigation or editorial calls.
 ---
 
 # TMS Box
 
-`TMSBox` is a globally registered component for rendering a square Tanaab-based box with optional link behavior.
+`TMSBox` renders a responsive square for compact content, title tiles, or linked navigation. Use it when the container shape is part of the presentation.
 
 <script setup>
 import TMSBox from './TMSBox.vue';
@@ -44,11 +44,17 @@ const boxPlaygroundSchema = {
 
 | Prop   | Type                   | Default     | Notes                                     |
 | ------ | ---------------------- | ----------- | ----------------------------------------- |
-| `link` | `string`               | `''`        | Renders the box as a link when populated. |
 | `type` | `'content' \| 'title'` | `'content'` | Controls the slot typography treatment.   |
+| `link` | `string`               | `''`        | Renders the box as a link when populated. |
 
 ## Slots
 
 | Slot      | Notes        |
 | --------- | ------------ |
 | `default` | Box content. |
+
+## Variables
+
+| Variable            | Purpose                                                           |
+| ------------------- | ----------------------------------------------------------------- |
+| `--tms-box-padding` | Base padding hook for box variants that use the root box padding. |

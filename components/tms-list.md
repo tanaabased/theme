@@ -1,11 +1,11 @@
 ---
 title: TMS List
-description: Labelled list component for grouped navigation and compact index content.
+description: Labelled navigation and index list with item data, orientation, and optional columns.
 ---
 
 # TMS List
 
-`TMSList` is a globally registered component for rendering labelled lists with consistent item spacing, dividers, and link behavior.
+`TMSList` renders a labelled set of links or text items from structured data. It supports compact stacked lists, inline row lists, and opt-in multicolumn item layouts.
 
 <script setup>
 import TMSList from './TMSList.vue';
@@ -161,16 +161,23 @@ const listPlaygroundSchema = {
 
 ## Props
 
-| Prop          | Type                                | Default    | Notes                                                 |
-| ------------- | ----------------------------------- | ---------- | ----------------------------------------------------- |
-| `header`      | `string`                            | `''`       | Visible list label rendered above or beside the list. |
-| `headerLink`  | `string`                            | `''`       | Makes the list label clickable when populated.        |
-| `items`       | `Array<TMSListItem>`                | `[]`       | Recommended list authoring path.                      |
-| `item.attrs`  | `Record<string, string \| boolean>` | `{}`       | Safe anchor attributes for linked items.              |
-| `orientation` | `'column' \| 'row'`                 | `'column'` | Controls list layout.                                 |
-| `columns`     | `'none' \| '2' \| '3'`              | `'none'`   | Opts the item list into vertical multi-column layout. |
+| Prop          | Type                   | Default    | Notes                                                 |
+| ------------- | ---------------------- | ---------- | ----------------------------------------------------- |
+| `header`      | `string`               | `''`       | Visible list label rendered above or beside the list. |
+| `headerLink`  | `string`               | `''`       | Makes the list label clickable when populated.        |
+| `items`       | `Array<TMSListItem>`   | `[]`       | Recommended list authoring path.                      |
+| `orientation` | `'column' \| 'row'`    | `'column'` | Controls list layout.                                 |
+| `columns`     | `'none' \| '2' \| '3'` | `'none'`   | Opts the item list into vertical multi-column layout. |
 
-`item.attrs` supports `target`, `rel`, `download`, `title`, `aria-*`, and `data-*`. If `target` is `_blank` and `rel` is omitted, `rel="noreferrer"` is added automatically.
+`TMSListItem` fields:
+
+| Field   | Type                                | Required | Notes                                      |
+| ------- | ----------------------------------- | -------- | ------------------------------------------ |
+| `label` | `string`                            | Yes      | Visible item text.                         |
+| `link`  | `string`                            | No       | Renders the item as a link when populated. |
+| `attrs` | `Record<string, string \| boolean>` | No       | Safe anchor attributes for linked items.   |
+
+`attrs` supports `target`, `rel`, `download`, `title`, `aria-*`, and `data-*`. If `target` is `_blank` and `rel` is omitted, `rel="noreferrer"` is added automatically.
 
 ::: info
 `TMSList` automatically labels its own region with the visible list label. Use a separate Markdown heading before the component when the list should appear in the page outline.

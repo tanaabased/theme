@@ -1,11 +1,11 @@
 ---
 title: TMS Logo
-description: Global logo component for Tanaab properties.
+description: Inline SVG logo renderer with layout, link, color, and background controls.
 ---
 
 # TMS Logo
 
-`TMSLogo` is a globally registered component for rendering any of the core TMS logo layouts as inline SVG.
+`TMSLogo` renders the core TMS logo layouts as inline SVG. It owns the logo link target plus lightweight color and background overrides.
 
 <script setup>
 import TMSLogo from './TMSLogo.vue';
@@ -18,17 +18,17 @@ const logoPlaygroundSchema = {
       options: ['left', 'right', 'centered', 'mark'],
       default: 'centered',
     },
-    background: {
+    link: {
       kind: 'string',
-      default: 'none',
+      default: '/',
     },
     color: {
       kind: 'string',
       default: '',
     },
-    link: {
+    background: {
       kind: 'string',
-      default: '/',
+      default: 'none',
     },
   },
 };
@@ -46,7 +46,7 @@ const logoPlaygroundSchema = {
 
 | Prop         | Type                                        | Default      | Notes                                                                                          |
 | ------------ | ------------------------------------------- | ------------ | ---------------------------------------------------------------------------------------------- |
-| `type`       | `'left' \| 'right' \| 'centered' \| 'mark'` | `'centered'` | Selects which `*_var.svg` file is rendered.                                                    |
-| `background` | `string`                                    | `'none'`     | Applied to `background-color` on the SVG element.                                              |
-| `color`      | `string`                                    | `auto`       | Applied to `color` on the SVG element; defaults to white in dark mode and black in light mode. |
+| `type`       | `'left' \| 'right' \| 'centered' \| 'mark'` | `'centered'` | Selects which logo layout is rendered.                                                         |
 | `link`       | `string`                                    | `'/'`        | Applied to the root anchor `href`; the entire logo renders as a clickable link.                |
+| `color`      | `string`                                    | `auto`       | Applied to `color` on the SVG element; defaults to white in dark mode and black in light mode. |
+| `background` | `string`                                    | `'none'`     | Applied to `background-color` on the SVG element.                                              |

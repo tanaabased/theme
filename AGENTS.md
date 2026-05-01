@@ -29,7 +29,8 @@
 - Existing markdown pages that already contain local styles or scripts are legacy context, not the preferred pattern for new work.
 - Keep prop and slot table notes focused on the public authoring API. Do not put accessibility implementation details in prop or slot descriptions unless the prop or slot exists specifically for accessibility.
 - When an automatic accessibility behavior is worth documenting, put it in an info admonition near the relevant API section instead of overloading the prop or slot table.
-- Component documentation pages should open with H1 and intro copy, then hidden `## Usage`, then Props, Slots when present, and optional Variables.
+- Component documentation pages should open with H1 and intro copy, then a `<script setup>` playground schema, hidden `## Usage`, Props, Slots when present, optional Variables, and focused notes.
+- Component intro copy should be one or two short, specific, direct sentences that name what the component renders and when to use it.
 - Keep top-level Usage playgrounds representative without helper jump-link text.
 - Use `TMSComponentPlayground` directly under hidden `## Usage` when the component fits the schema-driven playground surface.
 - Use `preview-fit="contained"` for atomic or full-width-square playground previews such as logos and boxes.
@@ -37,6 +38,9 @@
 - Playground-only controls should render as editable HTML comments in the nearest valid position before the component or slot content they affect. Name controls for the public API area they mutate, such as `items-preset` and `items-count`, rather than using generic labels.
 - Use direct live markup followed by a matching `html` code fence only for non-component docs or rare component examples that do not fit the playground schema.
 - Playground schemas should cover the representative prop and slot states that make the component's public API understandable.
+- Prop tables should group related props conceptually rather than alphabetically.
+- Object-backed props should be followed by a compact object-shape table or adjacent explanation when the object fields are part of the public authoring API.
+- Variables sections should document only intentional public CSS hooks. Do not list playground-only variables or current component implementation variables unless they are meant to be stable authoring API.
 
 ## Form Controls
 
