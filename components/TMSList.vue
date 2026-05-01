@@ -206,6 +206,11 @@ const resolvedItems = computed(() =>
 
 .tms-list[data-orientation='row'] {
   grid-template-columns: minmax(9rem, 0.25fr) minmax(0, 1fr);
+  align-items: center;
+}
+
+.tms-list[data-orientation='row'][data-columns='2'],
+.tms-list[data-orientation='row'][data-columns='3'] {
   align-items: start;
 }
 

@@ -34,6 +34,7 @@
 - Use `TMSComponentPlayground` directly under hidden `## Usage` when the component fits the schema-driven playground surface.
 - Use `preview-fit="contained"` for atomic or full-width-square playground previews such as logos and boxes.
 - Leave the default full-width playground preview for structural or editorial components that should demonstrate the available content width.
+- Playground-only controls should render as editable HTML comments in the nearest valid position before the component or slot content they affect. Name controls for the public API area they mutate, such as `items-preset` and `items-count`, rather than using generic labels.
 - For non-playground Usage examples, render direct live markup followed by a matching `html` code fence.
 - Playground schemas should cover the representative prop and slot states that make the component's public API understandable.
 

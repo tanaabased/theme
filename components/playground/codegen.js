@@ -76,12 +76,54 @@ function getDefaultValue(definition) {
   return '';
 }
 
+function getObjectArrayPresetItems(definition, state) {
+  if (definition?.kind !== 'object-array' || !definition.presets) return null;
+
+  const presetName = definition.presetControl
+    ? state.controls?.[definition.presetControl]
+    : definition.defaultPreset;
+  const presets = definition.presets ?? {};
+  const items = Array.isArray(presets[presetName])
+    ? presets[presetName]
+    : Array.isArray(definition.default)
+      ? definition.default
+      : [];
+  const countValue = definition.countControl
+    ? state.controls?.[definition.countControl]
+    : definition.defaultCount;
+  const count = Number(countValue ?? items.length);
+  const resolvedCount = Number.isInteger(count) && count >= 0 ? count : items.length;
+
+  return cloneValue(items.slice(0, Math.min(resolvedCount, items.length)));
+}
+
+export function applyControlDerivedProps(schema, state, changedControl, options = {}) {
+  const skippedProps = options.skippedProps ?? new Set();
+
+  for (const [name, definition] of getSchemaProps(schema)) {
+    if (definition.kind !== 'object-array') continue;
+    if (!definition.presets) continue;
+    if (skippedProps.has(name)) continue;
+    if (
+      changedControl &&
+      changedControl !== definition.presetControl &&
+      changedControl !== definition.countControl
+    ) {
+      continue;
+    }
+
+    const items = getObjectArrayPresetItems(definition, state);
+    if (items) state.props[name] = items;
+  }
+}
+
 export function createPlaygroundState(schema, initialState = {}) {
   const state = {
     controls: {},
     props: {},
     slots: {},
   };
+  const initialPropNames = new Set(Object.keys(initialState.props ?? {}));
 
   for (const [name, definition] of getSchemaControls(schema)) {
     state.controls[name] = cloneValue(initialState.controls?.[name] ?? getDefaultValue(definition));
@@ -94,6 +136,8 @@ export function createPlaygroundState(schema, initialState = {}) {
   for (const [name, definition] of getSchemaSlots(schema)) {
     state.slots[name] = cloneValue(initialState.slots?.[name] ?? definition.default ?? '');
   }
+
+  applyControlDerivedProps(schema, state, undefined, { skippedProps: initialPropNames });
 
   return state;
 }
@@ -340,11 +384,11 @@ function appendProp(code, regions, name, definition, value, options = {}) {
 }
 
 function appendControlComment(code, regions, name, definition, value, options = {}) {
-  const { collectRegions = true } = options;
+  const { collectRegions = true, prefix = '\n  ' } = options;
   const attribute = toKebabCase(name);
   const formattedValue = escapeAttributeValue(value);
 
-  code += `\n  <!-- ${attribute}="`;
+  code += `${prefix}<!-- ${attribute}="`;
   const start = code.length;
   code += formattedValue;
   const end = code.length;
@@ -462,8 +506,24 @@ function generateUsageCode(schema, state, options = {}) {
     includeInactiveBooleans = true,
     includeEmptyArrayFields = true,
   } = options;
+  const hasVisibleControls = includeControls && controls.length > 0;
+  const hasPreambleControls = hasVisibleControls && slots.length === 0;
 
-  let code = `<${name}`;
+  let code = '';
+
+  if (hasPreambleControls) {
+    for (const [controlName, definition] of controls) {
+      const value = state.controls?.[controlName] ?? getDefaultValue(definition);
+      code = appendControlComment(code, regions, controlName, definition, value, {
+        collectRegions,
+        prefix: code ? '\n' : '',
+      });
+    }
+
+    code += '\n';
+  }
+
+  code += `<${name}`;
   let renderedPropCount = 0;
 
   for (const [propName, definition] of props) {
@@ -474,6 +534,7 @@ function generateUsageCode(schema, state, options = {}) {
       collectRegions,
       includeEmptyArrayFields,
       includeInactiveBooleans,
+      state,
     });
     code = result.code;
 
@@ -491,7 +552,7 @@ function generateUsageCode(schema, state, options = {}) {
 
   code += '>';
 
-  if (includeControls) {
+  if (hasVisibleControls) {
     for (const [controlName, definition] of controls) {
       const value = state.controls?.[controlName] ?? getDefaultValue(definition);
       code = appendControlComment(code, regions, controlName, definition, value, {

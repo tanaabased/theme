@@ -96,6 +96,7 @@ import { useData } from 'vitepress';
 
 import TMSInteractiveCode from './TMSInteractiveCode.vue';
 import {
+  applyControlDerivedProps,
   createPlaygroundState,
   decodeRegionValue,
   generateComponentUsage,
@@ -328,6 +329,7 @@ function selectEnum({ control, prop, region, value }) {
 
   if (control) {
     state.controls[control] = value;
+    applyControlDerivedProps(props.schema, state, control);
     return;
   }
 
