@@ -74,3 +74,11 @@
 
 - Keep package CLI files in `bin/` as thin executable wrappers around testable modules.
 - Contract-test package CLIs for help, version, failure, and primary side-effect behavior before changing their public surface.
+
+## Changelog Entries
+
+- Prefer grouped release notes when a release includes multiple kinds of work.
+- Use `### Brand Guidance` first for public styleguide pages, brand principles, typography, color, layout, fonts, exported or public `TMS` components, containers, and public docs-site presentation changes.
+- Use `### Theme Package` second for theme internals, private docs helpers such as playground machinery, package CLIs, JavaScript utilities, tests, workflows, and build or runtime packaging changes.
+- Keep technical changes visible when they matter, but describe them through user or maintainer value rather than implementation diary phrasing.
+- Treat the buckets as editorial guidance. Choose the section that best describes the public meaning of the change, not only the file path touched.

@@ -1,10 +1,17 @@
 ## {{ UNRELEASED_VERSION }} - [{{ UNRELEASED_DATE }}]({{ UNRELEASED_LINK }})
 
-- Added `TMSComponentPlayground` for editable component previews, generated usage code, reset, copy, and source links. [#4](https://github.com/tanaabased/theme/pull/4)
-- Added `TMSBox`, `TMSGrid`, `TMSHero`, `TMSList`, and `TMSSection` with playground-backed documentation. [#4](https://github.com/tanaabased/theme/pull/4)
-- Added focused JavaScript tests for playground code generation and the `sync-tanaab-assets` CLI. [#4](https://github.com/tanaabased/theme/pull/4)
-- Updated `TMSList` with opt-in columns, responsive row collapse, editable item arrays, and deterministic item presets. [#4](https://github.com/tanaabased/theme/pull/4)
-- Updated component docs around the playground-first structure and async-loaded the playground shell. [#4](https://github.com/tanaabased/theme/pull/4)
+### Brand Guidance
+
+- Added `TMSBox`, `TMSGrid`, `TMSHero`, `TMSList`, and `TMSSection` as public components with playground-backed documentation. [#4](https://github.com/tanaabased/theme/pull/4)
+- Added styleguide specimens for buttons, content blocks, forms, media, tables, text, and typefaces. [#4](https://github.com/tanaabased/theme/pull/4)
+- Added native form-control guidance for labels, placeholders, focus states, textareas, selects, and toggles. [#4](https://github.com/tanaabased/theme/pull/4)
+- Updated component docs around the playground-first `## Usage` structure and tighter API guidance. [#4](https://github.com/tanaabased/theme/pull/4)
+- Updated brand principles guidance around aesthetic direction, voice and tone, exceptions, and hidden-link behavior. [#4](https://github.com/tanaabased/theme/pull/4)
+
+### Theme Package
+
+- Added `TMSComponentPlayground` for editable component previews with generated code, copy, reset, source links, and async loading. [#4](https://github.com/tanaabased/theme/pull/4)
+- Added JavaScript tests for playground code generation and the `sync-tanaab-assets` CLI. [#4](https://github.com/tanaabased/theme/pull/4)
 - Updated `sync-tanaab-assets` with a testable CLI module, `--version`, split PR workflows, and CI-safe color defaults. [#4](https://github.com/tanaabased/theme/pull/4)
 
 ## v0.4.0 - [March 5, 2026](https://github.com/tanaabased/theme/releases/tag/v0.4.0)
