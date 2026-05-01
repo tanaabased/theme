@@ -51,7 +51,7 @@ const titleId = useId();
   min-width: 0;
   color: var(--vp-c-text-1);
   font-family: var(--tanaab-font-family-body);
-  font-size: clamp(2.75rem, 5vw, 3.75rem);
+  font-size: clamp(2.75rem, 5vw, 3rem);
   font-weight: var(--tanaab-font-weight-body);
   line-height: 1.05;
   letter-spacing: var(--tanaab-letter-spacing-section);
