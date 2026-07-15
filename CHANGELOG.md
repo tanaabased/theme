@@ -1,5 +1,15 @@
 ## {{ UNRELEASED_VERSION }} - [{{ UNRELEASED_DATE }}]({{ UNRELEASED_LINK }})
 
+### Brand Guidance
+
+- Added a dark-first portable color system with complete light and dark roles for interfaces, statuses, syntax, diffs, and terminals.
+- Added a paste-ready TweaksCN theme that carries Tanaab colors, typography, square geometry, and light/dark role rotation into shadcn interfaces.
+
+### Theme Package
+
+- Exported the machine-readable `styles/colors.json` palette with structural, color-format, and contrast coverage.
+- Exported the TweaksCN CSS theme through the package style entrypoints.
+
 ## v0.5.0 - [May 1, 2026](https://github.com/tanaabased/theme/releases/tag/v0.5.0)
 
 ### Brand Guidance

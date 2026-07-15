@@ -19,6 +19,10 @@
     "./config": "./config.js",
     "./styles/theme.scss": "./styles/theme.scss",
     "./styles/theme": "./styles/theme.scss",
+    "./styles/colors.json": "./styles/colors.json",
+    "./styles/colors": "./styles/colors.json",
+    "./styles/tweakcn.css": "./styles/tweakcn.css",
+    "./styles/tweakcn": "./styles/tweakcn.css",
     "./styles/vars.scss": "./styles/vars.scss",
     "./styles/vars": "./styles/vars.scss",
     "./package.json": "./package.json"
