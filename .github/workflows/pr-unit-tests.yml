@@ -14,12 +14,63 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
       - name: Install Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version-file: .bun-version
+        uses: tanaabased/actions/setup-bun@v1
       - name: Install dependencies
         run: bun install --no-save --frozen-lockfile
       - name: Run linter
         run: bun run lint
       - name: Run unit tests
         run: bun run test
+      - name: Record original commit
+        id: original
+        run: echo "head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Dry-run repository publication
+        id: repository
+        uses: tanaabased/actions/publish-repo@v1
+        with:
+          dry-run: true
+          version: v0.${{ github.run_id }}.${{ github.run_attempt }}
+          release-date: 2026-01-01T00:00:00Z
+          release-url: https://github.com/tanaabased/theme/releases/tag/v0.${{ github.run_id }}.${{ github.run_attempt }}
+      - name: Pack prepared package
+        id: package
+        uses: tanaabased/actions/npm-pack@v1
+        with:
+          node-version: 24
+      - name: Dry-run npm publication
+        id: npm
+        uses: tanaabased/actions/publish-npm@v1
+        with:
+          dry-run: true
+          tarball: ${{ steps.package.outputs.tarball-path }}
+          node-version: 24
+          stable-tag: latest
+          prerelease-tag: edge
+          update-prerelease-tag-on-stable: true
+      - name: Verify publisher evidence
+        env:
+          EXPECTED_HEAD: ${{ steps.original.outputs.head }}
+          PACKAGE_NAME: ${{ steps.package.outputs.package-name }}
+          PACKAGE_TARBALL: ${{ steps.package.outputs.tarball-path }}
+          PACKAGE_VERSION: ${{ steps.package.outputs.package-version }}
+          PUBLISHED_CHANNEL: ${{ steps.npm.outputs.channel }}
+          PUBLISHED_NAME: ${{ steps.npm.outputs.package-name }}
+          PUBLISHED_TARBALL: ${{ steps.npm.outputs.tarball-path }}
+          PUBLISHED_TYPE: ${{ steps.npm.outputs.release-type }}
+          PUBLISHED_VERSION: ${{ steps.npm.outputs.package-version }}
+          RESOLVED_VERSION: ${{ steps.repository.outputs.resolved-version }}
+          RELEASE_URL: https://github.com/tanaabased/theme/releases/tag/v0.${{ github.run_id }}.${{ github.run_attempt }}
+          RELEASE_VERSION: v0.${{ github.run_id }}.${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          test "$RESOLVED_VERSION" = "$RELEASE_VERSION"
+          test "$(node -p "require('./package.json').version")" = "${RELEASE_VERSION#v}"
+          grep -Fq "## $RELEASE_VERSION - [January 1, 2026]($RELEASE_URL)" CHANGELOG.md
+          test "$PACKAGE_NAME" = @tanaabased/theme
+          test "$PACKAGE_VERSION" = "${RELEASE_VERSION#v}"
+          test "$PUBLISHED_NAME" = "$PACKAGE_NAME"
+          test "$PUBLISHED_VERSION" = "$PACKAGE_VERSION"
+          test "$PUBLISHED_TARBALL" = "$PACKAGE_TARBALL"
+          test "$PUBLISHED_CHANNEL" = latest
+          test "$PUBLISHED_TYPE" = stable
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"

@@ -21,12 +21,11 @@ jobs:
           key: tanaabtheme-vitepress-cache
           path: .vitepress/cache
       - name: Install Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version-file: .bun-version
+        uses: tanaabased/actions/setup-bun@v1
       - name: Install dependencies
         run: bun install --no-save --frozen-lockfile
-      - name: Test mvb
-        run: bun run mvb
-      - name: Test build
-        run: bun run build
+      - name: Test docs build
+        uses: tanaabased/actions/vitepress-build-check@v1
+        with:
+          prepare-command: bun run mvb
+          build-command: bun run build
