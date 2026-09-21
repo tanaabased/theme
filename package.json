@@ -8,7 +8,7 @@
   "bugs": "https://github.com/tanaabased/theme/issues/new/choose",
   "homepage": "https://github.com/tanaabased/theme",
   "main": "tanaab-theme.js",
-  "packageManager": "bun@1.3.14",
+  "packageManager": "bun@1.4.2",
   "bin": {
     "sync-tanaab-assets": "./bin/sync-assets.js"
   },
