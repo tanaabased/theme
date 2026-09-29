@@ -34,7 +34,7 @@ jobs:
             cat "$output_file"
             exit 1
           fi
-          grep -q "Cannot sync assets to @tanaabased/theme itself" "$output_file"
+          grep -q "Cannot sync assets to @tanaab/theme itself" "$output_file"
       - name: Verify consumer sync
         run: |
           set -euo pipefail
@@ -45,7 +45,7 @@ jobs:
             "name": "theme-b",
             "private": true,
             "dependencies": {
-              "@tanaabased/theme": "file:${GITHUB_WORKSPACE}"
+              "@tanaab/theme": "file:${GITHUB_WORKSPACE}"
             }
           }
           JSON

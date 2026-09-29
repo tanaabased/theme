@@ -1,5 +1,9 @@
 ## {{ UNRELEASED_VERSION }} - [{{ UNRELEASED_DATE }}]({{ UNRELEASED_LINK }})
 
+### Theme Package
+
+- Renamed the consumer package from `@tanaabased/theme` to `@tanaab/theme`; update dependency declarations to use the new name. [#7](https://github.com/tanaabased/theme/issues/7)
+
 ## v0.5.0 - [May 1, 2026](https://github.com/tanaabased/theme/releases/tag/v0.5.0)
 
 ### Brand Guidance

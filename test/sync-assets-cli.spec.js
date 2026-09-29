@@ -162,7 +162,7 @@ describe('lib/sync-assets-cli', () => {
       });
 
       assert.equal(exitCode, 1);
-      assert.match(stderr.output, /Cannot sync assets to @tanaabased\/theme itself/);
+      assert.match(stderr.output, /Cannot sync assets to @tanaab\/theme itself/);
     } finally {
       await rm(packageRoot, { recursive: true, force: true });
     }
