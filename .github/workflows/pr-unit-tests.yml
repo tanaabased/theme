@@ -66,7 +66,7 @@ jobs:
           test "$RESOLVED_VERSION" = "$RELEASE_VERSION"
           test "$(node -p "require('./package.json').version")" = "${RELEASE_VERSION#v}"
           grep -Fq "## $RELEASE_VERSION - [January 1, 2026]($RELEASE_URL)" CHANGELOG.md
-          test "$PACKAGE_NAME" = @tanaabased/theme
+          test "$PACKAGE_NAME" = @tanaab/theme
           test "$PACKAGE_VERSION" = "${RELEASE_VERSION#v}"
           test "$PUBLISHED_NAME" = "$PACKAGE_NAME"
           test "$PUBLISHED_VERSION" = "$PACKAGE_VERSION"

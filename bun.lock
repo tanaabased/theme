@@ -3,7 +3,7 @@
   "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "@tanaab/website",
+      "name": "@tanaab/theme",
       "dependencies": {
         "@codemirror/state": "^6.6.0",
         "@codemirror/view": "^6.41.1",
